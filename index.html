@@ -1,13 +1,250 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Global HR Vocabulary</title>
-<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:720px;margin:auto;padding:24px;background:#f5f5f5}main{background:#fff;padding:24px;border-radius:18px;box-shadow:0 4px 20px #0001}.word{font-size:30px;font-weight:700;margin:25px 0}textarea{width:100%;box-sizing:border-box;min-height:110px;padding:12px;border:1px solid #ccc;border-radius:12px;font-size:18px}button{border:0;border-radius:12px;padding:12px 18px;margin:8px 4px 0 0;font-size:16px}.primary{background:#111827;color:#fff}.secondary{background:#e5e7eb}.good{color:#087443}.bad{color:#b42318}</style></head>
-<body><main><h1>Global HR Vocabulary</h1><p>Version 0.1 – first prototype</p><div class="word" id="q"></div><textarea id="a" placeholder="Type your answer or use Speak…"></textarea><br><button class="primary" onclick="check()">Check answer</button><button class="secondary" onclick="speak()">🎤 Speak</button><button class="secondary" onclick="next()">Next</button><div id="r"></div></main>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global HR Vocabulary</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    .app {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #status {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .question {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin: 35px 0;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #222;
+      color: white;
+    }
+
+    button:disabled {
+      background: #aaa;
+    }
+
+    #result {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+      min-height: 30px;
+    }
+
+    .stats {
+      text-align: center;
+      margin-top: 25px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <h1>Global HR Vocabulary</h1>
+
+  <div id="status">Vokabelliste wird geladen...</div>
+
+  <div class="question" id="question">Bitte warten...</div>
+
+  <input
+    type="text"
+    id="answer"
+    placeholder="Deine Antwort"
+    autocomplete="off"
+  >
+
+  <button id="checkButton" onclick="checkAnswer()" disabled>
+    Antwort prüfen
+  </button>
+
+  <button onclick="nextQuestion()">
+    Nächste Vokabel
+  </button>
+
+  <div id="result"></div>
+
+  <div class="stats">
+    Richtig: <span id="correct">0</span> |
+    Falsch: <span id="wrong">0</span>
+  </div>
+
+</div>
+
 <script>
-const cards=[['to take ownership of','Verantwortung für etwas übernehmen'],['to streamline','etwas effizienter bzw. schlanker gestalten'],['to align on something','sich auf etwas abstimmen'],['harsh environment','raue bzw. widrige Umgebung'],['to contribute to','zu etwas beitragen']];let i=0;
-const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9äöüß\s]/gi,' ').replace(/\s+/g,' ').trim();
-function render(){q.textContent=`What does “${cards[i][0]}” mean?`;a.value='';r.textContent='';r.className='';}
-function check(){let x=norm(a.value),y=norm(cards[i][1]);if(!x){r.textContent='Please enter an answer.';return}if(x===y||x.includes(y)||y.includes(x)){r.className='good';r.textContent='✅ Correct!'}else{r.className='bad';r.textContent='❌ Not quite. Expected: '+cards[i][1]}}
-function next(){i=(i+1)%cards.length;render()}
-function speak(){if(!('webkitSpeechRecognition'in window)){r.textContent='Speech recognition is not available in this browser.';return}let R=new webkitSpeechRecognition();R.lang='de-DE';R.interimResults=false;R.maxAlternatives=1;R.onresult=e=>{a.value=e.results[0][0].transcript;check()};R.onerror=()=>r.textContent='Speech recognition could not be started.';R.start()}
-render();
-</script></body></html>
+  let vocabulary = [];
+  let currentWord = null;
+  let direction = null;
+
+  let correct = 0;
+  let wrong = 0;
+
+  async function loadVocabulary() {
+    try {
+      const response = await fetch("vocabulary.csv?t=" + Date.now());
+
+      if (!response.ok) {
+        throw new Error("CSV konnte nicht geladen werden.");
+      }
+
+      const text = await response.text();
+
+      vocabulary = parseCSV(text);
+
+      if (vocabulary.length === 0) {
+        throw new Error("Keine Vokabeln gefunden.");
+      }
+
+      document.getElementById("status").textContent =
+        vocabulary.length + " Vokabeln geladen";
+
+      document.getElementById("checkButton").disabled = false;
+
+      nextQuestion();
+
+    } catch (error) {
+      document.getElementById("status").textContent =
+        "Fehler beim Laden der Vokabelliste.";
+
+      document.getElementById("question").textContent =
+        error.message;
+    }
+  }
+
+  function parseCSV(text) {
+    const lines = text
+      .split(/\r?\n/)
+      .filter(line => line.trim() !== "");
+
+    const result = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const parts = lines[i].match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g);
+
+      if (!parts || parts.length < 2) continue;
+
+      const english = parts[0]
+        .replace(/^"|"$/g, "")
+        .trim();
+
+      const german = parts[1]
+        .replace(/^"|"$/g, "")
+        .trim();
+
+      if (english && german) {
+        result.push({
+          english: english,
+          german: german
+        });
+      }
+    }
+
+    return result;
+  }
+
+  function nextQuestion() {
+    if (vocabulary.length === 0) return;
+
+    currentWord =
+      vocabulary[Math.floor(Math.random() * vocabulary.length)];
+
+    direction = Math.random() < 0.5 ? "de-en" : "en-de";
+
+    if (direction === "de-en") {
+      document.getElementById("question").textContent =
+        currentWord.german;
+    } else {
+      document.getElementById("question").textContent =
+        currentWord.english;
+    }
+
+    document.getElementById("answer").value = "";
+    document.getElementById("result").textContent = "";
+
+    document.getElementById("answer").focus();
+  }
+
+  function checkAnswer() {
+    const userAnswer =
+      document.getElementById("answer").value.trim().toLowerCase();
+
+    if (!userAnswer) return;
+
+    let correctAnswer;
+
+    if (direction === "de-en") {
+      correctAnswer = currentWord.english;
+    } else {
+      correctAnswer = currentWord.german;
+    }
+
+    const normalizedCorrect =
+      correctAnswer.trim().toLowerCase();
+
+    if (userAnswer === normalizedCorrect) {
+      correct++;
+      document.getElementById("result").textContent =
+        "✅ Richtig!";
+    } else {
+      wrong++;
+      document.getElementById("result").textContent =
+        "❌ Falsch – richtig wäre: " + correctAnswer;
+    }
+
+    document.getElementById("correct").textContent = correct;
+    document.getElementById("wrong").textContent = wrong;
+  }
+
+  document.getElementById("answer").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      checkAnswer();
+    }
+  });
+
+  loadVocabulary();
+</script>
+
+</body>
+</html>
