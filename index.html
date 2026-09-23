@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Global HR Vocabulary</title>
+<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:720px;margin:auto;padding:24px;background:#f5f5f5}main{background:#fff;padding:24px;border-radius:18px;box-shadow:0 4px 20px #0001}.word{font-size:30px;font-weight:700;margin:25px 0}textarea{width:100%;box-sizing:border-box;min-height:110px;padding:12px;border:1px solid #ccc;border-radius:12px;font-size:18px}button{border:0;border-radius:12px;padding:12px 18px;margin:8px 4px 0 0;font-size:16px}.primary{background:#111827;color:#fff}.secondary{background:#e5e7eb}.good{color:#087443}.bad{color:#b42318}</style></head>
+<body><main><h1>Global HR Vocabulary</h1><p>Version 0.1 – first prototype</p><div class="word" id="q"></div><textarea id="a" placeholder="Type your answer or use Speak…"></textarea><br><button class="primary" onclick="check()">Check answer</button><button class="secondary" onclick="speak()">🎤 Speak</button><button class="secondary" onclick="next()">Next</button><div id="r"></div></main>
+<script>
+const cards=[['to take ownership of','Verantwortung für etwas übernehmen'],['to streamline','etwas effizienter bzw. schlanker gestalten'],['to align on something','sich auf etwas abstimmen'],['harsh environment','raue bzw. widrige Umgebung'],['to contribute to','zu etwas beitragen']];let i=0;
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9äöüß\s]/gi,' ').replace(/\s+/g,' ').trim();
+function render(){q.textContent=`What does “${cards[i][0]}” mean?`;a.value='';r.textContent='';r.className='';}
+function check(){let x=norm(a.value),y=norm(cards[i][1]);if(!x){r.textContent='Please enter an answer.';return}if(x===y||x.includes(y)||y.includes(x)){r.className='good';r.textContent='✅ Correct!'}else{r.className='bad';r.textContent='❌ Not quite. Expected: '+cards[i][1]}}
+function next(){i=(i+1)%cards.length;render()}
+function speak(){if(!('webkitSpeechRecognition'in window)){r.textContent='Speech recognition is not available in this browser.';return}let R=new webkitSpeechRecognition();R.lang='de-DE';R.interimResults=false;R.maxAlternatives=1;R.onresult=e=>{a.value=e.results[0][0].transcript;check()};R.onerror=()=>r.textContent='Speech recognition could not be started.';R.start()}
+render();
+</script></body></html>
