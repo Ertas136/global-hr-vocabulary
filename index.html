@@ -3,78 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Global HR Vocabulary</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 0 auto;
+      margin: 0;
       padding: 20px;
       background: #f5f5f5;
       color: #222;
     }
 
     .app {
+      max-width: 700px;
+      margin: 0 auto;
       background: white;
       border-radius: 16px;
-      padding: 24px;
+      padding: 30px 20px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      text-align: center;
     }
 
     h1 {
-      text-align: center;
-      margin-bottom: 10px;
+      margin-top: 0;
+      margin-bottom: 30px;
     }
 
-    #status {
-      text-align: center;
-      color: #666;
-      margin-bottom: 25px;
-    }
-
-    .question {
-      font-size: 28px;
+    #question {
+      font-size: 32px;
       font-weight: bold;
-      text-align: center;
-      margin: 35px 0;
+      margin: 50px 0 25px 0;
     }
 
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      font-size: 18px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+    #answer {
+      font-size: 26px;
+      margin-bottom: 40px;
+      min-height: 35px;
     }
 
     button {
       width: 100%;
-      padding: 14px;
-      margin-top: 12px;
-      font-size: 18px;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      border-radius: 12px;
       background: #222;
       color: white;
+      cursor: pointer;
+      margin-top: 12px;
     }
 
-    button:disabled {
-      background: #aaa;
+    button:active {
+      transform: scale(0.98);
     }
 
-    #result {
-      text-align: center;
-      font-size: 20px;
-      margin-top: 20px;
-      min-height: 30px;
+    #nextButton {
+      display: none;
     }
 
-    .stats {
-      text-align: center;
+    #status {
+      color: #777;
+      font-size: 14px;
       margin-top: 25px;
-      color: #666;
     }
   </style>
 </head>
@@ -85,48 +77,36 @@
 
   <h1>Global HR Vocabulary</h1>
 
-  <div id="status">Vokabelliste wird geladen...</div>
+  <div id="question">Vokabelliste wird geladen...</div>
 
-  <div class="question" id="question">Bitte warten...</div>
+  <div id="answer"></div>
 
-  <input
-    type="text"
-    id="answer"
-    placeholder="Deine Antwort"
-    autocomplete="off"
-  >
-
-  <button id="checkButton" onclick="checkAnswer()" disabled>
-    Antwort prüfen
+  <button id="showButton" onclick="showAnswer()" style="display:none;">
+    ANZEIGEN
   </button>
 
-  <button onclick="nextQuestion()">
-    Nächste Vokabel
+  <button id="nextButton" onclick="nextQuestion()">
+    NÄCHSTE VOKABEL
   </button>
 
-  <div id="result"></div>
-
-  <div class="stats">
-    Richtig: <span id="correct">0</span> |
-    Falsch: <span id="wrong">0</span>
-  </div>
+  <div id="status"></div>
 
 </div>
 
 <script>
+
   let vocabulary = [];
   let currentWord = null;
   let direction = null;
 
-  let correct = 0;
-  let wrong = 0;
-
   async function loadVocabulary() {
+
     try {
+
       const response = await fetch("vocabulary.csv?t=" + Date.now());
 
       if (!response.ok) {
-        throw new Error("CSV konnte nicht geladen werden.");
+        throw new Error("Vokabelliste konnte nicht geladen werden.");
       }
 
       const text = await response.text();
@@ -138,22 +118,22 @@
       }
 
       document.getElementById("status").textContent =
-        vocabulary.length + " Vokabeln geladen";
-
-      document.getElementById("checkButton").disabled = false;
+        vocabulary.length + " Vokabeln";
 
       nextQuestion();
 
     } catch (error) {
-      document.getElementById("status").textContent =
-        "Fehler beim Laden der Vokabelliste.";
 
       document.getElementById("question").textContent =
         error.message;
+
     }
+
   }
 
+
   function parseCSV(text) {
+
     const lines = text
       .split(/\r?\n/)
       .filter(line => line.trim() !== "");
@@ -161,9 +141,12 @@
     const result = [];
 
     for (let i = 1; i < lines.length; i++) {
+
       const parts = lines[i].match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g);
 
-      if (!parts || parts.length < 2) continue;
+      if (!parts || parts.length < 2) {
+        continue;
+      }
 
       const english = parts[0]
         .replace(/^"|"$/g, "")
@@ -174,76 +157,89 @@
         .trim();
 
       if (english && german) {
+
         result.push({
           english: english,
           german: german
         });
+
       }
+
     }
 
     return result;
+
   }
 
+
   function nextQuestion() {
-    if (vocabulary.length === 0) return;
+
+    if (vocabulary.length === 0) {
+      return;
+    }
 
     currentWord =
       vocabulary[Math.floor(Math.random() * vocabulary.length)];
 
-    direction = Math.random() < 0.5 ? "de-en" : "en-de";
+    direction =
+      Math.random() < 0.5 ? "de-en" : "en-de";
+
 
     if (direction === "de-en") {
+
       document.getElementById("question").textContent =
         currentWord.german;
+
     } else {
+
       document.getElementById("question").textContent =
         currentWord.english;
+
     }
 
-    document.getElementById("answer").value = "";
-    document.getElementById("result").textContent = "";
 
-    document.getElementById("answer").focus();
+    document.getElementById("answer").textContent = "";
+
+    document.getElementById("showButton").style.display =
+      "block";
+
+    document.getElementById("nextButton").style.display =
+      "none";
+
   }
 
-  function checkAnswer() {
-    const userAnswer =
-      document.getElementById("answer").value.trim().toLowerCase();
 
-    if (!userAnswer) return;
+  function showAnswer() {
 
-    let correctAnswer;
+    if (!currentWord) {
+      return;
+    }
+
 
     if (direction === "de-en") {
-      correctAnswer = currentWord.english;
+
+      document.getElementById("answer").textContent =
+        currentWord.english;
+
     } else {
-      correctAnswer = currentWord.german;
+
+      document.getElementById("answer").textContent =
+        currentWord.german;
+
     }
 
-    const normalizedCorrect =
-      correctAnswer.trim().toLowerCase();
 
-    if (userAnswer === normalizedCorrect) {
-      correct++;
-      document.getElementById("result").textContent =
-        "✅ Richtig!";
-    } else {
-      wrong++;
-      document.getElementById("result").textContent =
-        "❌ Falsch – richtig wäre: " + correctAnswer;
-    }
+    document.getElementById("showButton").style.display =
+      "none";
 
-    document.getElementById("correct").textContent = correct;
-    document.getElementById("wrong").textContent = wrong;
+    document.getElementById("nextButton").style.display =
+      "block";
+
   }
 
-  document.getElementById("answer").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      checkAnswer();
-    }
-  });
 
   loadVocabulary();
+
 </script>
 
 </body>
