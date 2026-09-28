@@ -1,387 +1,1786 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
   <title>Global HR Vocabulary</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
       background: #e9e9e9;
+
       color: #222;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
+
       padding: 20px;
+
     }
+
 
     .app {
+
       width: 100%;
+
       max-width: 620px;
+
     }
+
+
+    /* ==========================================
+       TITEL
+       ========================================== */
 
     .title {
+
       text-align: center;
+
       font-size: 24px;
+
       font-weight: 700;
+
       margin-bottom: 18px;
+
     }
 
-    /* Vokabelblatt */
+
+    /* ==========================================
+       VOKABELKARTE
+       ========================================== */
+
     .card {
+
       background: #fff;
+
       min-height: 430px;
+
       border-radius: 6px;
+
       padding: 45px 35px 35px;
+
       box-shadow:
         0 2px 5px rgba(0, 0, 0, 0.08),
         0 12px 30px rgba(0, 0, 0, 0.10);
 
       display: flex;
+
       flex-direction: column;
+
       justify-content: center;
+
       position: relative;
+
     }
 
-    /* kleine Linie oben wie auf einem Blatt */
+
     .card::before {
+
       content: "";
+
       position: absolute;
+
       top: 28px;
+
       left: 35px;
+
       right: 35px;
+
       height: 1px;
+
       background: #ddd;
+
     }
+
 
     .direction {
+
       text-align: center;
+
       color: #888;
+
       font-size: 14px;
+
       margin-bottom: 35px;
+
     }
+
 
     .question {
+
       text-align: center;
+
       font-size: 38px;
+
       font-weight: 700;
+
       line-height: 1.25;
+
       margin-bottom: 25px;
+
       word-break: break-word;
+
     }
+
 
     .separator {
+
       width: 80px;
+
       height: 2px;
+
       background: #ddd;
+
       margin: 0 auto 25px;
+
     }
+
 
     .answer {
+
       text-align: center;
+
       font-size: 30px;
+
       font-weight: 600;
+
       line-height: 1.3;
+
       min-height: 40px;
+
       color: #444;
+
       word-break: break-word;
+
     }
 
-    /* Buttons */
+
+    /* ==========================================
+       HAUPTBUTTONS
+       ========================================== */
+
     button {
+
       width: 100%;
+
       border: none;
+
       border-radius: 8px;
+
       padding: 19px;
+
       margin-top: 16px;
+
       font-size: 21px;
+
       font-weight: 700;
+
       cursor: pointer;
+
       background: #222;
+
       color: white;
+
     }
+
 
     button:active {
+
       transform: scale(0.98);
+
     }
+
 
     #nextButton {
+
       display: none;
+
     }
+
+
+    /* ==========================================
+       NAVIGATION
+       ========================================== */
+
+    .navigation {
+
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 16px;
+
+    }
+
+
+    .navigation button {
+
+      margin-top: 0;
+
+      font-size: 18px;
+
+      padding: 15px;
+
+    }
+
+
+    .navigation button:disabled {
+
+      background: #bbb;
+
+      cursor: default;
+
+    }
+
+
+    /* ==========================================
+       STATISTIK
+       ========================================== */
+
+    .stats {
+
+      text-align: center;
+
+      margin-top: 18px;
+
+      font-size: 15px;
+
+      color: #666;
+
+    }
+
+
+    /* ==========================================
+       VOKABEL HINZUFÜGEN
+       ========================================== */
+
+    .add-section {
+
+      margin-top: 25px;
+
+    }
+
+
+    .add-toggle {
+
+      background: #555;
+
+      font-size: 17px;
+
+      padding: 15px;
+
+    }
+
+
+    .add-form {
+
+      display: none;
+
+      background: white;
+
+      border-radius: 6px;
+
+      padding: 20px;
+
+      margin-top: 10px;
+
+      box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.08);
+
+    }
+
+
+    .add-form input {
+
+      width: 100%;
+
+      padding: 14px;
+
+      margin-bottom: 12px;
+
+      border: 1px solid #ccc;
+
+      border-radius: 6px;
+
+      font-size: 17px;
+
+    }
+
+
+    .add-form button {
+
+      margin-top: 4px;
+
+      font-size: 18px;
+
+      padding: 15px;
+
+    }
+
+
+    .cancel-button {
+
+      background: #aaa !important;
+
+    }
+
+
+    /* ==========================================
+       EXPORT
+       ========================================== */
+
+    .export-section {
+
+      margin-top: 12px;
+
+    }
+
+
+    .export-button {
+
+      background: #444;
+
+      font-size: 16px;
+
+      padding: 14px;
+
+    }
+
+
+    .delete-button {
+
+      background: #999;
+
+      font-size: 14px;
+
+      padding: 12px;
+
+    }
+
+
+    /* ==========================================
+       STATUS
+       ========================================== */
 
     .status {
+
       text-align: center;
+
       color: #888;
+
       font-size: 13px;
+
       margin-top: 16px;
+
     }
 
-    /* Smartphone */
+
+    /* ==========================================
+       SMARTPHONE
+       ========================================== */
+
     @media (max-width: 500px) {
 
       body {
+
         padding: 15px;
+
         align-items: flex-start;
+
         padding-top: 35px;
+
       }
+
 
       .title {
+
         font-size: 22px;
+
         margin-bottom: 15px;
+
       }
+
 
       .card {
+
         min-height: 390px;
+
         padding: 40px 22px 30px;
+
       }
+
 
       .card::before {
+
         left: 22px;
+
         right: 22px;
+
       }
+
 
       .question {
+
         font-size: 32px;
+
       }
+
 
       .answer {
+
         font-size: 27px;
+
       }
 
+
       button {
+
         font-size: 20px;
+
         padding: 18px;
+
       }
+
+
+      .navigation button {
+
+        font-size: 17px;
+
+        padding: 15px 8px;
+
+      }
+
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div class="app">
 
-    <div class="title">
-      Global HR Vocabulary
-    </div>
+<div class="app">
 
-    <div class="card">
 
-      <div class="direction" id="direction">
-        Vokabelliste wird geladen...
-      </div>
+  <!-- ========================================
+       TITEL
+       ======================================== -->
 
-      <div class="question" id="question">
-        Bitte warten...
-      </div>
+  <div class="title">
 
-      <div class="separator"></div>
-
-      <div class="answer" id="answer"></div>
-
-    </div>
-
-    <button id="showButton" onclick="showAnswer()">
-      ANZEIGEN
-    </button>
-
-    <button id="nextButton" onclick="nextQuestion()">
-      NÄCHSTE VOKABEL
-    </button>
-
-    <div class="status" id="status"></div>
+    Global HR Vocabulary
 
   </div>
 
 
-  <script>
+  <!-- ========================================
+       VOKABELKARTE
+       ======================================== -->
 
-    let vocabulary = [];
-    let currentWord = null;
-    let direction = null;
+  <div class="card">
 
 
-    async function loadVocabulary() {
+    <div
+      class="direction"
+      id="direction">
 
-      try {
+      Vokabelliste wird geladen...
 
-        const response =
-          await fetch("vocabulary.csv?t=" + Date.now());
+    </div>
 
-        if (!response.ok) {
-          throw new Error(
-            "Vokabelliste konnte nicht geladen werden."
-          );
-        }
 
-        const text = await response.text();
+    <div
+      class="question"
+      id="question">
 
-        vocabulary = parseCSV(text);
+      Bitte warten...
 
-        if (vocabulary.length === 0) {
-          throw new Error(
-            "Keine Vokabeln gefunden."
-          );
-        }
+    </div>
 
-        document.getElementById("status").textContent =
-          vocabulary.length + " Vokabeln geladen";
 
-        nextQuestion();
+    <div class="separator"></div>
 
-      } catch (error) {
 
-        document.getElementById("question").textContent =
-          error.message;
+    <div
+      class="answer"
+      id="answer">
+    </div>
 
-        document.getElementById("showButton").style.display =
-          "none";
+
+  </div>
+
+
+  <!-- ========================================
+       ANZEIGEN
+       ======================================== -->
+
+  <button
+    id="showButton"
+    onclick="showAnswer()">
+
+    ANZEIGEN
+
+  </button>
+
+
+  <!-- ========================================
+       NÄCHSTE VOKABEL
+       ======================================== -->
+
+  <button
+    id="nextButton"
+    onclick="nextQuestion()">
+
+    NÄCHSTE VOKABEL
+
+  </button>
+
+
+  <!-- ========================================
+       ZURÜCK / WEITER
+       ======================================== -->
+
+  <div class="navigation">
+
+
+    <button
+      id="backButton"
+      onclick="goBack()"
+      disabled>
+
+      ← ZURÜCK
+
+    </button>
+
+
+    <button
+      id="forwardButton"
+      onclick="goForward()"
+      disabled>
+
+      WEITER →
+
+    </button>
+
+
+  </div>
+
+
+  <!-- ========================================
+       STATISTIK
+       ======================================== -->
+
+  <div class="stats">
+
+    Geübt:
+
+    <strong id="practicedCount">
+      0
+    </strong>
+
+    Wörter
+
+  </div>
+
+
+  <!-- ========================================
+       VOKABEL HINZUFÜGEN
+       ======================================== -->
+
+  <div class="add-section">
+
+
+    <button
+      class="add-toggle"
+      onclick="toggleAddForm()">
+
+      + VOKABEL HINZUFÜGEN
+
+    </button>
+
+
+    <div
+      class="add-form"
+      id="addForm">
+
+
+      <input
+        type="text"
+        id="englishInput"
+        placeholder="Englisch">
+
+
+      <input
+        type="text"
+        id="germanInput"
+        placeholder="Deutsch">
+
+
+      <button
+        onclick="addVocabulary()">
+
+        VOKABEL SPEICHERN
+
+      </button>
+
+
+      <button
+        class="cancel-button"
+        onclick="toggleAddForm()">
+
+        ABBRECHEN
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ========================================
+       CSV EXPORT
+       ======================================== -->
+
+  <div class="export-section">
+
+
+    <button
+      class="export-button"
+      onclick="exportCSV()">
+
+      ↓ NEUE VOKABELN ALS CSV EXPORTIEREN
+
+    </button>
+
+
+    <button
+      class="delete-button"
+      onclick="deleteLocalVocabulary()">
+
+      LOKALE VOKABELN LÖSCHEN
+
+    </button>
+
+
+  </div>
+
+
+  <!-- ========================================
+       STATUS
+       ======================================== -->
+
+  <div
+    class="status"
+    id="status">
+  </div>
+
+
+</div>
+
+
+<script>
+
+
+  /* ==========================================
+     GRUNDVARIABLEN
+     ========================================== */
+
+
+  let vocabulary = [];
+
+  let currentWord = null;
+
+  let direction = null;
+
+
+  /*
+     Verlauf der bisher gezogenen Vokabeln
+  */
+
+  let history = [];
+
+  let historyPosition = -1;
+
+
+  /*
+     Bereits geübte Wörter.
+
+     Wird lokal auf dem Gerät gespeichert.
+  */
+
+  let practicedWords =
+
+    JSON.parse(
+
+      localStorage.getItem(
+        "practicedWords"
+      ) || "[]"
+
+    );
+
+
+  /*
+     Vokabeln, die direkt in der App
+     hinzugefügt wurden.
+  */
+
+  let localVocabulary =
+
+    JSON.parse(
+
+      localStorage.getItem(
+        "localVocabulary"
+      ) || "[]"
+
+    );
+
+
+  /* ==========================================
+     CSV LADEN
+     ========================================== */
+
+
+  async function loadVocabulary() {
+
+
+    try {
+
+
+      const response =
+
+        await fetch(
+          "vocabulary.csv?t=" +
+          Date.now()
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "Vokabelliste konnte nicht geladen werden."
+        );
+
+      }
+
+
+      const text =
+        await response.text();
+
+
+      vocabulary =
+        parseCSV(text);
+
+
+      /*
+         Die lokal hinzugefügten Wörter
+         werden zusätzlich geladen.
+      */
+
+      vocabulary =
+        vocabulary.concat(
+          localVocabulary
+        );
+
+
+      if (
+        vocabulary.length === 0
+      ) {
+
+        throw new Error(
+          "Keine Vokabeln gefunden."
+        );
+
+      }
+
+
+      updateStatus();
+
+
+      updatePracticedCount();
+
+
+      nextQuestion();
+
+
+    } catch (error) {
+
+
+      document.getElementById(
+        "question"
+      ).textContent =
+        error.message;
+
+
+      document.getElementById(
+        "showButton"
+      ).style.display =
+        "none";
+
+    }
+
+  }
+
+
+  /* ==========================================
+     CSV PARSEN
+     ========================================== */
+
+
+  function parseCSV(text) {
+
+
+    const lines =
+
+      text
+        .split(/\r?\n/)
+        .filter(
+          line =>
+            line.trim() !== ""
+        );
+
+
+    const result = [];
+
+
+    /*
+       Erste Zeile = Überschrift
+    */
+
+    for (
+      let i = 1;
+      i < lines.length;
+      i++
+    ) {
+
+
+      const line =
+        lines[i];
+
+
+      const parts =
+
+        line.match(
+          /(".*?"|[^,]+)(?=\s*,|\s*$)/g
+        );
+
+
+      if (
+        !parts ||
+        parts.length < 2
+      ) {
+
+        continue;
+
+      }
+
+
+      const english =
+
+        parts[0]
+          .replace(/^"|"$/g, "")
+          .trim();
+
+
+      const german =
+
+        parts[1]
+          .replace(/^"|"$/g, "")
+          .trim();
+
+
+      if (
+        english &&
+        german
+      ) {
+
+
+        result.push({
+
+          english:
+            english,
+
+          german:
+            german
+
+        });
 
       }
 
     }
 
 
-    function parseCSV(text) {
+    return result;
 
-      const lines = text
-        .split(/\r?\n/)
-        .filter(line => line.trim() !== "");
-
-      const result = [];
+  }
 
 
-      for (let i = 1; i < lines.length; i++) {
+  /* ==========================================
+     NÄCHSTE VOKABEL
+     ========================================== */
 
-        const line = lines[i];
 
-        const parts =
-          line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g);
+  function nextQuestion() {
 
-        if (!parts || parts.length < 2) {
-          continue;
-        }
+
+    if (
+      vocabulary.length === 0
+    ) {
+
+      return;
+
+    }
+
+
+    /*
+       Falls wir vorher zurückgegangen sind,
+       wird der alte Verlauf abgeschnitten.
+    */
+
+    if (
+      historyPosition <
+      history.length - 1
+    ) {
+
+
+      history =
+
+        history.slice(
+          0,
+          historyPosition + 1
+        );
+
+    }
+
+
+    /*
+       Zufällige Vokabel
+    */
+
+    currentWord =
+
+      vocabulary[
+
+        Math.floor(
+
+          Math.random() *
+          vocabulary.length
+
+        )
+
+      ];
+
+
+    /*
+       Zufällige Richtung
+    */
+
+    direction =
+
+      Math.random() < 0.5
+
+        ? "de-en"
+
+        : "en-de";
+
+
+    /*
+       In Verlauf speichern
+    */
+
+    history.push({
+
+      word:
+        currentWord,
+
+      direction:
+        direction
+
+    });
+
+
+    historyPosition =
+
+      history.length - 1;
+
+
+    displayCurrentQuestion();
+
+  }
+
+
+  /* ==========================================
+     AKTUELLE FRAGE ANZEIGEN
+     ========================================== */
+
+
+  function displayCurrentQuestion() {
+
+
+    if (
+      !history[historyPosition]
+    ) {
+
+      return;
+
+    }
+
+
+    const item =
+      history[historyPosition];
+
+
+    currentWord =
+      item.word;
+
+
+    direction =
+      item.direction;
+
+
+    /*
+       Antwort wieder ausblenden
+    */
+
+    document.getElementById(
+      "answer"
+    ).textContent = "";
+
+
+    /*
+       Richtung + Frage
+    */
+
+    if (
+      direction === "de-en"
+    ) {
+
+
+      document.getElementById(
+        "direction"
+      ).textContent =
+        "Deutsch → Englisch";
+
+
+      document.getElementById(
+        "question"
+      ).textContent =
+        currentWord.german;
+
+
+    } else {
+
+
+      document.getElementById(
+        "direction"
+      ).textContent =
+        "Englisch → Deutsch";
+
+
+      document.getElementById(
+        "question"
+      ).textContent =
+        currentWord.english;
+
+    }
+
+
+    /*
+       ANZEIGEN sichtbar
+    */
+
+    document.getElementById(
+      "showButton"
+    ).style.display =
+      "block";
+
+
+    /*
+       NÄCHSTE VOKABEL ausblenden
+    */
+
+    document.getElementById(
+      "nextButton"
+    ).style.display =
+      "none";
+
+
+    updateNavigation();
+
+  }
+
+
+  /* ==========================================
+     ANTWORT ANZEIGEN
+     ========================================== */
+
+
+  function showAnswer() {
+
+
+    if (!currentWord) {
+
+      return;
+
+    }
+
+
+    /*
+       Antwort anzeigen
+    */
+
+    if (
+      direction === "de-en"
+    ) {
+
+
+      document.getElementById(
+        "answer"
+      ).textContent =
+        currentWord.english;
+
+
+    } else {
+
+
+      document.getElementById(
+        "answer"
+      ).textContent =
+        currentWord.german;
+
+    }
+
+
+    /*
+       Buttons umschalten
+    */
+
+    document.getElementById(
+      "showButton"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "nextButton"
+    ).style.display =
+      "block";
+
+
+    /*
+       Wort als geübt markieren.
+
+       Wichtig:
+       Jedes Wort wird nur einmal gezählt.
+    */
+
+    const wordKey =
+
+      currentWord.english +
+      "|" +
+      currentWord.german;
+
+
+    if (
+      !practicedWords.includes(
+        wordKey
+      )
+    ) {
+
+
+      practicedWords.push(
+        wordKey
+      );
+
+
+      localStorage.setItem(
+
+        "practicedWords",
+
+        JSON.stringify(
+          practicedWords
+        )
+
+      );
+
+
+      updatePracticedCount();
+
+    }
+
+  }
+
+
+  /* ==========================================
+     ZURÜCK
+     ========================================== */
+
+
+  function goBack() {
+
+
+    if (
+      historyPosition <= 0
+    ) {
+
+      return;
+
+    }
+
+
+    historyPosition--;
+
+
+    displayCurrentQuestion();
+
+  }
+
+
+  /* ==========================================
+     WEITER
+     ========================================== */
+
+
+  function goForward() {
+
+
+    if (
+      historyPosition <
+      history.length - 1
+    ) {
+
+
+      historyPosition++;
+
+
+      displayCurrentQuestion();
+
+    }
+
+  }
+
+
+  /* ==========================================
+     NAVIGATION AKTUALISIEREN
+     ========================================== */
+
+
+  function updateNavigation() {
+
+
+    document.getElementById(
+      "backButton"
+    ).disabled =
+
+      historyPosition <= 0;
+
+
+    document.getElementById(
+      "forwardButton"
+    ).disabled =
+
+      historyPosition >=
+      history.length - 1;
+
+  }
+
+
+  /* ==========================================
+     GEÜBTE WÖRTER
+     ========================================== */
+
+
+  function updatePracticedCount() {
+
+
+    document.getElementById(
+      "practicedCount"
+    ).textContent =
+
+      practicedWords.length;
+
+  }
+
+
+  /* ==========================================
+     VOKABEL-HINZUFÜGEN-FORMULAR
+     ========================================== */
+
+
+  function toggleAddForm() {
+
+
+    const form =
+
+      document.getElementById(
+        "addForm"
+      );
+
+
+    if (
+      form.style.display === "block"
+    ) {
+
+
+      form.style.display =
+        "none";
+
+
+    } else {
+
+
+      form.style.display =
+        "block";
+
+
+      /*
+         Cursor direkt ins
+         Englisch-Feld setzen
+      */
+
+      document.getElementById(
+        "englishInput"
+      ).focus();
+
+    }
+
+  }
+
+
+  /* ==========================================
+     NEUE VOKABEL SPEICHERN
+     ========================================== */
+
+
+  function addVocabulary() {
+
+
+    const english =
+
+      document.getElementById(
+        "englishInput"
+      ).value.trim();
+
+
+    const german =
+
+      document.getElementById(
+        "germanInput"
+      ).value.trim();
+
+
+    /*
+       Prüfen, ob beide Felder ausgefüllt sind
+    */
+
+    if (
+      !english ||
+      !german
+    ) {
+
+
+      alert(
+        "Bitte Englisch und Deutsch eingeben."
+      );
+
+
+      return;
+
+    }
+
+
+    /*
+       Prüfen, ob die Vokabel bereits existiert
+    */
+
+    const alreadyExists =
+
+      vocabulary.some(
+
+        word =>
+
+          word.english.toLowerCase() ===
+            english.toLowerCase()
+
+          &&
+
+          word.german.toLowerCase() ===
+            german.toLowerCase()
+
+      );
+
+
+    if (alreadyExists) {
+
+
+      alert(
+        "Diese Vokabel ist bereits vorhanden."
+      );
+
+
+      return;
+
+    }
+
+
+    /*
+       Neue Vokabel erstellen
+    */
+
+    const newWord = {
+
+      english:
+        english,
+
+      german:
+        german
+
+    };
+
+
+    /*
+       Lokal speichern
+    */
+
+    localVocabulary.push(
+      newWord
+    );
+
+
+    localStorage.setItem(
+
+      "localVocabulary",
+
+      JSON.stringify(
+        localVocabulary
+      )
+
+    );
+
+
+    /*
+       Sofort auch in der aktuellen
+       Vokabelliste verfügbar machen
+    */
+
+    vocabulary.push(
+      newWord
+    );
+
+
+    /*
+       Felder leeren
+    */
+
+    document.getElementById(
+      "englishInput"
+    ).value = "";
+
+
+    document.getElementById(
+      "germanInput"
+    ).value = "";
+
+
+    /*
+       Formular schließen
+    */
+
+    document.getElementById(
+      "addForm"
+    ).style.display =
+      "none";
+
+
+    updateStatus();
+
+
+    alert(
+      "Vokabel wurde gespeichert."
+    );
+
+  }
+
+
+  /* ==========================================
+     STATUS
+     ========================================== */
+
+
+  function updateStatus() {
+
+
+    document.getElementById(
+      "status"
+    ).textContent =
+
+      vocabulary.length +
+      " Vokabeln verfügbar";
+
+
+  }
+
+
+  /* ==========================================
+     CSV EXPORT
+     ========================================== */
+
+
+  function exportCSV() {
+
+
+    /*
+       Prüfen, ob lokale Vokabeln vorhanden sind
+    */
+
+    if (
+      localVocabulary.length === 0
+    ) {
+
+
+      alert(
+        "Du hast noch keine neuen Vokabeln hinzugefügt."
+      );
+
+
+      return;
+
+    }
+
+
+    /*
+       CSV-Kopf
+    */
+
+    let csv =
+      "English,German\n";
+
+
+    /*
+       Lokale Vokabeln hinzufügen
+    */
+
+    localVocabulary.forEach(
+      word => {
 
 
         const english =
-          parts[0]
-            .replace(/^"|"$/g, "")
-            .trim();
+          csvEscape(
+            word.english
+          );
+
 
         const german =
-          parts[1]
-            .replace(/^"|"$/g, "")
-            .trim();
+          csvEscape(
+            word.german
+          );
 
 
-        if (english && german) {
+        csv +=
 
-          result.push({
-            english: english,
-            german: german
-          });
+          english +
+          "," +
+          german +
+          "\n";
 
+      }
+    );
+
+
+    /*
+       Datei erzeugen
+    */
+
+    const blob =
+
+      new Blob(
+        [csv],
+        {
+          type:
+            "text/csv;charset=utf-8;"
         }
+      );
 
-      }
 
-      return result;
+    const url =
+
+      URL.createObjectURL(
+        blob
+      );
+
+
+    /*
+       Download-Link erstellen
+    */
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      url;
+
+
+    link.download =
+      "new_global_hr_vocabulary.csv";
+
+
+    document.body.appendChild(
+      link
+    );
+
+
+    link.click();
+
+
+    document.body.removeChild(
+      link
+    );
+
+
+    URL.revokeObjectURL(
+      url
+    );
+
+
+    alert(
+      "CSV wurde erstellt."
+    );
+
+  }
+
+
+  /* ==========================================
+     CSV TEXT SICHER MACHEN
+     ========================================== */
+
+
+  function csvEscape(value) {
+
+
+    /*
+       Anführungszeichen innerhalb
+       eines Textes verdoppeln.
+    */
+
+    const escaped =
+
+      value.replace(
+        /"/g,
+        '""'
+      );
+
+
+    return '"' +
+      escaped +
+      '"';
+
+  }
+
+
+  /* ==========================================
+     LOKALE VOKABELN LÖSCHEN
+     ========================================== */
+
+
+  function deleteLocalVocabulary() {
+
+
+    if (
+      localVocabulary.length === 0
+    ) {
+
+
+      alert(
+        "Es sind keine lokalen Vokabeln vorhanden."
+      );
+
+
+      return;
 
     }
 
 
-    function nextQuestion() {
+    const confirmed =
 
-      if (vocabulary.length === 0) {
-        return;
-      }
+      confirm(
 
+        "Möchtest du wirklich alle lokal hinzugefügten Vokabeln löschen?"
 
-      currentWord =
-        vocabulary[
-          Math.floor(
-            Math.random() * vocabulary.length
-          )
-        ];
+      );
 
 
-      direction =
-        Math.random() < 0.5
-          ? "de-en"
-          : "en-de";
+    if (!confirmed) {
 
-
-      document.getElementById("answer").textContent =
-        "";
-
-
-      if (direction === "de-en") {
-
-        document.getElementById("direction").textContent =
-          "Deutsch → Englisch";
-
-        document.getElementById("question").textContent =
-          currentWord.german;
-
-      } else {
-
-        document.getElementById("direction").textContent =
-          "Englisch → Deutsch";
-
-        document.getElementById("question").textContent =
-          currentWord.english;
-
-      }
-
-
-      document.getElementById("showButton").style.display =
-        "block";
-
-      document.getElementById("nextButton").style.display =
-        "none";
+      return;
 
     }
 
 
-    function showAnswer() {
+    /*
+       Lokale Vokabeln löschen
+    */
 
-      if (!currentWord) {
-        return;
-      }
-
-
-      if (direction === "de-en") {
-
-        document.getElementById("answer").textContent =
-          currentWord.english;
-
-      } else {
-
-        document.getElementById("answer").textContent =
-          currentWord.german;
-
-      }
+    localVocabulary = [];
 
 
-      document.getElementById("showButton").style.display =
-        "none";
-
-      document.getElementById("nextButton").style.display =
-        "block";
-
-    }
+    localStorage.removeItem(
+      "localVocabulary"
+    );
 
 
-    loadVocabulary();
+    /*
+       App komplett neu laden,
+       damit die CSV-Liste wieder
+       sauber eingelesen wird.
+    */
 
-  </script>
+    location.reload();
+
+  }
+
+
+  /* ==========================================
+     START
+     ========================================== */
+
+
+  loadVocabulary();
+
+
+</script>
+
 
 </body>
+
 </html>
