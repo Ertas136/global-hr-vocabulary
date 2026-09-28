@@ -86,10 +86,28 @@
     }
 
     .word {
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 700;
       line-height: 1.25;
       word-wrap: break-word;
+    }
+
+    .word-details {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .word-detail {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.4;
+    }
+
+    .word-detail strong {
+      color: #555;
+      font-weight: 600;
     }
 
     .answer-hidden {
@@ -301,7 +319,11 @@
       }
 
       .word {
-        font-size: 25px;
+        font-size: 22px;
+      }
+
+      .word-detail {
+        font-size: 12px;
       }
     }
   </style>
@@ -365,6 +387,8 @@
 
             </div>
 
+            <div id="questionDetails" class="word-details"></div>
+
           </div>
 
 
@@ -382,6 +406,11 @@
             <div
               id="answerWord"
               class="word answer-hidden">
+            </div>
+
+            <div
+              id="answerDetails"
+              class="word-details answer-hidden">
             </div>
 
           </div>
@@ -646,8 +675,39 @@
       header.indexOf("deutsch");
 
 
+    let constructionIndex =
+      header.indexOf(
+        "verb + preposition/construction"
+      );
+
+
+    let nounIndex =
+      header.indexOf("noun");
+
+
+    let adjectiveIndex =
+      header.indexOf(
+        "adjective/participle"
+      );
+
+
     if (englishIndex === -1) {
       englishIndex = 0;
+    }
+
+
+    if (constructionIndex === -1) {
+      constructionIndex = 1;
+    }
+
+
+    if (nounIndex === -1) {
+      nounIndex = 2;
+    }
+
+
+    if (adjectiveIndex === -1) {
+      adjectiveIndex = 3;
     }
 
 
@@ -670,6 +730,21 @@
           .trim();
 
 
+      const construction =
+        (rows[i][constructionIndex] || "")
+          .trim();
+
+
+      const noun =
+        (rows[i][nounIndex] || "")
+          .trim();
+
+
+      const adjective =
+        (rows[i][adjectiveIndex] || "")
+          .trim();
+
+
       const german =
         (rows[i][germanIndex] || "")
           .trim();
@@ -679,7 +754,10 @@
 
         result.push({
           english,
-          german
+          german,
+          construction,
+          noun,
+          adjective
         });
 
       }
@@ -745,9 +823,6 @@
       csvVocabulary =
         parseCSV(text);
 
-
-      // Nur CSV-Einträge zählen.
-      // Lokale Vokabeln werden hier nicht mitgezählt.
 
       document.getElementById(
         "csvCount"
@@ -900,6 +975,18 @@
       );
 
 
+    const questionDetails =
+      document.getElementById(
+        "questionDetails"
+      );
+
+
+    const answerDetails =
+      document.getElementById(
+        "answerDetails"
+      );
+
+
     const showButton =
       document.getElementById(
         "showButton"
@@ -907,6 +994,11 @@
 
 
     answerWord.classList.add(
+      "answer-hidden"
+    );
+
+
+    answerDetails.classList.add(
       "answer-hidden"
     );
 
@@ -923,6 +1015,11 @@
     document.getElementById(
       "checkResult"
     ).textContent = "";
+
+
+    questionDetails.innerHTML = "";
+
+    answerDetails.innerHTML = "";
 
 
     if (
@@ -948,6 +1045,20 @@
       direction.textContent =
         "English → Deutsch";
 
+
+      displayDetails(
+        questionDetails,
+        item,
+        "english"
+      );
+
+
+      displayDetails(
+        answerDetails,
+        item,
+        "german"
+      );
+
     } else {
 
       questionLanguage.textContent =
@@ -969,7 +1080,101 @@
       direction.textContent =
         "Deutsch → English";
 
+
+      displayDetails(
+        questionDetails,
+        item,
+        "german"
+      );
+
+
+      displayDetails(
+        answerDetails,
+        item,
+        "english"
+      );
+
     }
+
+  }
+
+
+  function displayDetails(
+    container,
+    item,
+    language
+  ) {
+
+    container.innerHTML = "";
+
+
+    if (language !== "english") {
+      return;
+    }
+
+
+    if (item.construction) {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "word-detail";
+
+      div.innerHTML =
+        "<strong>Verb + Konstruktion:</strong> " +
+        escapeHtml(item.construction);
+
+      container.appendChild(div);
+
+    }
+
+
+    if (item.noun) {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "word-detail";
+
+      div.innerHTML =
+        "<strong>Nomen:</strong> " +
+        escapeHtml(item.noun);
+
+      container.appendChild(div);
+
+    }
+
+
+    if (item.adjective) {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "word-detail";
+
+      div.innerHTML =
+        "<strong>Adjektiv/Partizip:</strong> " +
+        escapeHtml(item.adjective);
+
+      container.appendChild(div);
+
+    }
+
+  }
+
+
+  function escapeHtml(text) {
+
+    const div =
+      document.createElement("div");
+
+    div.textContent =
+      text || "";
+
+    return div.innerHTML;
 
   }
 
@@ -1039,20 +1244,17 @@
   }
 
 
-  /*
-   * Antwort anzeigen.
-   *
-   * WICHTIG:
-   * Die nächste Vokabel wird NICHT automatisch geladen.
-   * Die Antwort bleibt dauerhaft sichtbar.
-   * Der Button wird zu "WEITER →".
-   */
-
   function showAnswerAndNext() {
 
     const answerWord =
       document.getElementById(
         "answerWord"
+      );
+
+
+    const answerDetails =
+      document.getElementById(
+        "answerDetails"
       );
 
 
@@ -1069,6 +1271,11 @@
     ) {
 
       answerWord.classList.remove(
+        "answer-hidden"
+      );
+
+
+      answerDetails.classList.remove(
         "answer-hidden"
       );
 
@@ -1206,6 +1413,12 @@
       );
 
 
+    const answerDetails =
+      document.getElementById(
+        "answerDetails"
+      );
+
+
     const userAnswer =
       input.value.trim();
 
@@ -1213,6 +1426,11 @@
     if (!userAnswer) {
 
       answerWord.classList.remove(
+        "answer-hidden"
+      );
+
+
+      answerDetails.classList.remove(
         "answer-hidden"
       );
 
@@ -1251,6 +1469,11 @@
       );
 
 
+      answerDetails.classList.remove(
+        "answer-hidden"
+      );
+
+
       markAsPracticed();
 
     } else {
@@ -1260,6 +1483,11 @@
 
 
       answerWord.classList.remove(
+        "answer-hidden"
+      );
+
+
+      answerDetails.classList.remove(
         "answer-hidden"
       );
 
@@ -1550,7 +1778,10 @@
 
     const newWord = {
       english,
-      german
+      german,
+      construction: "",
+      noun: "",
+      adjective: ""
     };
 
 
@@ -1669,9 +1900,9 @@
 
         rows.push([
           item.english,
-          "",
-          "",
-          "",
+          item.construction || "",
+          item.noun || "",
+          item.adjective || "",
           item.german
         ]);
 
