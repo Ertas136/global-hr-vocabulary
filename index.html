@@ -2,21 +2,13 @@
 <html lang="de">
 
 <head>
-
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Global HR English</title>
 
 <style>
-
-/* =========================================
-   GRUNDLAYOUT
-========================================= */
 
 * {
   box-sizing: border-box;
@@ -41,9 +33,9 @@ h1 {
 }
 
 
-/* =========================================
+/* ================================
    VOKABELKARTE
-========================================= */
+================================ */
 
 .card {
   background: white;
@@ -74,9 +66,9 @@ h1 {
 }
 
 
-/* =========================================
+/* ================================
    EINGABE
-========================================= */
+================================ */
 
 .input-area {
   margin-top: 20px;
@@ -96,9 +88,9 @@ h1 {
 }
 
 
-/* =========================================
+/* ================================
    BUTTONS
-========================================= */
+================================ */
 
 button {
   width: 100%;
@@ -132,9 +124,9 @@ button:disabled {
 }
 
 
-/* =========================================
+/* ================================
    NAVIGATION
-========================================= */
+================================ */
 
 .navigation {
   display: flex;
@@ -150,9 +142,9 @@ button:disabled {
 }
 
 
-/* =========================================
+/* ================================
    STATISTIK
-========================================= */
+================================ */
 
 .stats {
   text-align: center;
@@ -162,9 +154,9 @@ button:disabled {
 }
 
 
-/* =========================================
+/* ================================
    BEREICHE
-========================================= */
+================================ */
 
 .section {
   background: white;
@@ -180,9 +172,9 @@ button:disabled {
 }
 
 
-/* =========================================
+/* ================================
    FORMULAR
-========================================= */
+================================ */
 
 input[type="text"] {
   width: 100%;
@@ -227,9 +219,9 @@ input[type="text"]:focus {
 }
 
 
-/* =========================================
+/* ================================
    ERGEBNIS
-========================================= */
+================================ */
 
 .result {
   margin-top: 15px;
@@ -246,9 +238,9 @@ input[type="text"]:focus {
 }
 
 
-/* =========================================
-   ÜBERSETZUNGSSTATUS
-========================================= */
+/* ================================
+   STATUS
+================================ */
 
 .translation-status {
   min-height: 20px;
@@ -257,11 +249,6 @@ input[type="text"]:focus {
   color: #777;
 }
 
-
-/* =========================================
-   STATUS
-========================================= */
-
 .status {
   text-align: center;
   margin-top: 15px;
@@ -269,19 +256,14 @@ input[type="text"]:focus {
   font-size: 14px;
 }
 
-
-/* =========================================
-   HIDDEN
-========================================= */
-
 .hidden {
   display: none;
 }
 
 
-/* =========================================
+/* ================================
    MOBILE
-========================================= */
+================================ */
 
 @media (max-width: 500px) {
 
@@ -304,48 +286,34 @@ input[type="text"]:focus {
 }
 
 </style>
-
 </head>
 
 
 <body>
 
-
 <div class="container">
-
 
 <h1>Global HR English</h1>
 
 
-<!-- =====================================
+<!-- ================================
      VOKABELKARTE
-====================================== -->
+================================ -->
 
 <div class="card">
 
-
-  <div
-    id="direction"
-    class="direction"
-  >
+  <div id="direction" class="direction">
     Deutsch → Englisch
   </div>
 
-
-  <div
-    id="question"
-    class="question"
-  >
+  <div id="question" class="question">
     Lade Vokabeln ...
   </div>
 
 
   <!-- OPTIONALE EINGABE -->
 
-  <div
-    id="inputArea"
-    class="input-area hidden"
-  >
+  <div id="inputArea" class="input-area hidden">
 
     <input
       id="answerInput"
@@ -354,7 +322,6 @@ input[type="text"]:focus {
       placeholder="Deine Antwort ..."
       autocomplete="off"
     >
-
 
     <button
       class="show-button"
@@ -368,18 +335,12 @@ input[type="text"]:focus {
 
   <!-- ANTWORT -->
 
-  <div
-    id="answer"
-    class="answer hidden"
-  ></div>
+  <div id="answer" class="answer hidden"></div>
 
 
   <!-- ERGEBNIS -->
 
-  <div
-    id="result"
-    class="result"
-  ></div>
+  <div id="result" class="result"></div>
 
 
   <!-- ANZEIGEN -->
@@ -426,7 +387,6 @@ input[type="text"]:focus {
       ← ZURÜCK
     </button>
 
-
     <button
       id="forwardButton"
       onclick="goForward()"
@@ -439,34 +399,27 @@ input[type="text"]:focus {
 </div>
 
 
-<!-- =====================================
+<!-- ================================
      STATISTIK
-====================================== -->
+================================ -->
 
-<div
-  id="practicedCount"
-  class="stats"
->
+<div id="practicedCount" class="stats">
   Geübt: 0 Wörter
 </div>
 
 
-<!-- =====================================
+<!-- ================================
      VOKABEL HINZUFÜGEN
-====================================== -->
+================================ -->
 
 <div class="section">
 
   <h2>+ VOKABEL HINZUFÜGEN</h2>
 
 
-  <label
-    class="field-label"
-    for="englishInput"
-  >
+  <label class="field-label" for="englishInput">
     English
   </label>
-
 
   <input
     id="englishInput"
@@ -475,13 +428,9 @@ input[type="text"]:focus {
   >
 
 
-  <label
-    class="field-label"
-    for="germanInput"
-  >
+  <label class="field-label" for="germanInput">
     Deutsch
   </label>
-
 
   <input
     id="germanInput"
@@ -489,8 +438,6 @@ input[type="text"]:focus {
     placeholder="z. B. Bedenken ansprechen"
   >
 
-
-  <!-- ÜBERSETZUNG SUCHEN -->
 
   <button
     class="translate-button"
@@ -506,8 +453,6 @@ input[type="text"]:focus {
   ></div>
 
 
-  <!-- SPEICHERN -->
-
   <button
     class="add-button"
     onclick="addVocabulary()"
@@ -518,14 +463,13 @@ input[type="text"]:focus {
 </div>
 
 
-<!-- =====================================
+<!-- ================================
      CSV
-====================================== -->
+================================ -->
 
 <div class="section">
 
   <h2>CSV EXPORT</h2>
-
 
   <button
     class="export-button"
@@ -533,7 +477,6 @@ input[type="text"]:focus {
   >
     AKTUELLE CSV EXPORTIEREN
   </button>
-
 
   <button
     class="delete-button"
@@ -545,12 +488,7 @@ input[type="text"]:focus {
 </div>
 
 
-<!-- STATUS -->
-
-<div
-  id="status"
-  class="status"
->
+<div id="status" class="status">
   Lade Vokabeln ...
 </div>
 
@@ -582,9 +520,7 @@ let historyPosition = -1;
 
 let practicedWords =
   JSON.parse(
-    localStorage.getItem(
-      "practicedWords"
-    )
+    localStorage.getItem("practicedWords")
   ) || [];
 
 
@@ -594,9 +530,7 @@ let practicedWords =
 
 let localVocabulary =
   JSON.parse(
-    localStorage.getItem(
-      "localVocabulary"
-    )
+    localStorage.getItem("localVocabulary")
   ) || [];
 
 
@@ -610,8 +544,7 @@ async function loadVocabulary() {
 
     const response =
       await fetch(
-        "vocabulary.csv?t=" +
-        Date.now()
+        "vocabulary.csv?t=" + Date.now()
       );
 
 
@@ -640,6 +573,22 @@ async function loadVocabulary() {
       );
 
 
+    if (vocabulary.length === 0) {
+
+      updateStatus(
+        "Keine Vokabeln gefunden."
+      );
+
+      document.getElementById(
+        "question"
+      ).textContent =
+        "Keine Vokabeln gefunden.";
+
+      return;
+
+    }
+
+
     updateStatus(
       vocabulary.length +
       " Vokabeln geladen."
@@ -647,7 +596,6 @@ async function loadVocabulary() {
 
 
     updatePracticedCount();
-
 
     nextQuestion();
 
@@ -658,8 +606,14 @@ async function loadVocabulary() {
     console.error(error);
 
 
+    document.getElementById(
+      "question"
+    ).textContent =
+      "Vokabeln konnten nicht geladen werden.";
+
+
     updateStatus(
-      "Fehler beim Laden der vocabulary.csv."
+      "Fehler: vocabulary.csv konnte nicht geladen werden."
     );
 
   }
@@ -673,35 +627,51 @@ async function loadVocabulary() {
 
 function deduplicateVocabulary(words) {
 
-  const seen =
-    new Set();
+  const seen = new Set();
 
   const result = [];
 
 
-  words.forEach(
-    word => {
+  words.forEach(word => {
 
-      const key =
-        word.english
-          .trim()
-          .toLowerCase() +
-        "|" +
-        word.german
-          .trim()
-          .toLowerCase();
+    if (
+      !word ||
+      !word.english ||
+      !word.german
+    ) {
 
-
-      if (!seen.has(key)) {
-
-        seen.add(key);
-
-        result.push(word);
-
-      }
+      return;
 
     }
-  );
+
+
+    const key =
+      word.english
+        .trim()
+        .toLowerCase() +
+      "|" +
+      word.german
+        .trim()
+        .toLowerCase();
+
+
+    if (!seen.has(key)) {
+
+      seen.add(key);
+
+      result.push({
+
+        english:
+          word.english.trim(),
+
+        german:
+          word.german.trim()
+
+      });
+
+    }
+
+  });
 
 
   return result;
@@ -710,15 +680,207 @@ function deduplicateVocabulary(words) {
 
 
 /* =========================================
-   CSV PARSEN
+   ROBUSTER CSV-PARSER
 ========================================= */
 
 function parseCSV(text) {
 
-  const lines =
-    text
-      .trim()
-      .split(/\r?\n/);
+  /*
+     Entfernt UTF-8 BOM
+  */
+
+  text =
+    text.replace(
+      /^\uFEFF/,
+      ""
+    );
+
+
+  const rows = [];
+
+  let row = [];
+
+  let value = "";
+
+  let insideQuotes = false;
+
+
+  /*
+     CSV Zeichen für Zeichen lesen.
+     Dadurch funktionieren auch Kommas
+     innerhalb von Anführungszeichen.
+  */
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char =
+      text[i];
+
+
+    const next =
+      text[i + 1];
+
+
+    if (
+      char === '"'
+    ) {
+
+      if (
+        insideQuotes &&
+        next === '"'
+      ) {
+
+        value += '"';
+
+        i++;
+
+      }
+
+      else {
+
+        insideQuotes =
+          !insideQuotes;
+
+      }
+
+    }
+
+    else if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(value);
+
+      value = "";
+
+    }
+
+    else if (
+      (char === "\n" ||
+       char === "\r") &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        next === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(value);
+
+      value = "";
+
+
+      if (
+        row.some(
+          cell =>
+            cell.trim() !== ""
+        )
+      ) {
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+
+    }
+
+    else {
+
+      value += char;
+
+    }
+
+  }
+
+
+  /*
+     Letzte Zeile
+  */
+
+  if (
+    value !== "" ||
+    row.length > 0
+  ) {
+
+    row.push(value);
+
+    if (
+      row.some(
+        cell =>
+          cell.trim() !== ""
+      )
+    ) {
+
+      rows.push(row);
+
+    }
+
+  }
+
+
+  if (rows.length === 0) {
+
+    return [];
+
+  }
+
+
+  /*
+     Erste Zeile = Überschrift
+  */
+
+  const header =
+    rows[0].map(
+      cell =>
+        cell
+          .trim()
+          .toLowerCase()
+    );
+
+
+  let englishIndex =
+    header.indexOf("english");
+
+
+  let germanIndex =
+    header.indexOf("german");
+
+
+  /*
+     Falls keine passende Überschrift
+     gefunden wird, nehmen wir einfach
+     Spalte 1 und 2.
+  */
+
+  if (
+    englishIndex === -1
+  ) {
+
+    englishIndex = 0;
+
+  }
+
+
+  if (
+    germanIndex === -1
+  ) {
+
+    germanIndex = 1;
+
+  }
 
 
   const result = [];
@@ -726,42 +888,26 @@ function parseCSV(text) {
 
   for (
     let i = 1;
-    i < lines.length;
+    i < rows.length;
     i++
   ) {
 
-    const line =
-      lines[i].trim();
+    const english =
+      rows[i][englishIndex]
+        ? rows[i][englishIndex].trim()
+        : "";
 
 
-    if (!line) {
-      continue;
-    }
+    const german =
+      rows[i][germanIndex]
+        ? rows[i][germanIndex].trim()
+        : "";
 
 
-    const match =
-      line.match(
-        /^"((?:""|[^"])*)","((?:""|[^"])*)"$/
-      );
-
-
-    if (match) {
-
-      const english =
-        match[1]
-          .replace(
-            /""/g,
-            '"'
-          );
-
-
-      const german =
-        match[2]
-          .replace(
-            /""/g,
-            '"'
-          );
-
+    if (
+      english !== "" &&
+      german !== ""
+    ) {
 
       result.push({
 
@@ -849,7 +995,9 @@ function nextQuestion() {
 function displayCurrentQuestion() {
 
   if (!currentWord) {
+
     return;
+
   }
 
 
@@ -956,37 +1104,31 @@ function displayCurrentQuestion() {
 
 function enableInput() {
 
-  const inputArea =
-    document.getElementById(
+  document
+    .getElementById(
       "inputArea"
+    )
+    .classList.remove(
+      "hidden"
     );
 
 
-  const inputButton =
-    document.getElementById(
+  document
+    .getElementById(
       "inputButton"
+    )
+    .classList.add(
+      "hidden"
     );
 
 
-  const showButton =
-    document.getElementById(
+  document
+    .getElementById(
       "showButton"
+    )
+    .classList.add(
+      "hidden"
     );
-
-
-  inputArea.classList.remove(
-    "hidden"
-  );
-
-
-  inputButton.classList.add(
-    "hidden"
-  );
-
-
-  showButton.classList.add(
-    "hidden"
-  );
 
 
   document
@@ -1005,7 +1147,9 @@ function enableInput() {
 function showAnswer() {
 
   if (!currentWord) {
+
     return;
+
   }
 
 
@@ -1047,14 +1191,14 @@ function showAnswer() {
 
   if (input !== "") {
 
-    const isCorrect =
+    const correct =
       isAnswerCorrect(
         input,
         answer
       );
 
 
-    if (isCorrect) {
+    if (correct) {
 
       resultElement.textContent =
         "✓ Richtig";
@@ -1078,6 +1222,10 @@ function showAnswer() {
 
   }
 
+
+  /*
+     Wort als geübt markieren
+  */
 
   const wordKey =
     currentWord.english +
@@ -1112,7 +1260,7 @@ function showAnswer() {
 
 
 /* =========================================
-   MEHRERE ANTWORTEN PRÜFEN
+   MEHRERE ANTWORTEN
 ========================================= */
 
 function isAnswerCorrect(
@@ -1120,21 +1268,14 @@ function isAnswerCorrect(
   correctAnswer
 ) {
 
-  /*
-     Mehrere akzeptierte Antworten
-     können durch "/" getrennt werden.
-
-     Beispiel:
-
-     machbar / umsetzbar / realisierbar
-  */
-
   const acceptedAnswers =
     correctAnswer
       .split("/")
       .map(
         answer =>
-          normalizeAnswer(answer)
+          normalizeAnswer(
+            answer
+          )
       )
       .filter(
         answer =>
@@ -1156,7 +1297,7 @@ function isAnswerCorrect(
 
 
 /* =========================================
-   ANTWORT NORMALISIEREN
+   NORMALISIEREN
 ========================================= */
 
 function normalizeAnswer(text) {
@@ -1267,14 +1408,6 @@ function updateNavigation() {
     .disabled =
       historyPosition <= 0;
 
-
-  document
-    .getElementById(
-      "forwardButton"
-    )
-    .disabled =
-      false;
-
 }
 
 
@@ -1329,7 +1462,7 @@ async function translateVocabulary() {
 
 
   /*
-     Beide Felder leer
+     Nichts eingegeben
   */
 
   if (
@@ -1347,8 +1480,6 @@ async function translateVocabulary() {
 
   /*
      Beide Felder ausgefüllt
-
-     Nichts überschreiben.
   */
 
   if (
@@ -1363,10 +1494,6 @@ async function translateVocabulary() {
 
   }
 
-
-  /*
-     Übersetzung läuft
-  */
 
   status.textContent =
     "Übersetzung wird gesucht ...";
@@ -1385,7 +1512,9 @@ async function translateVocabulary() {
        Englisch → Deutsch
     */
 
-    if (english !== "") {
+    if (
+      english !== ""
+    ) {
 
       sourceText =
         english;
@@ -1418,7 +1547,7 @@ async function translateVocabulary() {
 
 
     /*
-       URL für Übersetzungsdienst
+       Übersetzungsanfrage
     */
 
     const url =
@@ -1450,10 +1579,6 @@ async function translateVocabulary() {
       await response.json();
 
 
-    /*
-       Übersetzung auslesen
-    */
-
     if (
       !data.responseData ||
       !data.responseData.translatedText
@@ -1476,7 +1601,9 @@ async function translateVocabulary() {
        Ergebnis eintragen
     */
 
-    if (sourceLanguage === "en") {
+    if (
+      sourceLanguage === "en"
+    ) {
 
       germanInput.value =
         translated;
@@ -1531,7 +1658,7 @@ function decodeHTMLEntities(text) {
 
 
 /* =========================================
-   VOKABEL HINZUFÜGEN
+   VOKABEL SPEICHERN
 ========================================= */
 
 function addVocabulary() {
@@ -1567,6 +1694,10 @@ function addVocabulary() {
 
   }
 
+
+  /*
+     Duplikat prüfen
+  */
 
   const exists =
     vocabulary.some(
@@ -1612,6 +1743,10 @@ function addVocabulary() {
   };
 
 
+  /*
+     Lokal speichern
+  */
+
   localVocabulary.push(
     newWord
   );
@@ -1625,10 +1760,18 @@ function addVocabulary() {
   );
 
 
+  /*
+     Direkt zur aktuellen Liste hinzufügen
+  */
+
   vocabulary.push(
     newWord
   );
 
+
+  /*
+     Eingabefelder leeren
+  */
 
   document
     .getElementById(
@@ -1652,7 +1795,9 @@ function addVocabulary() {
 
 
   updateStatus(
-    "Vokabel hinzugefügt."
+    "Vokabel hinzugefügt. Insgesamt " +
+    vocabulary.length +
+    " Vokabeln."
   );
 
 
@@ -1689,31 +1834,19 @@ function exportCSV() {
   vocabulary.forEach(
     word => {
 
-      const english =
+      csv +=
         csvEscape(
           word.english
-        );
-
-
-      const german =
+        ) +
+        "," +
         csvEscape(
           word.german
-        );
-
-
-      csv +=
-        english +
-        "," +
-        german +
+        ) +
         "\n";
 
     }
   );
 
-
-  /*
-     UTF-8 BOM für Excel
-  */
 
   const blob =
     new Blob(
@@ -1784,16 +1917,13 @@ function exportCSV() {
 
 function csvEscape(value) {
 
-  const escaped =
-    value.replace(
-      /"/g,
-      '""'
-    );
-
-
   return (
     '"' +
-    escaped +
+    value
+      .replace(
+        /"/g,
+        '""'
+      ) +
     '"'
   );
 
@@ -1866,7 +1996,7 @@ function updateStatus(
 
 
 /* =========================================
-   ENTER-TASTE BEI ANTWORT
+   ENTER-TASTE
 ========================================= */
 
 document.addEventListener(
@@ -1906,7 +2036,5 @@ loadVocabulary();
 
 </script>
 
-
 </body>
-
 </html>
