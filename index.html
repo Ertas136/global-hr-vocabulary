@@ -200,6 +200,10 @@
       transform: scale(0.97);
     }
 
+    .show-button.test-reveal {
+      background: #555;
+    }
+
     .example-area {
       width: 100%;
       margin-top: 22px;
@@ -240,13 +244,71 @@
     }
 
     /*
-     * HANDSCHRIFT
+     * ==========================================
+     * ACTIVE RECALL / SPRACHE
+     * ==========================================
      */
 
-    .handwriting-area {
+    .recall-area {
       margin-top: 25px;
       padding-top: 20px;
       border-top: 1px solid #eee;
+    }
+
+    .recall-title {
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 12px;
+    }
+
+    .speech-area {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .speech-button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 18px;
+      background: #f0f0f2;
+      color: #222;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .speech-button:active {
+      transform: scale(0.97);
+    }
+
+    .speech-button.recording {
+      background: #222;
+      color: white;
+    }
+
+    .speech-status {
+      min-height: 22px;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .speech-transcript {
+      min-height: 24px;
+      margin-top: 5px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    /*
+     * ==========================================
+     * HANDSCHRIFT
+     * ==========================================
+     */
+
+    .handwriting-area {
+      margin-top: 18px;
     }
 
     .handwriting-title {
@@ -302,8 +364,40 @@
       font-weight: 600;
     }
 
-    .input-area {
-      display: none;
+    /*
+     * ==========================================
+     * SELBSTBEWERTUNG
+     * ==========================================
+     */
+
+    .self-rating {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .self-rating button {
+      flex: 1;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .self-rating button.knew {
+      background: #e8f4e9;
+      color: #2e7d32;
+    }
+
+    .self-rating button.didnt-know {
+      background: #f8e8e8;
+      color: #c62828;
+    }
+
+    .self-rating button:active {
+      transform: scale(0.97);
     }
 
     .result {
@@ -498,6 +592,11 @@
       #handwritingCanvas {
         height: 190px;
       }
+
+      .self-rating {
+        flex-direction: column;
+      }
+
     }
 
   </style>
@@ -588,7 +687,6 @@
 
 
       <div class="word-area">
-
 
         <div class="word-box">
 
@@ -682,54 +780,118 @@
       </div>
 
 
-      <!-- HANDSCHRIFT -->
+      <!-- ACTIVE RECALL -->
 
-      <div class="handwriting-area">
-
-        <div class="handwriting-title">
-
-          ✍️ Schreibe das Wort mit deinem Finger
-
-        </div>
-
-
-        <div class="canvas-wrapper">
-
-          <canvas
-            id="handwritingCanvas"
-          ></canvas>
-
-        </div>
-
-
-        <div class="writing-buttons">
-
-          <button
-            onclick="clearCanvas()"
-          >
-            LÖSCHEN
-          </button>
-
-          <button
-            class="primary"
-            onclick="checkHandwriting()"
-          >
-            FERTIG
-          </button>
-
-        </div>
-
+      <div class="recall-area">
 
         <div
-          id="writingFeedback"
-          class="writing-feedback"
+          id="recallTitle"
+          class="recall-title"
         >
+          🧠 Erst erinnern – dann auflösen
+        </div>
+
+
+        <!-- SPRECHEN -->
+
+        <div class="speech-area">
+
+          <button
+            id="speechButton"
+            class="speech-button"
+            onclick="startSpeechRecognition()"
+          >
+            🎙️ ENGLISCH SPRECHEN
+          </button>
+
+          <div
+            id="speechStatus"
+            class="speech-status"
+          >
+          </div>
+
+          <div
+            id="speechTranscript"
+            class="speech-transcript"
+          >
+          </div>
+
+        </div>
+
+
+        <!-- HANDSCHRIFT -->
+
+        <div class="handwriting-area">
+
+          <div
+            id="handwritingTitle"
+            class="handwriting-title"
+          >
+            ✍️ Schreibe deine Antwort mit dem Finger
+          </div>
+
+
+          <div class="canvas-wrapper">
+
+            <canvas
+              id="handwritingCanvas"
+            ></canvas>
+
+          </div>
+
+
+          <div class="writing-buttons">
+
+            <button
+              onclick="clearCanvas()"
+            >
+              LÖSCHEN
+            </button>
+
+            <button
+              class="primary"
+              onclick="checkHandwriting()"
+            >
+              FERTIG
+            </button>
+
+          </div>
+
+
+          <div
+            id="writingFeedback"
+            class="writing-feedback"
+          >
+          </div>
+
+        </div>
+
+
+        <!-- SELBSTBEWERTUNG -->
+
+        <div
+          id="selfRating"
+          class="self-rating hidden"
+        >
+
+          <button
+            class="knew"
+            onclick="rateAnswer(true)"
+          >
+            ✓ ICH WUSSTE ES
+          </button>
+
+          <button
+            class="didnt-know"
+            onclick="rateAnswer(false)"
+          >
+            ✕ NOCH NICHT
+          </button>
+
         </div>
 
       </div>
 
-
-      <!-- ALTE TASTATUR-EINGABE IST ENTFERNT -->
 
       <div
         id="result"
@@ -859,31 +1021,57 @@
 
 <script>
 
+  /*
+   * ==================================================
+   * GRUNDVARIABLEN
+   * ==================================================
+   */
+
   let csvVocabulary = [];
+
   let localVocabulary = [];
+
   let vocabulary = [];
 
   let currentIndex = 0;
+
   let history = [];
 
   let currentItem = null;
+
   let currentDirection = null;
 
   let currentMode = "learning";
 
   let speechTimeout = null;
 
+  let exampleSpeechTimeout = null;
+
+  let speechRecognition = null;
+
+  let speechIsListening = false;
+
+  let speechWasSuccessful = false;
+
+  let handwritingWasConfirmed = false;
+
+  let answerWasRevealed = false;
+
+  let selfRatingDone = false;
+
+
   const STORAGE_KEY =
     "globalHrVocabularyLocal";
+
 
   const PROGRESS_KEY =
     "globalHrVocabularyProgress";
 
 
   /*
-   * ================================================
+   * ==================================================
    * INITIALISIERUNG
-   * ================================================
+   * ==================================================
    */
 
   document.addEventListener(
@@ -902,14 +1090,16 @@
 
       setupCanvas();
 
+      setupSpeechRecognition();
+
     }
   );
 
 
   /*
-   * ================================================
+   * ==================================================
    * LOCAL STORAGE
-   * ================================================
+   * ==================================================
    */
 
   function loadLocalVocabulary() {
@@ -926,7 +1116,9 @@
           ? JSON.parse(saved)
           : [];
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
       console.error(error);
 
@@ -950,9 +1142,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * FORTSCHRITT
-   * ================================================
+   * ==================================================
    */
 
   function loadProgress() {
@@ -968,7 +1160,9 @@
         ? JSON.parse(saved)
         : {};
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
       return {};
 
@@ -977,7 +1171,9 @@
   }
 
 
-  function saveProgress(progress) {
+  function saveProgress(
+    progress
+  ) {
 
     localStorage.setItem(
       PROGRESS_KEY,
@@ -989,41 +1185,80 @@
   }
 
 
-  function getProgressKey(item) {
+  function getProgressKey(
+    item
+  ) {
 
-    return normalize(
-      item.english
+    return (
+      normalize(
+        item.english
+      ) +
+      "|" +
+      normalize(
+        item.german
+      )
     );
 
   }
 
 
-  function getWordProgress(item) {
+  function getWordProgress(
+    item
+  ) {
 
     const progress =
       loadProgress();
 
     const key =
-      getProgressKey(item);
+      getProgressKey(
+        item
+      );
+
 
     return progress[key] || {
 
       seen: 0,
+
       correct: 0,
+
       wrong: 0,
+
       revealed: 0,
-      lastSeen: null
+
+      lastSeen: null,
+
+      nextReview: null,
+
+      interval: 0
 
     };
 
   }
 
 
-  function markAsPracticed() {
+  /*
+   * ==================================================
+   * FORTSCHRITT SPEICHERN
+   * ==================================================
+   */
+
+  function registerAttempt(
+    wasCorrect
+  ) {
 
     if (!currentItem) {
+
       return;
+
     }
+
+
+    if (selfRatingDone) {
+
+      return;
+
+    }
+
 
     const progress =
       loadProgress();
@@ -1039,153 +1274,116 @@
       progress[key] = {
 
         seen: 0,
+
         correct: 0,
+
         wrong: 0,
+
         revealed: 0,
-        lastSeen: null
+
+        lastSeen: null,
+
+        nextReview: null,
+
+        interval: 0
 
       };
 
     }
 
 
-    /*
-     * Nur einmal pro Anzeige.
-     */
+    progress[key].seen += 1;
 
-    if (
-      currentItem._counted
-    ) {
+    progress[key].revealed += 1;
 
-      return;
+    progress[key].lastSeen =
+      Date.now();
+
+
+    if (wasCorrect) {
+
+      progress[key].correct += 1;
+
+      /*
+       * Praktische Spaced-Repetition-
+       * Intervalle:
+       *
+       * 1 → 3 → 7 → 14 → 30 Tage
+       */
+
+      const intervals = [
+        1,
+        3,
+        7,
+        14,
+        30
+      ];
+
+
+      let currentInterval =
+        progress[key].interval || 0;
+
+
+      let nextInterval =
+        intervals.find(
+          value =>
+            value >
+            currentInterval
+        );
+
+
+      if (
+        !nextInterval
+      ) {
+
+        nextInterval =
+          30;
+
+      }
+
+
+      progress[key].interval =
+        nextInterval;
+
+
+      progress[key].nextReview =
+        Date.now() +
+        nextInterval *
+        24 *
+        60 *
+        60 *
+        1000;
 
     }
+
+    else {
+
+      progress[key].wrong += 1;
+
+      /*
+       * Fehler setzt die Wiederholung
+       * wieder nach vorne.
+       */
+
+      progress[key].interval =
+        0;
+
+
+      progress[key].nextReview =
+        Date.now() +
+        24 *
+        60 *
+        60 *
+        1000;
+
+    }
+
 
     currentItem._counted =
       true;
 
 
-    progress[key].seen += 1;
-
-    progress[key].revealed += 1;
-
-    progress[key].lastSeen =
-      Date.now();
-
-
-    saveProgress(
-      progress
-    );
-
-
-    updatePracticedCount();
-
-    updateLearningStats();
-
-    updateDifficultList();
-
-  }
-
-
-  function markCorrect() {
-
-    if (!currentItem) {
-      return;
-    }
-
-    const progress =
-      loadProgress();
-
-    const key =
-      getProgressKey(
-        currentItem
-      );
-
-
-    if (!progress[key]) {
-
-      progress[key] = {
-
-        seen: 0,
-        correct: 0,
-        wrong: 0,
-        revealed: 0,
-        lastSeen: null
-
-      };
-
-    }
-
-
-    progress[key].seen += 1;
-
-    progress[key].correct += 1;
-
-    progress[key].revealed += 1;
-
-    progress[key].lastSeen =
-      Date.now();
-
-
-    currentItem._counted =
-      true;
-
-
-    saveProgress(
-      progress
-    );
-
-
-    updatePracticedCount();
-
-    updateLearningStats();
-
-    updateDifficultList();
-
-  }
-
-
-  function markWrong() {
-
-    if (!currentItem) {
-      return;
-    }
-
-    const progress =
-      loadProgress();
-
-    const key =
-      getProgressKey(
-        currentItem
-      );
-
-
-    if (!progress[key]) {
-
-      progress[key] = {
-
-        seen: 0,
-        correct: 0,
-        wrong: 0,
-        revealed: 0,
-        lastSeen: null
-
-      };
-
-    }
-
-
-    progress[key].seen += 1;
-
-    progress[key].wrong += 1;
-
-    progress[key].revealed += 1;
-
-    progress[key].lastSeen =
-      Date.now();
-
-
-    currentItem._counted =
+    selfRatingDone =
       true;
 
 
@@ -1203,7 +1401,15 @@
   }
 
 
-  function getDifficulty(item) {
+  /*
+   * ==================================================
+   * SCHWIERIGKEIT
+   * ==================================================
+   */
+
+  function getDifficulty(
+    item
+  ) {
 
     const p =
       getWordProgress(
@@ -1245,7 +1451,9 @@
   }
 
 
-  function getDifficultyLabel(item) {
+  function getDifficultyLabel(
+    item
+  ) {
 
     const difficulty =
       getDifficulty(
@@ -1293,6 +1501,13 @@
       );
 
 
+    if (!currentItem) {
+
+      return;
+
+    }
+
+
     const difficulty =
       getDifficulty(
         currentItem
@@ -1313,9 +1528,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * CSV LADEN
-   * ================================================
+   * ==================================================
    */
 
   async function loadVocabulary() {
@@ -1328,7 +1543,8 @@
 
       const timeout =
         setTimeout(
-          () => controller.abort(),
+          () =>
+            controller.abort(),
           10000
         );
 
@@ -1430,8 +1646,9 @@
 
       updateDifficultList();
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
       console.error(
         error
@@ -1449,12 +1666,14 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * CSV PARSER
-   * ================================================
+   * ==================================================
    */
 
-  function parseCSV(text) {
+  function parseCSV(
+    text
+  ) {
 
     const rows = [];
 
@@ -1790,9 +2009,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * MERGEN
-   * ================================================
+   * ==================================================
    */
 
   function mergeVocabulary(
@@ -1844,16 +2063,19 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * WORT ANZEIGEN
-   * ================================================
+   * ==================================================
    */
 
   function displayCurrentWord() {
 
     clearSpeech();
 
+    stopSpeechRecognition();
+
     clearCanvas();
+
 
     if (
       !vocabulary.length
@@ -1878,6 +2100,22 @@
       Math.random() < 0.5
         ? "de-en"
         : "en-de";
+
+
+    answerWasRevealed =
+      false;
+
+
+    handwritingWasConfirmed =
+      false;
+
+
+    speechWasSuccessful =
+      false;
+
+
+    selfRatingDone =
+      false;
 
 
     const question =
@@ -1912,6 +2150,10 @@
       answer.toLowerCase();
 
 
+    /*
+     * Beispiel
+     */
+
     const exampleArea =
       document.getElementById(
         "exampleArea"
@@ -1942,7 +2184,9 @@
           </button>
         `;
 
-    } else {
+    }
+
+    else {
 
       exampleContent.textContent =
         "";
@@ -1957,6 +2201,10 @@
         currentItem
       );
 
+
+    /*
+     * Antwort verstecken
+     */
 
     document.getElementById(
       "answerWord"
@@ -1984,11 +2232,31 @@
     );
 
 
-    document.getElementById(
-      "showButton"
-    ).textContent =
-      "ANZEIGEN";
+    /*
+     * Hauptbutton
+     */
 
+    const showButton =
+      document.getElementById(
+        "showButton"
+      );
+
+
+    showButton.textContent =
+      currentMode === "test"
+        ? "LÖSUNG ANZEIGEN"
+        : "ANZEIGEN";
+
+
+    showButton.classList.toggle(
+      "test-reveal",
+      currentMode === "test"
+    );
+
+
+    /*
+     * Ergebnisse zurücksetzen
+     */
 
     document.getElementById(
       "result"
@@ -2008,6 +2276,25 @@
       "";
 
 
+    document.getElementById(
+      "speechStatus"
+    ).textContent =
+      "";
+
+
+    document.getElementById(
+      "speechTranscript"
+    ).textContent =
+      "";
+
+
+    document.getElementById(
+      "selfRating"
+    ).classList.add(
+      "hidden"
+    );
+
+
     updateDifficultyDisplay();
 
     updateModeDescription();
@@ -2015,7 +2302,9 @@
   }
 
 
-  function buildDetails(item) {
+  function buildDetails(
+    item
+  ) {
 
     let html = "";
 
@@ -2071,9 +2360,9 @@
 
 
   /*
-   * ================================================
-   * ANZEIGEN
-   * ================================================
+   * ==================================================
+   * ANTWORT AUFLÖSEN
+   * ==================================================
    */
 
   function showAnswerAndNext() {
@@ -2092,7 +2381,40 @@
 
       revealAnswer();
 
-    } else {
+    }
+
+    else {
+
+      /*
+       * In TESTEN soll erst bewertet
+       * werden, bevor weitergegangen wird.
+       */
+
+      if (
+        currentMode === "test" &&
+        !selfRatingDone
+      ) {
+
+        document.getElementById(
+          "result"
+        ).textContent =
+          "Bitte zuerst „Ich wusste es“ oder „Noch nicht“ auswählen.";
+
+        document.getElementById(
+          "result"
+        ).className =
+          "result";
+
+        document.getElementById(
+          "selfRating"
+        ).classList.remove(
+          "hidden"
+        );
+
+        return;
+
+      }
+
 
       nextWord();
 
@@ -2102,6 +2424,10 @@
 
 
   function revealAnswer() {
+
+    answerWasRevealed =
+      true;
+
 
     document.getElementById(
       "answerWord"
@@ -2134,15 +2460,47 @@
     document.getElementById(
       "showButton"
     ).textContent =
-      "WEITER →";
+      currentMode === "test"
+        ? "BEWERTEN"
+        : "WEITER →";
 
 
-    markAsPracticed();
+    /*
+     * In TESTEN:
+     * Erst jetzt wird die Selbstbewertung angeboten.
+     */
+
+    if (
+      currentMode === "test"
+    ) {
+
+      document.getElementById(
+        "selfRating"
+      ).classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    /*
+     * Im Lernmodus gilt die Auflösung
+     * bereits als gesehen, aber NICHT als
+     * richtig oder falsch.
+     */
+
+    if (
+      currentMode === "learning"
+    ) {
+
+      markAsPracticed();
+
+    }
 
 
     /*
      * Erst visuell aufnehmen.
-     * Danach automatisch Englisch hören.
+     * Dann 1 Sekunde warten.
      */
 
     clearSpeech();
@@ -2157,6 +2515,31 @@
 
           speakEnglish();
 
+          /*
+           * Falls vorhanden:
+           * Beispielsatz etwas später.
+           */
+
+          if (
+            currentItem &&
+            currentItem.example
+          ) {
+
+            exampleSpeechTimeout =
+              setTimeout(
+                () => {
+
+                  exampleSpeechTimeout =
+                    null;
+
+                  speakExample();
+
+                },
+                1800
+              );
+
+          }
+
         },
         1000
       );
@@ -2165,9 +2548,171 @@
 
 
   /*
-   * ================================================
-   * SPRACHE
-   * ================================================
+   * ==================================================
+   * LERNMODUS: NUR GESEHEN
+   * ==================================================
+   */
+
+  function markAsPracticed() {
+
+    if (!currentItem) {
+
+      return;
+
+    }
+
+
+    const progress =
+      loadProgress();
+
+    const key =
+      getProgressKey(
+        currentItem
+      );
+
+
+    if (!progress[key]) {
+
+      progress[key] = {
+
+        seen: 0,
+
+        correct: 0,
+
+        wrong: 0,
+
+        revealed: 0,
+
+        lastSeen: null,
+
+        nextReview: null,
+
+        interval: 0
+
+      };
+
+    }
+
+
+    if (
+      currentItem._counted
+    ) {
+
+      return;
+
+    }
+
+
+    currentItem._counted =
+      true;
+
+
+    progress[key].seen += 1;
+
+    progress[key].revealed += 1;
+
+    progress[key].lastSeen =
+      Date.now();
+
+
+    saveProgress(
+      progress
+    );
+
+
+    updatePracticedCount();
+
+    updateLearningStats();
+
+    updateDifficultList();
+
+  }
+
+
+  /*
+   * ==================================================
+   * SELBSTBEWERTUNG
+   * ==================================================
+   */
+
+  function rateAnswer(
+    wasCorrect
+  ) {
+
+    if (
+      !answerWasRevealed
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      selfRatingDone
+    ) {
+
+      return;
+
+    }
+
+
+    registerAttempt(
+      wasCorrect
+    );
+
+
+    const result =
+      document.getElementById(
+        "result"
+      );
+
+
+    if (
+      wasCorrect
+    ) {
+
+      result.textContent =
+        "✓ Sehr gut – dieses Wort sitzt.";
+
+      result.className =
+        "result correct";
+
+    }
+
+    else {
+
+      result.textContent =
+        "↻ Kein Problem – dieses Wort kommt wieder.";
+
+      result.className =
+        "result wrong";
+
+    }
+
+
+    document.getElementById(
+      "selfRating"
+    ).classList.add(
+      "hidden"
+    );
+
+
+    document.getElementById(
+      "showButton"
+    ).textContent =
+      "WEITER →";
+
+
+    updateDifficultyDisplay();
+
+  }
+
+
+  /*
+   * ==================================================
+   * SPRACHE / TEXT-TO-SPEECH
+   * ==================================================
    */
 
   function clearSpeech() {
@@ -2181,6 +2726,20 @@
       );
 
       speechTimeout =
+        null;
+
+    }
+
+
+    if (
+      exampleSpeechTimeout
+    ) {
+
+      clearTimeout(
+        exampleSpeechTimeout
+      );
+
+      exampleSpeechTimeout =
         null;
 
     }
@@ -2349,12 +2908,421 @@
 
 
   /*
-   * ================================================
+   * ==================================================
+   * SPEECH RECOGNITION
+   * ==================================================
+   */
+
+  function setupSpeechRecognition() {
+
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
+
+
+    if (
+      !SpeechRecognition
+    ) {
+
+      document.getElementById(
+        "speechStatus"
+      ).textContent =
+        "Spracheingabe wird von diesem Browser nicht unterstützt.";
+
+      document.getElementById(
+        "speechButton"
+      ).disabled =
+        true;
+
+      return;
+
+    }
+
+
+    speechRecognition =
+      new SpeechRecognition();
+
+
+    speechRecognition.lang =
+      "en-US";
+
+
+    speechRecognition.interimResults =
+      false;
+
+
+    speechRecognition.continuous =
+      false;
+
+
+    speechRecognition.maxAlternatives =
+      3;
+
+
+    speechRecognition.onstart =
+      () => {
+
+        speechIsListening =
+          true;
+
+
+        const button =
+          document.getElementById(
+            "speechButton"
+          );
+
+
+        button.classList.add(
+          "recording"
+        );
+
+
+        button.textContent =
+          "🔴 ICH HÖRE ZU …";
+
+
+        document.getElementById(
+          "speechStatus"
+        ).textContent =
+          "Sprich jetzt das englische Wort.";
+
+      };
+
+
+    speechRecognition.onresult =
+      event => {
+
+        const result =
+          event.results[0][0];
+
+
+        const transcript =
+          result.transcript
+            .trim();
+
+
+        const confidence =
+          result.confidence;
+
+
+        speechWasSuccessful =
+          compareSpokenEnglish(
+            transcript
+          );
+
+
+        document.getElementById(
+          "speechTranscript"
+        ).textContent =
+          `Du hast gesagt: „${transcript}“`;
+
+
+        if (
+          speechWasSuccessful
+        ) {
+
+          document.getElementById(
+            "speechStatus"
+          ).textContent =
+            "✓ Passt – gut gesprochen.";
+
+        }
+
+        else {
+
+          document.getElementById(
+            "speechStatus"
+          ).textContent =
+            "↻ Noch nicht ganz – hör dir danach die korrekte Aussprache an.";
+
+        }
+
+      };
+
+
+    speechRecognition.onerror =
+      event => {
+
+        console.error(
+          "Speech recognition:",
+          event.error
+        );
+
+
+        if (
+          event.error ===
+          "not-allowed"
+        ) {
+
+          document.getElementById(
+            "speechStatus"
+          ).textContent =
+            "Mikrofonzugriff wurde nicht erlaubt.";
+
+        }
+
+        else if (
+          event.error ===
+          "no-speech"
+        ) {
+
+          document.getElementById(
+            "speechStatus"
+          ).textContent =
+            "Ich habe nichts gehört. Versuch es noch einmal.";
+
+        }
+
+        else {
+
+          document.getElementById(
+            "speechStatus"
+          ).textContent =
+            "Spracheingabe konnte nicht durchgeführt werden.";
+
+        }
+
+      };
+
+
+    speechRecognition.onend =
+      () => {
+
+        speechIsListening =
+          false;
+
+
+        const button =
+          document.getElementById(
+            "speechButton"
+          );
+
+
+        button.classList.remove(
+          "recording"
+        );
+
+
+        button.textContent =
+          "🎙️ NOCH EINMAL SPRECHEN";
+
+      };
+
+  }
+
+
+  function startSpeechRecognition() {
+
+    if (
+      !speechRecognition
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      speechIsListening
+    ) {
+
+      stopSpeechRecognition();
+
+      return;
+
+    }
+
+
+    clearSpeech();
+
+
+    document.getElementById(
+      "speechTranscript"
+    ).textContent =
+      "";
+
+
+    document.getElementById(
+      "speechStatus"
+    ).textContent =
+      "Mikrofon wird gestartet …";
+
+
+    try {
+
+      speechRecognition.start();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+
+  function stopSpeechRecognition() {
+
+    if (
+      !speechRecognition
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      speechRecognition.stop();
+
+    }
+
+    catch (error) {
+
+      console.error(
+        error
+      );
+
+    }
+
+
+    speechIsListening =
+      false;
+
+  }
+
+
+  function compareSpokenEnglish(
+    spoken
+  ) {
+
+    if (
+      !currentItem
+    ) {
+
+      return false;
+
+    }
+
+
+    const target =
+      normalizeSpeechText(
+        currentItem.english
+      );
+
+
+    const heard =
+      normalizeSpeechText(
+        spoken
+      );
+
+
+    /*
+     * Exakte Übereinstimmung
+     */
+
+    if (
+      heard === target
+    ) {
+
+      return true;
+
+    }
+
+
+    /*
+     * Einzelne Satzzeichen /
+     * kleine Abweichungen tolerieren.
+     */
+
+    const targetWords =
+      target.split(" ");
+
+    const heardWords =
+      heard.split(" ");
+
+
+    if (
+      targetWords.length ===
+      heardWords.length
+    ) {
+
+      let matches = 0;
+
+
+      targetWords.forEach(
+        (
+          word,
+          index
+        ) => {
+
+          if (
+            heardWords[index] ===
+            word
+          ) {
+
+            matches++;
+
+          }
+
+        }
+      );
+
+
+      if (
+        matches >=
+        Math.max(
+          1,
+          targetWords.length - 1
+        )
+      ) {
+
+        return true;
+
+      }
+
+    }
+
+
+    return false;
+
+  }
+
+
+  function normalizeSpeechText(
+    text
+  ) {
+
+    return String(
+      text
+    )
+      .toLowerCase()
+      .trim()
+      .replace(
+        /[.,!?;:]/g,
+        ""
+      )
+      .replace(
+        /\s+/g,
+        " "
+      );
+
+  }
+
+
+  /*
+   * ==================================================
    * HANDSCHRIFT CANVAS
-   * ================================================
+   * ==================================================
    */
 
   let canvas = null;
+
   let ctx = null;
 
   let drawing = false;
@@ -2371,7 +3339,9 @@
 
 
     if (!canvas) {
+
       return;
+
     }
 
 
@@ -2425,7 +3395,9 @@
   function resizeCanvas() {
 
     if (!canvas) {
+
       return;
+
     }
 
 
@@ -2436,12 +3408,6 @@
     const ratio =
       window.devicePixelRatio ||
       1;
-
-
-    const oldImage =
-      canvas.width > 0
-        ? canvas.toDataURL()
-        : null;
 
 
     canvas.width =
@@ -2481,11 +3447,6 @@
     ctx.strokeStyle =
       "#222";
 
-
-    /*
-     * Nach einer Größenänderung
-     * wird die Fläche bewusst geleert.
-     */
 
     hasWritten =
       false;
@@ -2558,7 +3519,9 @@
   ) {
 
     if (!drawing) {
+
       return;
+
     }
 
 
@@ -2582,12 +3545,12 @@
   }
 
 
-  function stopDrawing(
-    event
-  ) {
+  function stopDrawing() {
 
     if (!drawing) {
+
       return;
+
     }
 
 
@@ -2602,8 +3565,13 @@
 
   function clearCanvas() {
 
-    if (!canvas || !ctx) {
+    if (
+      !canvas ||
+      !ctx
+    ) {
+
       return;
+
     }
 
 
@@ -2619,6 +3587,10 @@
       false;
 
 
+    handwritingWasConfirmed =
+      false;
+
+
     document.getElementById(
       "writingFeedback"
     ).textContent =
@@ -2628,9 +3600,9 @@
 
 
   /*
-   * ================================================
-   * HANDSCHRIFT PRÜFEN
-   * ================================================
+   * ==================================================
+   * HANDSCHRIFT BESTÄTIGEN
+   * ==================================================
    */
 
   function checkHandwriting() {
@@ -2642,7 +3614,33 @@
       document.getElementById(
         "writingFeedback"
       ).textContent =
-        "✍️ Bitte zuerst das Wort schreiben.";
+        "✍️ Bitte zuerst die Antwort schreiben.";
+
+      return;
+
+    }
+
+
+    handwritingWasConfirmed =
+      true;
+
+
+    document.getElementById(
+      "writingFeedback"
+    ).textContent =
+      "✓ Schreibversuch abgeschlossen.";
+
+    /*
+     * Im Lernmodus:
+     * Schreiben → Lösung zeigen.
+     */
+
+    if (
+      currentMode === "learning" &&
+      !answerWasRevealed
+    ) {
+
+      revealAnswer();
 
       return;
 
@@ -2650,36 +3648,25 @@
 
 
     /*
-     * Keine automatische Handschrifterkennung.
-     *
-     * Die Funktion bestätigt bewusst
-     * den haptischen Schreibvorgang.
+     * Im Testmodus:
+     * Schreiben ist echter Abruf.
+     * Danach darf die Lösung angesehen werden.
      */
-
-    document.getElementById(
-      "writingFeedback"
-    ).textContent =
-      "✓ Geschrieben – gut gemacht.";
-
-
-    /*
-     * Wenn noch keine Lösung angezeigt wurde,
-     * wird sie jetzt angezeigt.
-     */
-
-    const answerWord =
-      document.getElementById(
-        "answerWord"
-      );
-
 
     if (
-      answerWord.classList.contains(
-        "answer-hidden"
-      )
+      currentMode === "test" &&
+      !answerWasRevealed
     ) {
 
-      revealAnswer();
+      document.getElementById(
+        "result"
+      ).textContent =
+        "✓ Antwort aufgeschrieben. Jetzt kannst du die Lösung aufdecken.";
+
+      document.getElementById(
+        "result"
+      ).className =
+        "result";
 
     }
 
@@ -2687,18 +3674,43 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * NÄCHSTES WORT
-   * ================================================
+   * ==================================================
    */
 
   function nextWord() {
 
+    if (
+      currentMode === "test" &&
+      answerWasRevealed &&
+      !selfRatingDone
+    ) {
+
+      document.getElementById(
+        "result"
+      ).textContent =
+        "Bitte zuerst deine Antwort bewerten.";
+
+      return;
+
+    }
+
+
     clearSpeech();
 
-    history.push(
-      currentIndex
-    );
+    stopSpeechRecognition();
+
+
+    if (
+      currentItem
+    ) {
+
+      history.push(
+        currentIndex
+      );
+
+    }
 
 
     currentIndex =
@@ -2726,6 +3738,109 @@
 
     }
 
+
+    const now =
+      Date.now();
+
+
+    /*
+     * Zuerst fällige Wörter.
+     */
+
+    const dueIndices =
+      vocabulary
+        .map(
+          (
+            item,
+            index
+          ) => ({
+            item,
+            index,
+            progress:
+              getWordProgress(
+                item
+              )
+          })
+        )
+        .filter(
+          entry =>
+            entry.index !==
+            currentIndex &&
+            entry.progress.nextReview &&
+            entry.progress.nextReview <= now
+        );
+
+
+    if (
+      dueIndices.length > 0
+    ) {
+
+      /*
+       * Schwierige fällige Wörter zuerst
+       * gewichten.
+       */
+
+      const weightedDue = [];
+
+
+      dueIndices.forEach(
+        entry => {
+
+          const difficulty =
+            getDifficulty(
+              entry.item
+            );
+
+
+          let weight = 2;
+
+
+          if (
+            difficulty === "hard"
+          ) {
+
+            weight = 6;
+
+          }
+
+          else if (
+            difficulty === "medium"
+          ) {
+
+            weight = 4;
+
+          }
+
+
+          for (
+            let i = 0;
+            i < weight;
+            i++
+          ) {
+
+            weightedDue.push(
+              entry.index
+            );
+
+          }
+
+        }
+      );
+
+
+      return weightedDue[
+        Math.floor(
+          Math.random() *
+          weightedDue.length
+        )
+      ];
+
+    }
+
+
+    /*
+     * Danach normale gewichtete Auswahl.
+     */
 
     const weighted = [];
 
@@ -2809,6 +3924,8 @@
 
     clearSpeech();
 
+    stopSpeechRecognition();
+
 
     if (
       history.length === 0
@@ -2829,9 +3946,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * LERNMODUS
-   * ================================================
+   * ==================================================
    */
 
   function setMode(
@@ -2866,13 +3983,21 @@
   function updateModeDescription() {
 
     const title =
-      document.querySelector(
-        ".handwriting-title"
+      document.getElementById(
+        "handwritingTitle"
+      );
+
+
+    const recallTitle =
+      document.getElementById(
+        "recallTitle"
       );
 
 
     if (!title) {
+
       return;
+
     }
 
 
@@ -2881,12 +4006,26 @@
     ) {
 
       title.textContent =
-        "✍️ Schreibe deine Antwort mit dem Finger";
+        currentDirection === "de-en"
+          ? "✍️ Schreibe deine englische Antwort mit dem Finger"
+          : "✍️ Schreibe deine deutsche Antwort mit dem Finger";
 
-    } else {
+
+      recallTitle.textContent =
+        "🧠 Erst selbst erinnern – dann Lösung aufdecken";
+
+    }
+
+    else {
 
       title.textContent =
-        "✍️ Schreibe das Wort mit deinem Finger";
+        currentDirection === "de-en"
+          ? "✍️ Schreibe das englische Wort mit dem Finger"
+          : "✍️ Schreibe die deutsche Übersetzung mit dem Finger";
+
+
+      recallTitle.textContent =
+        "🧠 Erinnern → schreiben → hören";
 
     }
 
@@ -2894,9 +4033,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * STATISTIK
-   * ================================================
+   * ==================================================
    */
 
   function updatePracticedCount() {
@@ -2945,8 +4084,11 @@
 
 
     let newWords = 0;
+
     let easyWords = 0;
+
     let mediumWords = 0;
+
     let hardWords = 0;
 
 
@@ -3040,9 +4182,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * SCHWIERIGE WÖRTER
-   * ================================================
+   * ==================================================
    */
 
   function updateDifficultList() {
@@ -3217,9 +4359,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * VOKABEL HINZUFÜGEN
-   * ================================================
+   * ==================================================
    */
 
   document.getElementById(
@@ -3271,7 +4413,9 @@
 
 
     let source = "";
+
     let sourceLanguage = "";
+
     let targetLanguage = "";
 
 
@@ -3366,7 +4510,9 @@
         ).value =
           translation;
 
-      } else {
+      }
+
+      else {
 
         document.getElementById(
           "newEnglish"
@@ -3519,9 +4665,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * CSV EXPORT
-   * ================================================
+   * ==================================================
    */
 
   function exportCSV() {
@@ -3587,7 +4733,8 @@
     const blob =
       new Blob(
         [
-          "\uFEFF" + csv
+          "\uFEFF" +
+          csv
         ],
         {
           type:
@@ -3634,7 +4781,9 @@
   }
 
 
-  function csvEscape(value) {
+  function csvEscape(
+    value
+  ) {
 
     const string =
       String(
@@ -3667,9 +4816,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * LOKALE VOKABELN LÖSCHEN
-   * ================================================
+   * ==================================================
    */
 
   function deleteLocalVocabulary() {
@@ -3724,9 +4873,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * HILFSFUNKTIONEN
-   * ================================================
+   * ==================================================
    */
 
   function normalize(
@@ -3801,9 +4950,9 @@
 
 
   /*
-   * ================================================
+   * ==================================================
    * SPEECH VOICES
-   * ================================================
+   * ==================================================
    */
 
   if (
