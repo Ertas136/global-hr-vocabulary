@@ -62,7 +62,11 @@
       text-transform: uppercase;
     }
 
-    .connection {
+    /*
+     * Wortbereich
+     * Der ANZEIGEN-Button steht rechts.
+     */
+    .word-area {
       display: flex;
       align-items: center;
       gap: 18px;
@@ -90,42 +94,6 @@
       font-weight: 700;
       line-height: 1.25;
       word-wrap: break-word;
-    }
-
-    .word-details {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .word-detail {
-      font-size: 13px;
-      color: #777;
-      line-height: 1.4;
-    }
-
-    .word-detail strong {
-      color: #555;
-      font-weight: 600;
-    }
-
-    .example-sentence {
-      margin-top: 7px;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #555;
-      font-style: italic;
-    }
-
-    .example-sentence strong {
-      color: #444;
-      font-style: normal;
-      font-weight: 600;
-    }
-
-    .answer-hidden {
-      visibility: hidden;
     }
 
     .connection-line {
@@ -168,6 +136,58 @@
       vertical-align: middle;
     }
 
+    /*
+     * Zusatzinformationen
+     */
+    .word-details {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .word-detail {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.4;
+    }
+
+    .word-detail strong {
+      color: #555;
+      font-weight: 600;
+    }
+
+    /*
+     * Beispielsatz:
+     * volle Breite der Karte, unabhängig
+     * vom ANZEIGEN-Button.
+     */
+    .example-area {
+      width: 100%;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+
+    .example-sentence {
+      width: 100%;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #555;
+      font-style: italic;
+      word-wrap: break-word;
+    }
+
+    .example-sentence strong {
+      color: #444;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .answer-hidden {
+      visibility: hidden;
+    }
+
     .controls {
       display: flex;
       gap: 10px;
@@ -185,11 +205,6 @@
     }
 
     .back-button {
-      background: #e5e5e7;
-      color: #222;
-    }
-
-    .check-button {
       background: #e5e5e7;
       color: #222;
     }
@@ -231,6 +246,17 @@
 
     .answer-input:focus {
       border-color: #777;
+    }
+
+    .check-button {
+      background: #e5e5e7;
+      color: #222;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     .check-result {
@@ -323,7 +349,7 @@
         padding: 20px;
       }
 
-      .connection {
+      .word-area {
         gap: 10px;
       }
 
@@ -381,13 +407,22 @@
       <div id="direction" class="direction"></div>
 
 
-      <div class="connection">
+      <!-- =========================================
+           WORTBEREICH
+           ========================================= -->
+
+      <div class="word-area">
 
         <div class="words">
 
+          <!-- FRAGE -->
+
           <div class="word-block">
 
-            <div id="questionLanguage" class="language"></div>
+            <div
+              id="questionLanguage"
+              class="language">
+            </div>
 
             <div>
 
@@ -421,9 +456,14 @@
           <div class="connection-line"></div>
 
 
+          <!-- ANTWORT -->
+
           <div class="word-block">
 
-            <div id="answerLanguage" class="language"></div>
+            <div
+              id="answerLanguage"
+              class="language">
+            </div>
 
             <div
               id="answerWord"
@@ -449,6 +489,26 @@
 
       </div>
 
+
+      <!-- =========================================
+           BEISPIELSATZ – VOLLE BREITE
+           ========================================= -->
+
+      <div
+        id="exampleArea"
+        class="example-area answer-hidden">
+
+        <div
+          id="exampleSentence"
+          class="example-sentence">
+        </div>
+
+      </div>
+
+
+      <!-- =========================================
+           ANTWORT EINGEBEN
+           ========================================= -->
 
       <div class="input-section">
 
@@ -489,6 +549,10 @@
       </div>
 
 
+      <!-- =========================================
+           ZURÜCK
+           ========================================= -->
+
       <div class="controls">
 
         <button
@@ -501,6 +565,10 @@
 
     </div>
 
+
+    <!-- =========================================
+         VOKABEL HINZUFÜGEN
+         ========================================= -->
 
     <div class="add-section">
 
@@ -544,6 +612,10 @@
 
     </div>
 
+
+    <!-- =========================================
+         CSV
+         ========================================= -->
 
     <div class="add-section">
 
@@ -604,6 +676,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * CSV PARSER
+   * ============================================
+   */
 
   function parseCSV(text) {
 
@@ -714,21 +792,28 @@
 
 
     /*
-     * Beispielsatz-Spalte erkennen.
-     *
-     * Unterstützt mehrere mögliche
-     * Bezeichnungen der CSV-Spalte.
+     * Verschiedene mögliche Namen
+     * für die Beispielsatz-Spalte.
      */
 
     const exampleNames = [
+
       "example sentence",
+
       "example sentences",
+
       "example",
+
       "examples",
+
       "beispielsatz",
+
       "beispielsätze",
+
       "beispiel",
+
       "beispiele"
+
     ];
 
 
@@ -855,6 +940,12 @@
   }
 
 
+  /*
+   * ============================================
+   * CSV LADEN
+   * ============================================
+   */
+
   async function loadVocabulary() {
 
     try {
@@ -959,6 +1050,12 @@
   }
 
 
+  /*
+   * ============================================
+   * CSV + LOKALE VOKABELN ZUSAMMENFÜHREN
+   * ============================================
+   */
+
   function mergeVocabulary(
     csvWords,
     localWords
@@ -999,6 +1096,12 @@
   }
 
 
+  /*
+   * ============================================
+   * NÄCHSTE VOKABEL
+   * ============================================
+   */
+
   function nextWord() {
 
     if (vocabulary.length === 0) {
@@ -1023,6 +1126,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * AKTUELLE VOKABEL ANZEIGEN
+   * ============================================
+   */
 
   function displayCurrentWord() {
 
@@ -1072,11 +1181,28 @@
       );
 
 
+    const exampleArea =
+      document.getElementById(
+        "exampleArea"
+      );
+
+
+    const exampleSentence =
+      document.getElementById(
+        "exampleSentence"
+      );
+
+
     const showButton =
       document.getElementById(
         "showButton"
       );
 
+
+    /*
+     * Antwort und Beispielsatz
+     * wieder verstecken.
+     */
 
     answerWord.classList.add(
       "answer-hidden"
@@ -1084,6 +1210,11 @@
 
 
     answerDetails.classList.add(
+      "answer-hidden"
+    );
+
+
+    exampleArea.classList.add(
       "answer-hidden"
     );
 
@@ -1106,6 +1237,12 @@
 
     answerDetails.innerHTML = "";
 
+    exampleSentence.innerHTML = "";
+
+
+    /*
+     * ENGLISCH → DEUTSCH
+     */
 
     if (
       currentDirection === "en-de"
@@ -1133,18 +1270,17 @@
 
       displayDetails(
         questionDetails,
-        item,
-        "english"
+        item
       );
 
+    }
 
-      displayDetails(
-        answerDetails,
-        item,
-        "german"
-      );
 
-    } else {
+    /*
+     * DEUTSCH → ENGLISCH
+     */
+
+    else {
 
       questionLanguage.textContent =
         "Deutsch";
@@ -1167,43 +1303,41 @@
 
 
       displayDetails(
-        questionDetails,
-        item,
-        "german"
-      );
-
-
-      displayDetails(
         answerDetails,
-        item,
-        "english"
+        item
       );
+
+    }
+
+
+    /*
+     * Beispielsatz vorbereiten.
+     * Noch nicht sichtbar.
+     */
+
+    if (item.example) {
+
+      exampleSentence.innerHTML =
+        "<strong>Beispielsatz:</strong> " +
+        escapeHtml(item.example);
 
     }
 
   }
 
 
+  /*
+   * ============================================
+   * DETAILS DER ENGLISCHEN VOKABEL
+   * ============================================
+   */
+
   function displayDetails(
     container,
-    item,
-    language
+    item
   ) {
 
     container.innerHTML = "";
-
-
-    /*
-     * Die Zusatzinformationen gehören
-     * zur englischen Vokabel.
-     *
-     * Deshalb werden sie nur beim
-     * englischen Block angezeigt.
-     */
-
-    if (language !== "english") {
-      return;
-    }
 
 
     if (item.construction) {
@@ -1216,7 +1350,9 @@
 
       div.innerHTML =
         "<strong>Verb + Konstruktion:</strong> " +
-        escapeHtml(item.construction);
+        escapeHtml(
+          item.construction
+        );
 
       container.appendChild(div);
 
@@ -1233,7 +1369,9 @@
 
       div.innerHTML =
         "<strong>Nomen:</strong> " +
-        escapeHtml(item.noun);
+        escapeHtml(
+          item.noun
+        );
 
       container.appendChild(div);
 
@@ -1250,28 +1388,9 @@
 
       div.innerHTML =
         "<strong>Adjektiv/Partizip:</strong> " +
-        escapeHtml(item.adjective);
-
-      container.appendChild(div);
-
-    }
-
-
-    /*
-     * Beispielsatz
-     */
-
-    if (item.example) {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "example-sentence";
-
-      div.innerHTML =
-        "<strong>Beispielsatz:</strong> " +
-        escapeHtml(item.example);
+        escapeHtml(
+          item.adjective
+        );
 
       container.appendChild(div);
 
@@ -1279,6 +1398,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * HTML SICHER AUSGEBEN
+   * ============================================
+   */
 
   function escapeHtml(text) {
 
@@ -1293,13 +1418,21 @@
   }
 
 
+  /*
+   * ============================================
+   * ENGLISCH AUSSPRECHEN
+   * ============================================
+   */
+
   function speakEnglish() {
 
     if (
       !window.speechSynthesis ||
       vocabulary.length === 0
     ) {
+
       return;
+
     }
 
 
@@ -1316,11 +1449,16 @@
       );
 
 
-    utterance.lang = "en-US";
+    utterance.lang =
+      "en-US";
 
-    utterance.rate = 0.9;
 
-    utterance.pitch = 1;
+    utterance.rate =
+      0.9;
+
+
+    utterance.pitch =
+      1;
 
 
     const voices =
@@ -1358,6 +1496,12 @@
   }
 
 
+  /*
+   * ============================================
+   * ANTWORT ANZEIGEN / WEITER
+   * ============================================
+   */
+
   function showAnswerAndNext() {
 
     const answerWord =
@@ -1369,6 +1513,12 @@
     const answerDetails =
       document.getElementById(
         "answerDetails"
+      );
+
+
+    const exampleArea =
+      document.getElementById(
+        "exampleArea"
       );
 
 
@@ -1394,14 +1544,21 @@
       );
 
 
+      exampleArea.classList.remove(
+        "answer-hidden"
+      );
+
+
       showButton.textContent =
         "WEITER →";
 
 
       markAsPracticed();
 
+    }
 
-    } else {
+
+    else {
 
       nextWord();
 
@@ -1409,6 +1566,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * ZURÜCK
+   * ============================================
+   */
 
   function previousWord() {
 
@@ -1436,6 +1599,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * GEÜBT MARKIEREN
+   * ============================================
+   */
 
   function markAsPracticed() {
 
@@ -1480,6 +1649,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * ANTWORT PRÜFEN
+   * ============================================
+   */
 
   function isAnswerCorrect(
     userAnswer,
@@ -1533,9 +1708,20 @@
       );
 
 
+    const exampleArea =
+      document.getElementById(
+        "exampleArea"
+      );
+
+
     const userAnswer =
       input.value.trim();
 
+
+    /*
+     * Keine Eingabe:
+     * einfach Antwort anzeigen.
+     */
 
     if (!userAnswer) {
 
@@ -1549,11 +1735,22 @@
       );
 
 
+      exampleArea.classList.remove(
+        "answer-hidden"
+      );
+
+
       result.textContent =
         "";
 
 
       markAsPracticed();
+
+
+      document.getElementById(
+        "showButton"
+      ).textContent =
+        "WEITER →";
 
 
       return;
@@ -1566,6 +1763,10 @@
         ? vocabulary[currentIndex].german
         : vocabulary[currentIndex].english;
 
+
+    /*
+     * RICHTIG
+     */
 
     if (
       isAnswerCorrect(
@@ -1588,9 +1789,27 @@
       );
 
 
+      exampleArea.classList.remove(
+        "answer-hidden"
+      );
+
+
+      document.getElementById(
+        "showButton"
+      ).textContent =
+        "WEITER →";
+
+
       markAsPracticed();
 
-    } else {
+    }
+
+
+    /*
+     * FALSCH
+     */
+
+    else {
 
       result.textContent =
         "✗ Nicht ganz – richtige Antwort:";
@@ -1606,12 +1825,29 @@
       );
 
 
+      exampleArea.classList.remove(
+        "answer-hidden"
+      );
+
+
+      document.getElementById(
+        "showButton"
+      ).textContent =
+        "WEITER →";
+
+
       markAsPracticed();
 
     }
 
   }
 
+
+  /*
+   * ============================================
+   * EINGABEFELD EIN-/AUSBLENDEN
+   * ============================================
+   */
 
   function toggleAnswerInput() {
 
@@ -1627,6 +1863,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * ÜBERSETZUNGSFELDER
+   * ============================================
+   */
 
   function setupTranslationInputs() {
 
@@ -1685,6 +1927,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * ÜBERSETZUNG SUCHEN
+   * ============================================
+   */
 
   async function findTranslation() {
 
@@ -1829,6 +2077,12 @@
   }
 
 
+  /*
+   * ============================================
+   * NEUE VOKABEL SPEICHERN
+   * ============================================
+   */
+
   function saveVocabulary() {
 
     const englishInput =
@@ -1938,6 +2192,12 @@
   }
 
 
+  /*
+   * ============================================
+   * LOKALE VOKABELN LÖSCHEN
+   * ============================================
+   */
+
   function deleteLocalVocabulary() {
 
     const confirmed =
@@ -1972,6 +2232,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * CSV EXPORT
+   * ============================================
+   */
 
   function csvEscape(value) {
 
@@ -2104,6 +2370,12 @@
 
   }
 
+
+  /*
+   * ============================================
+   * START
+   * ============================================
+   */
 
   function start() {
 
