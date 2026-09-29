@@ -2,14 +2,31 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Global HR Vocabulary">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="default"
+  >
+
+  <meta
+    name="theme-color"
+    content="#ffffff"
+  >
 
   <title>Global HR Vocabulary</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -17,9 +34,13 @@
     body {
       margin: 0;
       padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       background: #f5f5f7;
       color: #222;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
     }
 
     .container {
@@ -29,8 +50,8 @@
 
     h1 {
       text-align: center;
-      margin: 10px 0 8px;
-      font-size: 32px;
+      margin: 10px 0 12px;
+      font-size: 30px;
     }
 
     .top-stats {
@@ -45,334 +66,443 @@
       color: #222;
     }
 
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+
     .card {
       background: white;
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.08);
       margin-bottom: 20px;
     }
 
     .direction {
       text-align: center;
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 22px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    /*
-     * Wortbereich
-     * Der ANZEIGEN-Button steht rechts.
-     */
-    .word-area {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .words {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .word-block {
-      padding: 15px 0;
-    }
-
-    .language {
       font-size: 13px;
       color: #888;
-      margin-bottom: 6px;
+      margin-bottom: 15px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .difficulty {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 13px;
       font-weight: 600;
+    }
+
+    .difficulty-new {
+      color: #777;
+    }
+
+    .difficulty-easy {
+      color: #2e7d32;
+    }
+
+    .difficulty-medium {
+      color: #ef8c00;
+    }
+
+    .difficulty-hard {
+      color: #d32f2f;
+    }
+
+    .word-area {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        minmax(0, 1fr);
+
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+    }
+
+    .word-box {
+      min-width: 0;
+      text-align: center;
     }
 
     .word {
-      font-size: 26px;
+      font-size: clamp(25px, 5vw, 42px);
       font-weight: 700;
-      line-height: 1.25;
-      word-wrap: break-word;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
     }
 
-    .connection-line {
-      height: 2px;
-      width: 100%;
-      background: #d0d0d0;
-      margin: 3px 0;
-    }
-
-    .connection-dot {
-      width: 8px;
-      height: 8px;
-      background: #999;
-      border-radius: 50%;
-      margin: 0 auto;
-    }
-
-    .show-button {
-      flex: 0 0 145px;
-      min-height: 70px;
-      border: none;
-      border-radius: 15px;
-      background: #222;
-      color: white;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .show-button:active {
-      transform: scale(0.98);
+    .word-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .speaker-button {
       border: none;
-      background: transparent;
-      font-size: 25px;
+      background: #f0f0f2;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 20px;
       cursor: pointer;
-      margin-left: 8px;
-      vertical-align: middle;
+      flex-shrink: 0;
     }
 
-    /*
-     * Zusatzinformationen
-     */
-    .word-details {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .speaker-button:active {
+      transform: scale(0.94);
     }
 
-    .word-detail {
-      font-size: 13px;
-      color: #777;
-      line-height: 1.4;
+    .connector {
+      width: 55px;
+      height: 2px;
+      background: #ddd;
+      position: relative;
+      flex-shrink: 0;
     }
 
-    .word-detail strong {
-      color: #555;
-      font-weight: 600;
-    }
-
-    /*
-     * Beispielsatz:
-     * volle Breite der Karte, unabhängig
-     * vom ANZEIGEN-Button.
-     */
-    .example-area {
-      width: 100%;
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid #eee;
-    }
-
-    .example-sentence {
-      width: 100%;
-      font-size: 14px;
-      line-height: 1.55;
-      color: #555;
-      font-style: italic;
-      word-wrap: break-word;
-    }
-
-    .example-sentence strong {
-      color: #444;
-      font-style: normal;
-      font-weight: 600;
+    .connector::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #bbb;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .answer-hidden {
       visibility: hidden;
     }
 
-    .controls {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .controls button {
-      flex: 1;
-      padding: 14px;
+    .show-button {
+      min-width: 145px;
+      min-height: 58px;
+      padding: 14px 22px;
       border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
+      border-radius: 16px;
+      background: #222;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
     }
 
-    .back-button {
-      background: #e5e5e7;
-      color: #222;
+    .show-button:active {
+      transform: scale(0.97);
     }
 
-    .input-section {
-      margin-top: 20px;
+    .example-area {
+      width: 100%;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #eee;
+    }
+
+    .example-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      letter-spacing: 0.4px;
+    }
+
+    .example-content {
+      font-size: 18px;
+      line-height: 1.5;
+      width: 100%;
+    }
+
+    .example-speaker {
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .details {
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      color: #666;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .details div {
+      margin-bottom: 4px;
+    }
+
+    /*
+     * HANDSCHRIFT
+     */
+
+    .handwriting-area {
+      margin-top: 25px;
       padding-top: 20px;
       border-top: 1px solid #eee;
     }
 
-    .input-toggle {
-      width: 100%;
-      border: none;
-      background: #f0f0f2;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .answer-input-area {
-      display: none;
-      margin-top: 12px;
-    }
-
-    .answer-input-area.visible {
-      display: block;
-    }
-
-    .answer-input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      font-size: 17px;
-      outline: none;
-    }
-
-    .answer-input:focus {
-      border-color: #777;
-    }
-
-    .check-button {
-      background: #e5e5e7;
-      color: #222;
-      border: none;
-      border-radius: 10px;
-      padding: 13px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .check-result {
-      margin-top: 10px;
-      font-weight: 600;
-      min-height: 22px;
-    }
-
-    .add-section {
-      background: white;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      margin-bottom: 20px;
-    }
-
-    .section-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .add-input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
+    .handwriting-title {
+      text-align: center;
+      font-size: 14px;
+      color: #777;
       margin-bottom: 10px;
     }
 
-    .translation-button,
-    .save-button,
-    .delete-button,
-    .export-button {
+    .canvas-wrapper {
       width: 100%;
-      padding: 13px;
+      background: #fafafa;
+      border: 2px solid #ddd;
+      border-radius: 15px;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    #handwritingCanvas {
+      display: block;
+      width: 100%;
+      height: 180px;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .writing-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .writing-buttons button {
+      flex: 1;
+      padding: 12px;
       border: none;
       border-radius: 10px;
+      background: #eee;
       font-size: 15px;
-      font-weight: 600;
       cursor: pointer;
-      margin-top: 6px;
     }
 
-    .translation-button {
-      background: #e5e5e7;
-      color: #222;
-    }
-
-    .save-button {
+    .writing-buttons button.primary {
       background: #222;
       color: white;
     }
 
-    .delete-button {
-      background: #eee;
-      color: #555;
+    .writing-feedback {
+      text-align: center;
+      margin-top: 10px;
+      min-height: 22px;
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .export-button {
-      background: #e5e5e7;
-      color: #222;
+    .input-area {
+      display: none;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 12px;
+      min-height: 24px;
+      font-weight: 600;
+    }
+
+    .correct {
+      color: #2e7d32;
+    }
+
+    .wrong {
+      color: #d32f2f;
+    }
+
+    .navigation {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .navigation button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #eee;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .navigation button:last-child {
+      background: #222;
+      color: white;
+    }
+
+    .secondary-section {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow:
+        0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    .secondary-section h2 {
+      font-size: 19px;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    .secondary-section input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .secondary-section button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: #eee;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .secondary-section button.primary {
+      background: #222;
+      color: white;
+    }
+
+    .secondary-section button.danger {
+      background: #f7e8e8;
+      color: #b3261e;
     }
 
     .translation-status {
-      min-height: 22px;
-      margin: 8px 0;
       font-size: 14px;
+      color: #777;
+      min-height: 22px;
+      margin-bottom: 8px;
+    }
+
+    .mode-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mode-buttons button {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .mode-buttons button.active {
+      background: #222;
+      color: white;
+    }
+
+    .learning-info {
+      font-size: 14px;
+      line-height: 1.7;
       color: #666;
     }
 
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #777;
+    .difficult-list {
+      margin-top: 10px;
     }
 
-    @media (max-width: 650px) {
+    .difficult-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .difficult-item:last-child {
+      border-bottom: none;
+    }
+
+    .difficult-word {
+      font-weight: 600;
+    }
+
+    .difficult-score {
+      font-size: 13px;
+      color: #d32f2f;
+      white-space: nowrap;
+    }
+
+    .empty-message {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .small-button {
+      width: auto !important;
+      padding: 8px 12px !important;
+      margin: 0 !important;
+      background: #f0f0f2 !important;
+      color: #222 !important;
+      font-size: 13px !important;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
 
       body {
         padding: 12px;
       }
 
-      h1 {
-        font-size: 27px;
-      }
-
       .card {
-        padding: 20px;
+        padding: 18px;
+        border-radius: 18px;
       }
 
       .word-area {
-        gap: 10px;
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .connector {
+        width: 2px;
+        height: 28px;
+        margin: 0 auto;
       }
 
       .show-button {
-        flex: 0 0 120px;
-        min-height: 65px;
-        font-size: 15px;
+        width: 100%;
       }
 
       .word {
-        font-size: 22px;
+        font-size: 31px;
       }
 
-      .word-detail {
-        font-size: 12px;
+      .example-content {
+        font-size: 17px;
       }
 
-      .example-sentence {
-        font-size: 13px;
+      #handwritingCanvas {
+        height: 190px;
       }
     }
+
   </style>
 </head>
+
 
 <body>
 
@@ -389,91 +519,123 @@
 
     <div>
       <strong>Geübt:</strong>
-      <span id="practicedCount">0</span> Wörter
+      <span id="practicedCount">0</span>
+      Wörter
     </div>
 
   </div>
 
 
-  <div id="loading" class="loading">
+  <div
+    id="loading"
+    class="loading"
+  >
     Vokabeln werden geladen …
   </div>
 
 
-  <div id="app" style="display:none;">
+  <div
+    id="app"
+    class="hidden"
+  >
+
+
+    <!-- LERNMODUS -->
+
+    <div class="secondary-section">
+
+      <h2>Lernmodus</h2>
+
+      <div class="mode-buttons">
+
+        <button
+          id="learningModeButton"
+          class="active"
+          onclick="setMode('learning')"
+        >
+          🧠 LERNEN
+        </button>
+
+        <button
+          id="testModeButton"
+          onclick="setMode('test')"
+        >
+          🎯 TESTEN
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- HAUPTKARTE -->
 
     <div class="card">
 
-      <div id="direction" class="direction"></div>
+      <div
+        id="direction"
+        class="direction"
+      >
+      </div>
 
 
-      <!-- =========================================
-           WORTBEREICH
-           ========================================= -->
+      <div
+        id="difficulty"
+        class="difficulty difficulty-new"
+      >
+        ⚪ Neu
+      </div>
+
 
       <div class="word-area">
 
-        <div class="words">
 
-          <!-- FRAGE -->
+        <div class="word-box">
 
-          <div class="word-block">
-
-            <div
-              id="questionLanguage"
-              class="language">
-            </div>
-
-            <div>
-
-              <span
-                id="questionWord"
-                class="word">
-              </span>
-
-              <button
-                id="speakerButton"
-                class="speaker-button"
-                onclick="speakEnglish()"
-                title="Englisch anhören">
-                🔊
-              </button>
-
-            </div>
+          <div class="word-row">
 
             <div
-              id="questionDetails"
-              class="word-details">
+              id="questionWord"
+              class="word"
+            >
             </div>
+
+            <button
+              class="speaker-button"
+              onclick="speakEnglish()"
+              title="Englisch anhören"
+            >
+              🔊
+            </button>
 
           </div>
 
-
-          <div class="connection-line"></div>
-
-          <div class="connection-dot"></div>
-
-          <div class="connection-line"></div>
+        </div>
 
 
-          <!-- ANTWORT -->
+        <div class="connector"></div>
 
-          <div class="word-block">
 
-            <div
-              id="answerLanguage"
-              class="language">
-            </div>
+        <div class="word-box">
 
-            <div
-              id="answerWord"
-              class="word answer-hidden">
-            </div>
+          <div
+            id="answerWord"
+            class="word answer-hidden"
+          >
+          </div>
 
-            <div
-              id="answerDetails"
-              class="word-details answer-hidden">
-            </div>
+          <div
+            id="answerSpeakerArea"
+            class="answer-hidden"
+          >
+
+            <button
+              class="speaker-button"
+              onclick="speakEnglish()"
+              title="Englisch anhören"
+            >
+              🔊
+            </button>
 
           </div>
 
@@ -483,82 +645,114 @@
         <button
           id="showButton"
           class="show-button"
-          onclick="showAnswerAndNext()">
+          onclick="showAnswerAndNext()"
+        >
           ANZEIGEN
         </button>
 
       </div>
 
 
-      <!-- =========================================
-           BEISPIELSATZ – VOLLE BREITE
-           ========================================= -->
+      <!-- BEISPIELSATZ -->
 
       <div
         id="exampleArea"
-        class="example-area answer-hidden">
+        class="example-area answer-hidden"
+      >
+
+        <div class="example-label">
+          Beispielsatz
+        </div>
 
         <div
-          id="exampleSentence"
-          class="example-sentence">
+          id="exampleContent"
+          class="example-content"
+        >
         </div>
 
       </div>
 
 
-      <!-- =========================================
-           ANTWORT EINGEBEN
-           ========================================= -->
+      <!-- DETAILS -->
 
-      <div class="input-section">
-
-        <button
-          class="input-toggle"
-          onclick="toggleAnswerInput()">
-          ✍️ ANTWORT EINGEBEN
-        </button>
+      <div
+        id="answerDetails"
+        class="details answer-hidden"
+      >
+      </div>
 
 
-        <div
-          id="answerInputArea"
-          class="answer-input-area">
+      <!-- HANDSCHRIFT -->
 
-          <input
-            id="answerInput"
-            class="answer-input"
-            type="text"
-            placeholder="Antwort eingeben …"
-            autocomplete="off">
+      <div class="handwriting-area">
 
+        <div class="handwriting-title">
+
+          ✍️ Schreibe das Wort mit deinem Finger
+
+        </div>
+
+
+        <div class="canvas-wrapper">
+
+          <canvas
+            id="handwritingCanvas"
+          ></canvas>
+
+        </div>
+
+
+        <div class="writing-buttons">
 
           <button
-            class="check-button"
-            onclick="checkAnswer()"
-            style="width:100%; margin-top:10px;">
-            ANTWORT PRÜFEN / ANZEIGEN
+            onclick="clearCanvas()"
+          >
+            LÖSCHEN
           </button>
 
+          <button
+            class="primary"
+            onclick="checkHandwriting()"
+          >
+            FERTIG
+          </button>
 
-          <div
-            id="checkResult"
-            class="check-result">
-          </div>
+        </div>
 
+
+        <div
+          id="writingFeedback"
+          class="writing-feedback"
+        >
         </div>
 
       </div>
 
 
-      <!-- =========================================
-           ZURÜCK
-           ========================================= -->
+      <!-- ALTE TASTATUR-EINGABE IST ENTFERNT -->
 
-      <div class="controls">
+      <div
+        id="result"
+        class="result"
+      >
+      </div>
+
+
+      <!-- NAVIGATION -->
+
+      <div class="navigation">
 
         <button
-          class="back-button"
-          onclick="previousWord()">
+          onclick="previousWord()"
+        >
           ← ZURÜCK
+        </button>
+
+        <button
+          id="nextButton"
+          onclick="nextWord()"
+        >
+          WEITER →
         </button>
 
       </div>
@@ -566,78 +760,97 @@
     </div>
 
 
-    <!-- =========================================
-         VOKABEL HINZUFÜGEN
-         ========================================= -->
+    <!-- SCHWIERIGE WÖRTER -->
 
-    <div class="add-section">
+    <div class="secondary-section">
 
-      <div class="section-title">
-        + VOKABEL HINZUFÜGEN
+      <h2>⭐ Schwierige Wörter</h2>
+
+      <div
+        id="difficultList"
+        class="difficult-list"
+      >
       </div>
 
+    </div>
+
+
+    <!-- LERNFORTSCHRITT -->
+
+    <div class="secondary-section">
+
+      <h2>📊 Lernfortschritt</h2>
+
+      <div
+        id="learningStats"
+        class="learning-info"
+      >
+      </div>
+
+    </div>
+
+
+    <!-- VOKABEL HINZUFÜGEN -->
+
+    <div class="secondary-section">
+
+      <h2>+ VOKABEL HINZUFÜGEN</h2>
 
       <input
         id="newEnglish"
-        class="add-input"
         type="text"
-        placeholder="Englisch">
-
+        placeholder="Englisch"
+      >
 
       <input
         id="newGerman"
-        class="add-input"
         type="text"
-        placeholder="Deutsch">
-
+        placeholder="Deutsch"
+      >
 
       <button
-        class="translation-button"
-        onclick="findTranslation()">
+        onclick="findTranslation()"
+      >
         🔍 ÜBERSETZUNG SUCHEN
       </button>
 
-
       <div
         id="translationStatus"
-        class="translation-status">
+        class="translation-status"
+      >
       </div>
 
-
       <button
-        class="save-button"
-        onclick="saveVocabulary()">
+        class="primary"
+        onclick="addVocabulary()"
+      >
         VOKABEL SPEICHERN
       </button>
 
     </div>
 
 
-    <!-- =========================================
-         CSV
-         ========================================= -->
+    <!-- DATEN -->
 
-    <div class="add-section">
+    <div class="secondary-section">
 
-      <div class="section-title">
-        VOKABEL-DATEI
-      </div>
-
+      <h2>💾 Daten</h2>
 
       <button
-        class="export-button"
-        onclick="exportCSV()">
-        ⬇️ CSV EXPORTIEREN
+        onclick="exportCSV()"
+      >
+        CSV EXPORTIEREN
       </button>
 
-
       <button
-        class="delete-button"
-        onclick="deleteLocalVocabulary()">
+        class="danger"
+        onclick="deleteLocalVocabulary()"
+      >
         LOKALE VOKABELN LÖSCHEN
       </button>
 
     </div>
+
 
   </div>
 
@@ -646,318 +859,468 @@
 
 <script>
 
+  let csvVocabulary = [];
+  let localVocabulary = [];
   let vocabulary = [];
 
-  let csvVocabulary = [];
-
   let currentIndex = 0;
+  let history = [];
 
-  let currentDirection = "en-de";
+  let currentItem = null;
+  let currentDirection = null;
+
+  let currentMode = "learning";
+
+  let speechTimeout = null;
+
+  const STORAGE_KEY =
+    "globalHrVocabularyLocal";
+
+  const PROGRESS_KEY =
+    "globalHrVocabularyProgress";
 
 
-  let practicedWords =
-    JSON.parse(
-      localStorage.getItem("practicedWords") || "[]"
+  /*
+   * ================================================
+   * INITIALISIERUNG
+   * ================================================
+   */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      loadLocalVocabulary();
+
+      loadVocabulary();
+
+      updatePracticedCount();
+
+      updateLearningStats();
+
+      updateDifficultList();
+
+      setupCanvas();
+
+    }
+  );
+
+
+  /*
+   * ================================================
+   * LOCAL STORAGE
+   * ================================================
+   */
+
+  function loadLocalVocabulary() {
+
+    try {
+
+      const saved =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      localVocabulary =
+        saved
+          ? JSON.parse(saved)
+          : [];
+
+    } catch (error) {
+
+      console.error(error);
+
+      localVocabulary = [];
+
+    }
+
+  }
+
+
+  function saveLocalVocabulary() {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(
+        localVocabulary
+      )
     );
-
-
-  let localVocabulary =
-    JSON.parse(
-      localStorage.getItem("localVocabulary") || "[]"
-    );
-
-
-  function normalize(text) {
-
-    return String(text || "")
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, " ");
 
   }
 
 
   /*
-   * ============================================
-   * CSV PARSER
-   * ============================================
+   * ================================================
+   * FORTSCHRITT
+   * ================================================
    */
 
-  function parseCSV(text) {
+  function loadProgress() {
 
-    const lines =
-      text
-        .replace(/^\uFEFF/, "")
-        .split(/\r?\n/)
-        .filter(
-          line => line.trim() !== ""
+    try {
+
+      const saved =
+        localStorage.getItem(
+          PROGRESS_KEY
         );
 
+      return saved
+        ? JSON.parse(saved)
+        : {};
 
-    if (lines.length === 0) {
-      return [];
+    } catch (error) {
+
+      return {};
+
     }
 
-
-    const rows =
-      lines.map(line => {
-
-        const result = [];
-
-        let current = "";
-
-        let insideQuotes = false;
+  }
 
 
-        for (
-          let i = 0;
-          i < line.length;
-          i++
-        ) {
+  function saveProgress(progress) {
 
-          const char = line[i];
+    localStorage.setItem(
+      PROGRESS_KEY,
+      JSON.stringify(
+        progress
+      )
+    );
 
-
-          if (char === '"') {
-
-            if (
-              insideQuotes &&
-              line[i + 1] === '"'
-            ) {
-
-              current += '"';
-
-              i++;
-
-            } else {
-
-              insideQuotes =
-                !insideQuotes;
-
-            }
-
-          } else if (
-            char === "," &&
-            !insideQuotes
-          ) {
-
-            result.push(current);
-
-            current = "";
-
-          } else {
-
-            current += char;
-
-          }
-
-        }
+  }
 
 
-        result.push(current);
+  function getProgressKey(item) {
 
-        return result;
+    return normalize(
+      item.english
+    );
 
-      });
+  }
 
 
-    const header =
-      rows[0].map(
-        cell => normalize(cell)
+  function getWordProgress(item) {
+
+    const progress =
+      loadProgress();
+
+    const key =
+      getProgressKey(item);
+
+    return progress[key] || {
+
+      seen: 0,
+      correct: 0,
+      wrong: 0,
+      revealed: 0,
+      lastSeen: null
+
+    };
+
+  }
+
+
+  function markAsPracticed() {
+
+    if (!currentItem) {
+      return;
+    }
+
+    const progress =
+      loadProgress();
+
+    const key =
+      getProgressKey(
+        currentItem
       );
 
 
-    let englishIndex =
-      header.indexOf("english");
+    if (!progress[key]) {
 
+      progress[key] = {
 
-    let germanIndex =
-      header.indexOf("deutsch");
+        seen: 0,
+        correct: 0,
+        wrong: 0,
+        revealed: 0,
+        lastSeen: null
 
+      };
 
-    let constructionIndex =
-      header.indexOf(
-        "verb + preposition/construction"
-      );
-
-
-    let nounIndex =
-      header.indexOf("noun");
-
-
-    let adjectiveIndex =
-      header.indexOf(
-        "adjective/participle"
-      );
+    }
 
 
     /*
-     * Verschiedene mögliche Namen
-     * für die Beispielsatz-Spalte.
+     * Nur einmal pro Anzeige.
      */
 
-    const exampleNames = [
-
-      "example sentence",
-
-      "example sentences",
-
-      "example",
-
-      "examples",
-
-      "beispielsatz",
-
-      "beispielsätze",
-
-      "beispiel",
-
-      "beispiele"
-
-    ];
-
-
-    let exampleIndex = -1;
-
-
-    for (
-      const name of exampleNames
+    if (
+      currentItem._counted
     ) {
 
-      const index =
-        header.indexOf(name);
+      return;
+
+    }
+
+    currentItem._counted =
+      true;
 
 
-      if (index !== -1) {
+    progress[key].seen += 1;
 
-        exampleIndex = index;
+    progress[key].revealed += 1;
 
-        break;
+    progress[key].lastSeen =
+      Date.now();
 
-      }
+
+    saveProgress(
+      progress
+    );
+
+
+    updatePracticedCount();
+
+    updateLearningStats();
+
+    updateDifficultList();
+
+  }
+
+
+  function markCorrect() {
+
+    if (!currentItem) {
+      return;
+    }
+
+    const progress =
+      loadProgress();
+
+    const key =
+      getProgressKey(
+        currentItem
+      );
+
+
+    if (!progress[key]) {
+
+      progress[key] = {
+
+        seen: 0,
+        correct: 0,
+        wrong: 0,
+        revealed: 0,
+        lastSeen: null
+
+      };
 
     }
 
 
-    if (englishIndex === -1) {
-      englishIndex = 0;
+    progress[key].seen += 1;
+
+    progress[key].correct += 1;
+
+    progress[key].revealed += 1;
+
+    progress[key].lastSeen =
+      Date.now();
+
+
+    currentItem._counted =
+      true;
+
+
+    saveProgress(
+      progress
+    );
+
+
+    updatePracticedCount();
+
+    updateLearningStats();
+
+    updateDifficultList();
+
+  }
+
+
+  function markWrong() {
+
+    if (!currentItem) {
+      return;
+    }
+
+    const progress =
+      loadProgress();
+
+    const key =
+      getProgressKey(
+        currentItem
+      );
+
+
+    if (!progress[key]) {
+
+      progress[key] = {
+
+        seen: 0,
+        correct: 0,
+        wrong: 0,
+        revealed: 0,
+        lastSeen: null
+
+      };
+
     }
 
 
-    if (constructionIndex === -1) {
-      constructionIndex = 1;
-    }
+    progress[key].seen += 1;
+
+    progress[key].wrong += 1;
+
+    progress[key].revealed += 1;
+
+    progress[key].lastSeen =
+      Date.now();
 
 
-    if (nounIndex === -1) {
-      nounIndex = 2;
-    }
+    currentItem._counted =
+      true;
 
 
-    if (adjectiveIndex === -1) {
-      adjectiveIndex = 3;
-    }
+    saveProgress(
+      progress
+    );
 
 
-    if (germanIndex === -1) {
-      germanIndex = 4;
-    }
+    updatePracticedCount();
+
+    updateLearningStats();
+
+    updateDifficultList();
+
+  }
 
 
-    const result = [];
+  function getDifficulty(item) {
+
+    const p =
+      getWordProgress(
+        item
+      );
 
 
-    for (
-      let i = 1;
-      i < rows.length;
-      i++
+    if (
+      p.wrong >= 3 &&
+      p.wrong > p.correct
     ) {
 
-      const english =
-        (rows[i][englishIndex] || "")
-          .trim();
-
-
-      const construction =
-        (rows[i][constructionIndex] || "")
-          .trim();
-
-
-      const noun =
-        (rows[i][nounIndex] || "")
-          .trim();
-
-
-      const adjective =
-        (rows[i][adjectiveIndex] || "")
-          .trim();
-
-
-      const german =
-        (rows[i][germanIndex] || "")
-          .trim();
-
-
-      let example = "";
-
-
-      if (
-        exampleIndex !== -1
-      ) {
-
-        example =
-          (rows[i][exampleIndex] || "")
-            .trim();
-
-      }
-
-
-      if (english && german) {
-
-        result.push({
-
-          english,
-
-          german,
-
-          construction,
-
-          noun,
-
-          adjective,
-
-          example
-
-        });
-
-      }
+      return "hard";
 
     }
 
 
-    return result;
+    if (
+      p.seen >= 2 &&
+      p.correct > p.wrong
+    ) {
+
+      return "easy";
+
+    }
+
+
+    if (
+      p.seen > 0
+    ) {
+
+      return "medium";
+
+    }
+
+
+    return "new";
+
+  }
+
+
+  function getDifficultyLabel(item) {
+
+    const difficulty =
+      getDifficulty(
+        item
+      );
+
+
+    if (
+      difficulty === "hard"
+    ) {
+
+      return "🔴 Schwierig";
+
+    }
+
+
+    if (
+      difficulty === "medium"
+    ) {
+
+      return "🟡 In Wiederholung";
+
+    }
+
+
+    if (
+      difficulty === "easy"
+    ) {
+
+      return "🟢 Sicher";
+
+    }
+
+
+    return "⚪ Neu";
+
+  }
+
+
+  function updateDifficultyDisplay() {
+
+    const element =
+      document.getElementById(
+        "difficulty"
+      );
+
+
+    const difficulty =
+      getDifficulty(
+        currentItem
+      );
+
+
+    element.className =
+      "difficulty difficulty-" +
+      difficulty;
+
+
+    element.textContent =
+      getDifficultyLabel(
+        currentItem
+      );
 
   }
 
 
   /*
-   * ============================================
+   * ================================================
    * CSV LADEN
-   * ============================================
+   * ================================================
    */
 
   async function loadVocabulary() {
 
     try {
-
-      const csvUrl =
-        new URL(
-          "vocabulary.csv",
-          window.location.href
-        ).href +
-        "?v=" +
-        Date.now();
-
 
       const controller =
         new AbortController();
@@ -970,20 +1333,33 @@
         );
 
 
+      const url =
+        new URL(
+          "vocabulary.csv",
+          window.location.href
+        ).href +
+        "?v=" +
+        Date.now();
+
+
       const response =
         await fetch(
-          csvUrl,
+          url,
           {
-            cache: "no-store",
-            signal: controller.signal
+            signal:
+              controller.signal
           }
         );
 
 
-      clearTimeout(timeout);
+      clearTimeout(
+        timeout
+      );
 
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           "CSV konnte nicht geladen werden."
@@ -997,7 +1373,9 @@
 
 
       csvVocabulary =
-        parseCSV(text);
+        parseCSV(
+          text
+        );
 
 
       document.getElementById(
@@ -1013,7 +1391,9 @@
         );
 
 
-      if (vocabulary.length === 0) {
+      if (
+        vocabulary.length === 0
+      ) {
 
         throw new Error(
           "Keine Vokabeln gefunden."
@@ -1024,26 +1404,44 @@
 
       document.getElementById(
         "loading"
-      ).style.display = "none";
+      ).classList.add(
+        "hidden"
+      );
 
 
       document.getElementById(
         "app"
-      ).style.display = "block";
+      ).classList.remove(
+        "hidden"
+      );
 
 
-      nextWord();
+      currentIndex =
+        Math.floor(
+          Math.random() *
+          vocabulary.length
+        );
+
+
+      displayCurrentWord();
+
+
+      updateLearningStats();
+
+      updateDifficultList();
+
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        error
+      );
 
 
       document.getElementById(
         "loading"
-      ).innerHTML =
-        "Fehler beim Laden der vocabulary.csv.<br><br>" +
-        error.message;
+      ).textContent =
+        "Fehler beim Laden der vocabulary.csv";
 
     }
 
@@ -1051,44 +1449,339 @@
 
 
   /*
-   * ============================================
-   * CSV + LOKALE VOKABELN ZUSAMMENFÜHREN
-   * ============================================
+   * ================================================
+   * CSV PARSER
+   * ================================================
    */
 
-  function mergeVocabulary(
-    csvWords,
-    localWords
-  ) {
+  function parseCSV(text) {
 
-    const combined = [
-      ...csvWords,
-      ...localWords
-    ];
+    const rows = [];
+
+    let row = [];
+
+    let cell = "";
+
+    let insideQuotes = false;
 
 
-    const seen = new Set();
+    for (
+      let i = 0;
+      i < text.length;
+      i++
+    ) {
+
+      const char =
+        text[i];
+
+      const next =
+        text[i + 1];
+
+
+      if (
+        char === '"' &&
+        insideQuotes &&
+        next === '"'
+      ) {
+
+        cell += '"';
+
+        i++;
+
+      }
+
+      else if (
+        char === '"'
+      ) {
+
+        insideQuotes =
+          !insideQuotes;
+
+      }
+
+      else if (
+        char === "," &&
+        !insideQuotes
+      ) {
+
+        row.push(
+          cell
+        );
+
+        cell = "";
+
+      }
+
+      else if (
+        (
+          char === "\n" ||
+          char === "\r"
+        ) &&
+        !insideQuotes
+      ) {
+
+        if (
+          char === "\r" &&
+          next === "\n"
+        ) {
+
+          i++;
+
+        }
+
+
+        row.push(
+          cell
+        );
+
+        cell = "";
+
+
+        if (
+          row.some(
+            value =>
+              value.trim() !== ""
+          )
+        ) {
+
+          rows.push(
+            row
+          );
+
+        }
+
+
+        row = [];
+
+      }
+
+      else {
+
+        cell += char;
+
+      }
+
+    }
+
+
+    if (
+      cell !== "" ||
+      row.length > 0
+    ) {
+
+      row.push(
+        cell
+      );
+
+
+      if (
+        row.some(
+          value =>
+            value.trim() !== ""
+        )
+      ) {
+
+        rows.push(
+          row
+        );
+
+      }
+
+    }
+
+
+    if (
+      rows.length < 2
+    ) {
+
+      return [];
+
+    }
+
+
+    const headers =
+      rows[0].map(
+        header =>
+          header
+            .replace(
+              /^\uFEFF/,
+              ""
+            )
+            .trim()
+            .toLowerCase()
+      );
+
+
+    function findHeader(
+      names
+    ) {
+
+      for (
+        const name of names
+      ) {
+
+        const index =
+          headers.indexOf(
+            name
+          );
+
+
+        if (
+          index !== -1
+        ) {
+
+          return index;
+
+        }
+
+      }
+
+
+      return -1;
+
+    }
+
+
+    const englishIndex =
+      findHeader([
+        "english"
+      ]);
+
+
+    const germanIndex =
+      findHeader([
+        "deutsch",
+        "german"
+      ]);
+
+
+    const constructionIndex =
+      findHeader([
+        "verb + preposition/construction",
+        "verb + preposition / construction",
+        "verb + construction",
+        "construction"
+      ]);
+
+
+    const nounIndex =
+      findHeader([
+        "noun",
+        "nomen"
+      ]);
+
+
+    const adjectiveIndex =
+      findHeader([
+        "adjective/participle",
+        "adjective / participle",
+        "adjective",
+        "adjektiv/partizip",
+        "adjektiv"
+      ]);
+
+
+    const exampleIndex =
+      findHeader([
+        "example sentence",
+        "example sentences",
+        "example",
+        "examples",
+        "beispielsatz",
+        "beispielsätze",
+        "beispiel",
+        "beispiele"
+      ]);
+
 
     const result = [];
 
 
-    combined.forEach(item => {
+    for (
+      let i = 1;
+      i < rows.length;
+      i++
+    ) {
 
-      const key =
-        normalize(item.english) +
-        "||" +
-        normalize(item.german);
+      const row =
+        rows[i];
 
 
-      if (!seen.has(key)) {
+      const english =
+        englishIndex >= 0
+          ? (
+              row[
+                englishIndex
+              ] || ""
+            ).trim()
+          : "";
 
-        seen.add(key);
 
-        result.push(item);
+      const german =
+        germanIndex >= 0
+          ? (
+              row[
+                germanIndex
+              ] || ""
+            ).trim()
+          : "";
+
+
+      if (
+        !english ||
+        !german
+      ) {
+
+        continue;
 
       }
 
-    });
+
+      result.push({
+
+        english,
+
+        german,
+
+        construction:
+          constructionIndex >= 0
+            ? (
+                row[
+                  constructionIndex
+                ] || ""
+              ).trim()
+            : "",
+
+        noun:
+          nounIndex >= 0
+            ? (
+                row[
+                  nounIndex
+                ] || ""
+              ).trim()
+            : "",
+
+        adjective:
+          adjectiveIndex >= 0
+            ? (
+                row[
+                  adjectiveIndex
+                ] || ""
+              ).trim()
+            : "",
+
+        example:
+          exampleIndex >= 0
+            ? (
+                row[
+                  exampleIndex
+                ] || ""
+              ).trim()
+            : ""
+
+      });
+
+    }
 
 
     return result;
@@ -1097,88 +1790,126 @@
 
 
   /*
-   * ============================================
-   * NÄCHSTE VOKABEL
-   * ============================================
+   * ================================================
+   * MERGEN
+   * ================================================
    */
 
-  function nextWord() {
+  function mergeVocabulary(
+    csvItems,
+    localItems
+  ) {
 
-    if (vocabulary.length === 0) {
-      return;
-    }
+    const result = [];
 
-
-    currentIndex =
-      Math.floor(
-        Math.random() *
-        vocabulary.length
-      );
+    const keys =
+      new Set();
 
 
-    currentDirection =
-      Math.random() < 0.5
-        ? "en-de"
-        : "de-en";
+    [
+      ...csvItems,
+      ...localItems
+    ].forEach(
+      item => {
+
+        const key =
+          normalize(
+            item.english
+          ) +
+          "|" +
+          normalize(
+            item.german
+          );
 
 
-    displayCurrentWord();
+        if (
+          !keys.has(key)
+        ) {
+
+          keys.add(key);
+
+          result.push(
+            item
+          );
+
+        }
+
+      }
+    );
+
+
+    return result;
 
   }
 
 
   /*
-   * ============================================
-   * AKTUELLE VOKABEL ANZEIGEN
-   * ============================================
+   * ================================================
+   * WORT ANZEIGEN
+   * ================================================
    */
 
   function displayCurrentWord() {
 
-    const item =
-      vocabulary[currentIndex];
+    clearSpeech();
+
+    clearCanvas();
+
+    if (
+      !vocabulary.length
+    ) {
+
+      return;
+
+    }
 
 
-    const questionWord =
-      document.getElementById(
-        "questionWord"
-      );
+    currentItem =
+      vocabulary[
+        currentIndex
+      ];
 
 
-    const answerWord =
-      document.getElementById(
-        "answerWord"
-      );
+    currentItem._counted =
+      false;
 
 
-    const questionLanguage =
-      document.getElementById(
-        "questionLanguage"
-      );
+    currentDirection =
+      Math.random() < 0.5
+        ? "de-en"
+        : "en-de";
 
 
-    const answerLanguage =
-      document.getElementById(
-        "answerLanguage"
-      );
+    const question =
+      currentDirection === "de-en"
+        ? currentItem.german
+        : currentItem.english;
 
 
-    const direction =
-      document.getElementById(
-        "direction"
-      );
+    const answer =
+      currentDirection === "de-en"
+        ? currentItem.english
+        : currentItem.german;
 
 
-    const questionDetails =
-      document.getElementById(
-        "questionDetails"
-      );
+    document.getElementById(
+      "direction"
+    ).textContent =
+      currentDirection === "de-en"
+        ? "Deutsch → Englisch"
+        : "Englisch → Deutsch";
 
 
-    const answerDetails =
-      document.getElementById(
-        "answerDetails"
-      );
+    document.getElementById(
+      "questionWord"
+    ).textContent =
+      question.toLowerCase();
+
+
+    document.getElementById(
+      "answerWord"
+    ).textContent =
+      answer.toLowerCase();
 
 
     const exampleArea =
@@ -1187,29 +1918,56 @@
       );
 
 
-    const exampleSentence =
+    const exampleContent =
       document.getElementById(
-        "exampleSentence"
+        "exampleContent"
       );
 
 
-    const showButton =
-      document.getElementById(
-        "showButton"
+    if (
+      currentItem.example
+    ) {
+
+      exampleContent.innerHTML =
+        escapeHTML(
+          currentItem.example
+        ) +
+        `
+          <button
+            class="speaker-button example-speaker"
+            onclick="speakExample()"
+            title="Beispielsatz anhören"
+          >
+            🔊
+          </button>
+        `;
+
+    } else {
+
+      exampleContent.textContent =
+        "";
+
+    }
+
+
+    document.getElementById(
+      "answerDetails"
+    ).innerHTML =
+      buildDetails(
+        currentItem
       );
 
 
-    /*
-     * Antwort und Beispielsatz
-     * wieder verstecken.
-     */
-
-    answerWord.classList.add(
+    document.getElementById(
+      "answerWord"
+    ).classList.add(
       "answer-hidden"
     );
 
 
-    answerDetails.classList.add(
+    document.getElementById(
+      "answerDetails"
+    ).classList.add(
       "answer-hidden"
     );
 
@@ -1219,216 +1977,234 @@
     );
 
 
-    showButton.textContent =
+    document.getElementById(
+      "answerSpeakerArea"
+    ).classList.add(
+      "answer-hidden"
+    );
+
+
+    document.getElementById(
+      "showButton"
+    ).textContent =
       "ANZEIGEN";
 
 
     document.getElementById(
-      "answerInput"
-    ).value = "";
+      "result"
+    ).textContent =
+      "";
 
 
     document.getElementById(
-      "checkResult"
-    ).textContent = "";
+      "result"
+    ).className =
+      "result";
 
 
-    questionDetails.innerHTML = "";
+    document.getElementById(
+      "writingFeedback"
+    ).textContent =
+      "";
 
-    answerDetails.innerHTML = "";
 
-    exampleSentence.innerHTML = "";
+    updateDifficultyDisplay();
+
+    updateModeDescription();
+
+  }
 
 
-    /*
-     * ENGLISCH → DEUTSCH
-     */
+  function buildDetails(item) {
+
+    let html = "";
+
 
     if (
-      currentDirection === "en-de"
+      item.construction
     ) {
 
-      questionLanguage.textContent =
-        "English";
-
-
-      answerLanguage.textContent =
-        "Deutsch";
-
-
-      questionWord.textContent =
-        item.english.toLowerCase();
-
-
-      answerWord.textContent =
-        item.german;
-
-
-      direction.textContent =
-        "English → Deutsch";
-
-
-      displayDetails(
-        questionDetails,
-        item
-      );
+      html +=
+        `<div>
+          <strong>Konstruktion:</strong>
+          ${escapeHTML(
+            item.construction
+          )}
+        </div>`;
 
     }
+
+
+    if (
+      item.noun
+    ) {
+
+      html +=
+        `<div>
+          <strong>Nomen:</strong>
+          ${escapeHTML(
+            item.noun
+          )}
+        </div>`;
+
+    }
+
+
+    if (
+      item.adjective
+    ) {
+
+      html +=
+        `<div>
+          <strong>Adjektiv/Partizip:</strong>
+          ${escapeHTML(
+            item.adjective
+          )}
+        </div>`;
+
+    }
+
+
+    return html;
+
+  }
+
+
+  /*
+   * ================================================
+   * ANZEIGEN
+   * ================================================
+   */
+
+  function showAnswerAndNext() {
+
+    const answerWord =
+      document.getElementById(
+        "answerWord"
+      );
+
+
+    if (
+      answerWord.classList.contains(
+        "answer-hidden"
+      )
+    ) {
+
+      revealAnswer();
+
+    } else {
+
+      nextWord();
+
+    }
+
+  }
+
+
+  function revealAnswer() {
+
+    document.getElementById(
+      "answerWord"
+    ).classList.remove(
+      "answer-hidden"
+    );
+
+
+    document.getElementById(
+      "answerDetails"
+    ).classList.remove(
+      "answer-hidden"
+    );
+
+
+    document.getElementById(
+      "exampleArea"
+    ).classList.remove(
+      "answer-hidden"
+    );
+
+
+    document.getElementById(
+      "answerSpeakerArea"
+    ).classList.remove(
+      "answer-hidden"
+    );
+
+
+    document.getElementById(
+      "showButton"
+    ).textContent =
+      "WEITER →";
+
+
+    markAsPracticed();
 
 
     /*
-     * DEUTSCH → ENGLISCH
+     * Erst visuell aufnehmen.
+     * Danach automatisch Englisch hören.
      */
 
-    else {
-
-      questionLanguage.textContent =
-        "Deutsch";
+    clearSpeech();
 
 
-      answerLanguage.textContent =
-        "English";
+    speechTimeout =
+      setTimeout(
+        () => {
 
+          speechTimeout =
+            null;
 
-      questionWord.textContent =
-        item.german.toLowerCase();
+          speakEnglish();
 
-
-      answerWord.textContent =
-        item.english;
-
-
-      direction.textContent =
-        "Deutsch → English";
-
-
-      displayDetails(
-        answerDetails,
-        item
+        },
+        1000
       );
 
+  }
+
+
+  /*
+   * ================================================
+   * SPRACHE
+   * ================================================
+   */
+
+  function clearSpeech() {
+
+    if (
+      speechTimeout
+    ) {
+
+      clearTimeout(
+        speechTimeout
+      );
+
+      speechTimeout =
+        null;
+
     }
 
 
-    /*
-     * Beispielsatz vorbereiten.
-     * Noch nicht sichtbar.
-     */
+    if (
+      "speechSynthesis" in window
+    ) {
 
-    if (item.example) {
-
-      exampleSentence.innerHTML =
-        "<strong>Beispielsatz:</strong> " +
-        escapeHtml(item.example);
+      window.speechSynthesis.cancel();
 
     }
 
   }
 
-
-  /*
-   * ============================================
-   * DETAILS DER ENGLISCHEN VOKABEL
-   * ============================================
-   */
-
-  function displayDetails(
-    container,
-    item
-  ) {
-
-    container.innerHTML = "";
-
-
-    if (item.construction) {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "word-detail";
-
-      div.innerHTML =
-        "<strong>Verb + Konstruktion:</strong> " +
-        escapeHtml(
-          item.construction
-        );
-
-      container.appendChild(div);
-
-    }
-
-
-    if (item.noun) {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "word-detail";
-
-      div.innerHTML =
-        "<strong>Nomen:</strong> " +
-        escapeHtml(
-          item.noun
-        );
-
-      container.appendChild(div);
-
-    }
-
-
-    if (item.adjective) {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "word-detail";
-
-      div.innerHTML =
-        "<strong>Adjektiv/Partizip:</strong> " +
-        escapeHtml(
-          item.adjective
-        );
-
-      container.appendChild(div);
-
-    }
-
-  }
-
-
-  /*
-   * ============================================
-   * HTML SICHER AUSGEBEN
-   * ============================================
-   */
-
-  function escapeHtml(text) {
-
-    const div =
-      document.createElement("div");
-
-    div.textContent =
-      text || "";
-
-    return div.innerHTML;
-
-  }
-
-
-  /*
-   * ============================================
-   * ENGLISCH AUSSPRECHEN
-   * ============================================
-   */
 
   function speakEnglish() {
 
+    clearSpeech();
+
+
     if (
-      !window.speechSynthesis ||
-      vocabulary.length === 0
+      !currentItem ||
+      !("speechSynthesis" in window)
     ) {
 
       return;
@@ -1436,16 +2212,9 @@
     }
 
 
-    const englishText =
-      vocabulary[currentIndex].english;
-
-
-    window.speechSynthesis.cancel();
-
-
     const utterance =
       new SpeechSynthesisUtterance(
-        englishText
+        currentItem.english
       );
 
 
@@ -1462,26 +2231,32 @@
 
 
     const voices =
-      window.speechSynthesis.getVoices();
+      window.speechSynthesis
+        .getVoices();
 
 
     const englishVoice =
       voices.find(
         voice =>
-          voice.lang &&
-          voice.lang.toLowerCase() ===
-            "en-us"
+          voice.lang
+            .toLowerCase()
+            .startsWith(
+              "en-us"
+            )
       ) ||
       voices.find(
         voice =>
-          voice.lang &&
           voice.lang
             .toLowerCase()
-            .startsWith("en")
+            .startsWith(
+              "en"
+            )
       );
 
 
-    if (englishVoice) {
+    if (
+      englishVoice
+    ) {
 
       utterance.voice =
         englishVoice;
@@ -1489,42 +2264,412 @@
     }
 
 
-    window.speechSynthesis.speak(
-      utterance
-    );
+    window.speechSynthesis
+      .speak(
+        utterance
+      );
+
+  }
+
+
+  function speakExample() {
+
+    clearSpeech();
+
+
+    if (
+      !currentItem ||
+      !currentItem.example ||
+      !("speechSynthesis" in window)
+    ) {
+
+      return;
+
+    }
+
+
+    const utterance =
+      new SpeechSynthesisUtterance(
+        currentItem.example
+      );
+
+
+    utterance.lang =
+      "en-US";
+
+
+    utterance.rate =
+      0.88;
+
+
+    utterance.pitch =
+      1;
+
+
+    const voices =
+      window.speechSynthesis
+        .getVoices();
+
+
+    const englishVoice =
+      voices.find(
+        voice =>
+          voice.lang
+            .toLowerCase()
+            .startsWith(
+              "en-us"
+            )
+      ) ||
+      voices.find(
+        voice =>
+          voice.lang
+            .toLowerCase()
+            .startsWith(
+              "en"
+            )
+      );
+
+
+    if (
+      englishVoice
+    ) {
+
+      utterance.voice =
+        englishVoice;
+
+    }
+
+
+    window.speechSynthesis
+      .speak(
+        utterance
+      );
 
   }
 
 
   /*
-   * ============================================
-   * ANTWORT ANZEIGEN / WEITER
-   * ============================================
+   * ================================================
+   * HANDSCHRIFT CANVAS
+   * ================================================
    */
 
-  function showAnswerAndNext() {
+  let canvas = null;
+  let ctx = null;
+
+  let drawing = false;
+
+  let hasWritten = false;
+
+
+  function setupCanvas() {
+
+    canvas =
+      document.getElementById(
+        "handwritingCanvas"
+      );
+
+
+    if (!canvas) {
+      return;
+    }
+
+
+    ctx =
+      canvas.getContext(
+        "2d"
+      );
+
+
+    resizeCanvas();
+
+
+    canvas.addEventListener(
+      "pointerdown",
+      startDrawing
+    );
+
+
+    canvas.addEventListener(
+      "pointermove",
+      draw
+    );
+
+
+    canvas.addEventListener(
+      "pointerup",
+      stopDrawing
+    );
+
+
+    canvas.addEventListener(
+      "pointercancel",
+      stopDrawing
+    );
+
+
+    canvas.addEventListener(
+      "pointerleave",
+      stopDrawing
+    );
+
+
+    window.addEventListener(
+      "resize",
+      resizeCanvas
+    );
+
+  }
+
+
+  function resizeCanvas() {
+
+    if (!canvas) {
+      return;
+    }
+
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+
+    const ratio =
+      window.devicePixelRatio ||
+      1;
+
+
+    const oldImage =
+      canvas.width > 0
+        ? canvas.toDataURL()
+        : null;
+
+
+    canvas.width =
+      rect.width *
+      ratio;
+
+
+    canvas.height =
+      rect.height *
+      ratio;
+
+
+    ctx =
+      canvas.getContext(
+        "2d"
+      );
+
+
+    ctx.scale(
+      ratio,
+      ratio
+    );
+
+
+    ctx.lineWidth =
+      3;
+
+
+    ctx.lineCap =
+      "round";
+
+
+    ctx.lineJoin =
+      "round";
+
+
+    ctx.strokeStyle =
+      "#222";
+
+
+    /*
+     * Nach einer Größenänderung
+     * wird die Fläche bewusst geleert.
+     */
+
+    hasWritten =
+      false;
+
+  }
+
+
+  function getCanvasPosition(
+    event
+  ) {
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+
+    return {
+
+      x:
+        event.clientX -
+        rect.left,
+
+      y:
+        event.clientY -
+        rect.top
+
+    };
+
+  }
+
+
+  function startDrawing(
+    event
+  ) {
+
+    event.preventDefault();
+
+
+    drawing =
+      true;
+
+
+    hasWritten =
+      true;
+
+
+    const position =
+      getCanvasPosition(
+        event
+      );
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+      position.x,
+      position.y
+    );
+
+
+    canvas.setPointerCapture(
+      event.pointerId
+    );
+
+  }
+
+
+  function draw(
+    event
+  ) {
+
+    if (!drawing) {
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    const position =
+      getCanvasPosition(
+        event
+      );
+
+
+    ctx.lineTo(
+      position.x,
+      position.y
+    );
+
+
+    ctx.stroke();
+
+  }
+
+
+  function stopDrawing(
+    event
+  ) {
+
+    if (!drawing) {
+      return;
+    }
+
+
+    drawing =
+      false;
+
+
+    ctx.closePath();
+
+  }
+
+
+  function clearCanvas() {
+
+    if (!canvas || !ctx) {
+      return;
+    }
+
+
+    ctx.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+
+    hasWritten =
+      false;
+
+
+    document.getElementById(
+      "writingFeedback"
+    ).textContent =
+      "";
+
+  }
+
+
+  /*
+   * ================================================
+   * HANDSCHRIFT PRÜFEN
+   * ================================================
+   */
+
+  function checkHandwriting() {
+
+    if (
+      !hasWritten
+    ) {
+
+      document.getElementById(
+        "writingFeedback"
+      ).textContent =
+        "✍️ Bitte zuerst das Wort schreiben.";
+
+      return;
+
+    }
+
+
+    /*
+     * Keine automatische Handschrifterkennung.
+     *
+     * Die Funktion bestätigt bewusst
+     * den haptischen Schreibvorgang.
+     */
+
+    document.getElementById(
+      "writingFeedback"
+    ).textContent =
+      "✓ Geschrieben – gut gemacht.";
+
+
+    /*
+     * Wenn noch keine Lösung angezeigt wurde,
+     * wird sie jetzt angezeigt.
+     */
 
     const answerWord =
       document.getElementById(
         "answerWord"
-      );
-
-
-    const answerDetails =
-      document.getElementById(
-        "answerDetails"
-      );
-
-
-    const exampleArea =
-      document.getElementById(
-        "exampleArea"
-      );
-
-
-    const showButton =
-      document.getElementById(
-        "showButton"
       );
 
 
@@ -1534,33 +2679,7 @@
       )
     ) {
 
-      answerWord.classList.remove(
-        "answer-hidden"
-      );
-
-
-      answerDetails.classList.remove(
-        "answer-hidden"
-      );
-
-
-      exampleArea.classList.remove(
-        "answer-hidden"
-      );
-
-
-      showButton.textContent =
-        "WEITER →";
-
-
-      markAsPracticed();
-
-    }
-
-
-    else {
-
-      nextWord();
+      revealAnswer();
 
     }
 
@@ -1568,31 +2687,140 @@
 
 
   /*
-   * ============================================
-   * ZURÜCK
-   * ============================================
+   * ================================================
+   * NÄCHSTES WORT
+   * ================================================
    */
+
+  function nextWord() {
+
+    clearSpeech();
+
+    history.push(
+      currentIndex
+    );
+
+
+    currentIndex =
+      chooseNextIndex();
+
+
+    displayCurrentWord();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  function chooseNextIndex() {
+
+    if (
+      vocabulary.length <= 1
+    ) {
+
+      return 0;
+
+    }
+
+
+    const weighted = [];
+
+
+    vocabulary.forEach(
+      (
+        item,
+        index
+      ) => {
+
+        if (
+          index === currentIndex
+        ) {
+
+          return;
+
+        }
+
+
+        const difficulty =
+          getDifficulty(
+            item
+          );
+
+
+        let weight = 1;
+
+
+        if (
+          difficulty === "hard"
+        ) {
+
+          weight = 6;
+
+        }
+
+        else if (
+          difficulty === "medium"
+        ) {
+
+          weight = 3;
+
+        }
+
+        else if (
+          difficulty === "new"
+        ) {
+
+          weight = 2;
+
+        }
+
+
+        for (
+          let i = 0;
+          i < weight;
+          i++
+        ) {
+
+          weighted.push(
+            index
+          );
+
+        }
+
+      }
+    );
+
+
+    return weighted[
+      Math.floor(
+        Math.random() *
+        weighted.length
+      )
+    ];
+
+  }
+
 
   function previousWord() {
 
-    if (vocabulary.length === 0) {
+    clearSpeech();
+
+
+    if (
+      history.length === 0
+    ) {
+
       return;
+
     }
 
 
     currentIndex =
-      (
-        currentIndex -
-        1 +
-        vocabulary.length
-      ) %
-      vocabulary.length;
-
-
-    currentDirection =
-      Math.random() < 0.5
-        ? "en-de"
-        : "de-en";
+      history.pop();
 
 
     displayCurrentWord();
@@ -1601,351 +2829,439 @@
 
 
   /*
-   * ============================================
-   * GEÜBT MARKIEREN
-   * ============================================
+   * ================================================
+   * LERNMODUS
+   * ================================================
    */
 
-  function markAsPracticed() {
+  function setMode(
+    mode
+  ) {
 
-    const item =
-      vocabulary[currentIndex];
-
-
-    const key =
-      normalize(item.english) +
-      "||" +
-      normalize(item.german);
+    currentMode =
+      mode;
 
 
-    if (
-      !practicedWords.includes(key)
-    ) {
-
-      practicedWords.push(key);
-
-
-      localStorage.setItem(
-        "practicedWords",
-        JSON.stringify(
-          practicedWords
-        )
-      );
-
-    }
+    document.getElementById(
+      "learningModeButton"
+    ).classList.toggle(
+      "active",
+      mode === "learning"
+    );
 
 
-    updateStats();
+    document.getElementById(
+      "testModeButton"
+    ).classList.toggle(
+      "active",
+      mode === "test"
+    );
+
+
+    displayCurrentWord();
 
   }
 
 
-  function updateStats() {
+  function updateModeDescription() {
 
-    document.getElementById(
-      "practicedCount"
-    ).textContent =
-      practicedWords.length;
+    const title =
+      document.querySelector(
+        ".handwriting-title"
+      );
+
+
+    if (!title) {
+      return;
+    }
+
+
+    if (
+      currentMode === "test"
+    ) {
+
+      title.textContent =
+        "✍️ Schreibe deine Antwort mit dem Finger";
+
+    } else {
+
+      title.textContent =
+        "✍️ Schreibe das Wort mit deinem Finger";
+
+    }
 
   }
 
 
   /*
-   * ============================================
-   * ANTWORT PRÜFEN
-   * ============================================
+   * ================================================
+   * STATISTIK
+   * ================================================
    */
 
-  function isAnswerCorrect(
-    userAnswer,
-    correctAnswer
-  ) {
+  function updatePracticedCount() {
 
-    const normalizedUser =
-      normalize(userAnswer);
+    const progress =
+      loadProgress();
 
 
-    const possibleAnswers =
-      String(correctAnswer)
-        .split("/")
-        .map(
-          answer =>
-            normalize(answer)
-        )
-        .filter(Boolean);
+    let count = 0;
 
 
-    return possibleAnswers.includes(
-      normalizedUser
+    Object.keys(
+      progress
+    ).forEach(
+      key => {
+
+        if (
+          progress[key].revealed > 0
+        ) {
+
+          count++;
+
+        }
+
+      }
     );
+
+
+    document.getElementById(
+      "practicedCount"
+    ).textContent =
+      count;
 
   }
 
 
-  function checkAnswer() {
+  function updateLearningStats() {
 
-    const input =
-      document.getElementById(
-        "answerInput"
-      );
-
-
-    const result =
-      document.getElementById(
-        "checkResult"
-      );
-
-
-    const answerWord =
-      document.getElementById(
-        "answerWord"
-      );
-
-
-    const answerDetails =
-      document.getElementById(
-        "answerDetails"
-      );
-
-
-    const exampleArea =
-      document.getElementById(
-        "exampleArea"
-      );
-
-
-    const userAnswer =
-      input.value.trim();
-
-
-    /*
-     * Keine Eingabe:
-     * einfach Antwort anzeigen.
-     */
-
-    if (!userAnswer) {
-
-      answerWord.classList.remove(
-        "answer-hidden"
-      );
-
-
-      answerDetails.classList.remove(
-        "answer-hidden"
-      );
-
-
-      exampleArea.classList.remove(
-        "answer-hidden"
-      );
-
-
-      result.textContent =
-        "";
-
-
-      markAsPracticed();
-
-
-      document.getElementById(
-        "showButton"
-      ).textContent =
-        "WEITER →";
-
+    if (
+      !vocabulary.length
+    ) {
 
       return;
 
     }
 
 
-    const correctAnswer =
-      currentDirection === "en-de"
-        ? vocabulary[currentIndex].german
-        : vocabulary[currentIndex].english;
+    let newWords = 0;
+    let easyWords = 0;
+    let mediumWords = 0;
+    let hardWords = 0;
 
 
-    /*
-     * RICHTIG
-     */
+    vocabulary.forEach(
+      item => {
+
+        const difficulty =
+          getDifficulty(
+            item
+          );
+
+
+        if (
+          difficulty === "new"
+        ) {
+
+          newWords++;
+
+        }
+
+        else if (
+          difficulty === "easy"
+        ) {
+
+          easyWords++;
+
+        }
+
+        else if (
+          difficulty === "medium"
+        ) {
+
+          mediumWords++;
+
+        }
+
+        else if (
+          difficulty === "hard"
+        ) {
+
+          hardWords++;
+
+        }
+
+      }
+    );
+
+
+    document.getElementById(
+      "learningStats"
+    ).innerHTML = `
+
+      <div>
+        Gesamt:
+        <strong>
+          ${vocabulary.length}
+        </strong>
+      </div>
+
+      <div>
+        🟢 Sicher:
+        <strong>
+          ${easyWords}
+        </strong>
+      </div>
+
+      <div>
+        🟡 In Wiederholung:
+        <strong>
+          ${mediumWords}
+        </strong>
+      </div>
+
+      <div>
+        🔴 Schwierig:
+        <strong>
+          ${hardWords}
+        </strong>
+      </div>
+
+      <div>
+        ⚪ Neu:
+        <strong>
+          ${newWords}
+        </strong>
+      </div>
+
+    `;
+
+  }
+
+
+  /*
+   * ================================================
+   * SCHWIERIGE WÖRTER
+   * ================================================
+   */
+
+  function updateDifficultList() {
+
+    const container =
+      document.getElementById(
+        "difficultList"
+      );
+
 
     if (
-      isAnswerCorrect(
-        userAnswer,
-        correctAnswer
-      )
+      !vocabulary.length
     ) {
 
-      result.textContent =
-        "✓ Richtig";
-
-
-      answerWord.classList.remove(
-        "answer-hidden"
-      );
-
-
-      answerDetails.classList.remove(
-        "answer-hidden"
-      );
-
-
-      exampleArea.classList.remove(
-        "answer-hidden"
-      );
-
-
-      document.getElementById(
-        "showButton"
-      ).textContent =
-        "WEITER →";
-
-
-      markAsPracticed();
+      return;
 
     }
 
 
-    /*
-     * FALSCH
-     */
+    const difficult =
+      vocabulary
+        .map(
+          item => ({
 
-    else {
+            item,
 
-      result.textContent =
-        "✗ Nicht ganz – richtige Antwort:";
+            progress:
+              getWordProgress(
+                item
+              )
+
+          })
+        )
+        .filter(
+          entry =>
+            entry.progress.wrong > 0
+        )
+        .sort(
+          (
+            a,
+            b
+          ) =>
+            b.progress.wrong -
+            a.progress.wrong
+        )
+        .slice(
+          0,
+          10
+        );
 
 
-      answerWord.classList.remove(
-        "answer-hidden"
-      );
+    if (
+      difficult.length === 0
+    ) {
 
+      container.innerHTML =
+        `
+          <div class="empty-message">
+            Noch keine schwierigen Wörter.
+          </div>
+        `;
 
-      answerDetails.classList.remove(
-        "answer-hidden"
-      );
-
-
-      exampleArea.classList.remove(
-        "answer-hidden"
-      );
-
-
-      document.getElementById(
-        "showButton"
-      ).textContent =
-        "WEITER →";
-
-
-      markAsPracticed();
+      return;
 
     }
+
+
+    container.innerHTML =
+      difficult
+        .map(
+          entry => {
+
+            const item =
+              entry.item;
+
+
+            const p =
+              entry.progress;
+
+
+            return `
+
+              <div class="difficult-item">
+
+                <div>
+
+                  <div class="difficult-word">
+                    ${escapeHTML(
+                      item.english
+                    )}
+                  </div>
+
+                  <div
+                    style="
+                      font-size:13px;
+                      color:#777;
+                    "
+                  >
+                    ${escapeHTML(
+                      item.german
+                    )}
+                  </div>
+
+                </div>
+
+                <div class="difficult-score">
+                  ${p.wrong}× falsch
+                </div>
+
+                <button
+                  class="small-button"
+                  onclick="
+                    practiceSpecificWord(
+                      '${escapeAttribute(
+                        item.english
+                      )}'
+                    )
+                  "
+                >
+                  ÜBEN
+                </button>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+  }
+
+
+  function practiceSpecificWord(
+    english
+  ) {
+
+    const index =
+      vocabulary.findIndex(
+        item =>
+          normalize(
+            item.english
+          ) ===
+          normalize(
+            english
+          )
+      );
+
+
+    if (
+      index === -1
+    ) {
+
+      return;
+
+    }
+
+
+    currentIndex =
+      index;
+
+
+    displayCurrentWord();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
   }
 
 
   /*
-   * ============================================
-   * EINGABEFELD EIN-/AUSBLENDEN
-   * ============================================
+   * ================================================
+   * VOKABEL HINZUFÜGEN
+   * ================================================
    */
 
-  function toggleAnswerInput() {
+  document.getElementById(
+    "newEnglish"
+  ).addEventListener(
+    "input",
+    () => {
 
-    const area =
-      document.getElementById(
-        "answerInputArea"
-      );
-
-
-    area.classList.toggle(
-      "visible"
-    );
-
-  }
-
-
-  /*
-   * ============================================
-   * ÜBERSETZUNGSFELDER
-   * ============================================
-   */
-
-  function setupTranslationInputs() {
-
-    const englishInput =
-      document.getElementById(
-        "newEnglish"
-      );
-
-
-    const germanInput =
       document.getElementById(
         "newGerman"
-      );
+      ).value = "";
+
+    }
+  );
 
 
-    englishInput.addEventListener(
-      "input",
-      () => {
+  document.getElementById(
+    "newGerman"
+  ).addEventListener(
+    "input",
+    () => {
 
-        if (
-          englishInput.value.trim()
-        ) {
+      document.getElementById(
+        "newEnglish"
+      ).value = "";
 
-          germanInput.value = "";
+    }
+  );
 
-        }
-
-
-        document.getElementById(
-          "translationStatus"
-        ).textContent = "";
-
-      }
-    );
-
-
-    germanInput.addEventListener(
-      "input",
-      () => {
-
-        if (
-          germanInput.value.trim()
-        ) {
-
-          englishInput.value = "";
-
-        }
-
-
-        document.getElementById(
-          "translationStatus"
-        ).textContent = "";
-
-      }
-    );
-
-  }
-
-
-  /*
-   * ============================================
-   * ÜBERSETZUNG SUCHEN
-   * ============================================
-   */
 
   async function findTranslation() {
 
-    const englishInput =
+    const english =
       document.getElementById(
         "newEnglish"
-      );
+      ).value.trim();
 
 
-    const germanInput =
+    const german =
       document.getElementById(
         "newGerman"
-      );
+      ).value.trim();
 
 
     const status =
@@ -1954,34 +3270,45 @@
       );
 
 
-    const english =
-      englishInput.value.trim();
-
-
-    const german =
-      germanInput.value.trim();
+    let source = "";
+    let sourceLanguage = "";
+    let targetLanguage = "";
 
 
     if (
-      english &&
-      german
+      english
     ) {
 
-      status.textContent =
-        "Bitte nur Englisch oder Deutsch eingeben.";
+      source =
+        english;
 
-      return;
+      sourceLanguage =
+        "en";
+
+      targetLanguage =
+        "de";
 
     }
 
-
-    if (
-      !english &&
-      !german
+    else if (
+      german
     ) {
 
+      source =
+        german;
+
+      sourceLanguage =
+        "de";
+
+      targetLanguage =
+        "en";
+
+    }
+
+    else {
+
       status.textContent =
-        "Bitte Englisch oder Deutsch eingeben.";
+        "Bitte zuerst ein Wort eingeben.";
 
       return;
 
@@ -1994,45 +3321,33 @@
 
     try {
 
-      let query;
-
-      let langPair;
-
-
-      if (english) {
-
-        query = english;
-
-        langPair = "en|de";
-
-      } else {
-
-        query = german;
-
-        langPair = "de|en";
-
-      }
-
-
       const url =
         "https://api.mymemory.translated.net/get?q=" +
-        encodeURIComponent(query) +
+        encodeURIComponent(
+          source
+        ) +
         "&langpair=" +
-        langPair;
+        sourceLanguage +
+        "|" +
+        targetLanguage;
 
 
       const response =
-        await fetch(url);
+        await fetch(
+          url
+        );
 
 
       const data =
         await response.json();
 
 
+      const translation =
+        data?.responseData?.translatedText;
+
+
       if (
-        !data ||
-        !data.responseData ||
-        !data.responseData.translatedText
+        !translation
       ) {
 
         throw new Error(
@@ -2042,31 +3357,35 @@
       }
 
 
-      const translation =
-        data.responseData
-          .translatedText
-          .trim();
+      if (
+        sourceLanguage === "en"
+      ) {
 
-
-      if (english) {
-
-        germanInput.value =
+        document.getElementById(
+          "newGerman"
+        ).value =
           translation;
 
       } else {
 
-        englishInput.value =
+        document.getElementById(
+          "newEnglish"
+        ).value =
           translation;
 
       }
 
 
       status.textContent =
-        "Übersetzung gefunden.";
+        "✓ Übersetzung gefunden.";
 
-    } catch (error) {
+    }
 
-      console.error(error);
+    catch (error) {
+
+      console.error(
+        error
+      );
 
 
       status.textContent =
@@ -2077,24 +3396,18 @@
   }
 
 
-  /*
-   * ============================================
-   * NEUE VOKABEL SPEICHERN
-   * ============================================
-   */
+  function addVocabulary() {
 
-  function saveVocabulary() {
-
-    const englishInput =
+    const english =
       document.getElementById(
         "newEnglish"
-      );
+      ).value.trim();
 
 
-    const germanInput =
+    const german =
       document.getElementById(
         "newGerman"
-      );
+      ).value.trim();
 
 
     const status =
@@ -2103,21 +3416,13 @@
       );
 
 
-    const english =
-      englishInput.value.trim();
-
-
-    const german =
-      germanInput.value.trim();
-
-
     if (
       !english ||
       !german
     ) {
 
       status.textContent =
-        "Bitte Englisch und Deutsch ausfüllen.";
+        "Bitte Englisch und Deutsch eingeben.";
 
       return;
 
@@ -2127,24 +3432,34 @@
     const duplicate =
       vocabulary.some(
         item =>
-          normalize(item.english) ===
-            normalize(english) &&
-          normalize(item.german) ===
-            normalize(german)
+          normalize(
+            item.english
+          ) ===
+          normalize(
+            english
+          ) &&
+          normalize(
+            item.german
+          ) ===
+          normalize(
+            german
+          )
       );
 
 
-    if (duplicate) {
+    if (
+      duplicate
+    ) {
 
       status.textContent =
-        "Diese Vokabel ist bereits vorhanden.";
+        "Diese Vokabel existiert bereits.";
 
       return;
 
     }
 
 
-    const newWord = {
+    const item = {
 
       english,
 
@@ -2162,16 +3477,11 @@
 
 
     localVocabulary.push(
-      newWord
+      item
     );
 
 
-    localStorage.setItem(
-      "localVocabulary",
-      JSON.stringify(
-        localVocabulary
-      )
-    );
+    saveLocalVocabulary();
 
 
     vocabulary =
@@ -2181,91 +3491,38 @@
       );
 
 
-    englishInput.value = "";
+    document.getElementById(
+      "newEnglish"
+    ).value = "";
 
-    germanInput.value = "";
+
+    document.getElementById(
+      "newGerman"
+    ).value = "";
 
 
     status.textContent =
-      "Vokabel wurde gespeichert.";
+      "✓ Vokabel gespeichert.";
+
+
+    document.getElementById(
+      "csvCount"
+    ).textContent =
+      csvVocabulary.length;
+
+
+    updateLearningStats();
+
+    updateDifficultList();
 
   }
 
 
   /*
-   * ============================================
-   * LOKALE VOKABELN LÖSCHEN
-   * ============================================
-   */
-
-  function deleteLocalVocabulary() {
-
-    const confirmed =
-      confirm(
-        "Möchtest du wirklich alle lokal hinzugefügten Vokabeln löschen?"
-      );
-
-
-    if (!confirmed) {
-      return;
-    }
-
-
-    localVocabulary = [];
-
-
-    localStorage.removeItem(
-      "localVocabulary"
-    );
-
-
-    vocabulary =
-      mergeVocabulary(
-        csvVocabulary,
-        localVocabulary
-      );
-
-
-    alert(
-      "Lokale Vokabeln wurden gelöscht."
-    );
-
-  }
-
-
-  /*
-   * ============================================
+   * ================================================
    * CSV EXPORT
-   * ============================================
+   * ================================================
    */
-
-  function csvEscape(value) {
-
-    const text =
-      String(value ?? "");
-
-
-    if (
-      text.includes(",") ||
-      text.includes('"') ||
-      text.includes("\n") ||
-      text.includes("\r")
-    ) {
-
-      return '"' +
-        text.replace(
-          /"/g,
-          '""'
-        ) +
-        '"';
-
-    }
-
-
-    return text;
-
-  }
-
 
   function exportCSV() {
 
@@ -2286,15 +3543,9 @@
     ];
 
 
-    const rows = [
-      header
-    ];
-
-
-    vocabulary.forEach(
-      item => {
-
-        rows.push([
+    const rows =
+      vocabulary.map(
+        item => [
 
           item.english,
 
@@ -2308,21 +3559,29 @@
 
           item.example || ""
 
-        ]);
-
-      }
-    );
+        ]
+      );
 
 
-    const csv =
-      rows
-        .map(
-          row =>
-            row
-              .map(csvEscape)
-              .join(",")
-        )
-        .join("\r\n");
+    const csv = [
+
+      header,
+
+      ...rows
+
+    ]
+      .map(
+        row =>
+          row
+            .map(
+              value =>
+                csvEscape(
+                  value
+                )
+            )
+            .join(",")
+      )
+      .join("\r\n");
 
 
     const blob =
@@ -2338,14 +3597,20 @@
 
 
     const url =
-      URL.createObjectURL(blob);
+      URL.createObjectURL(
+        blob
+      );
 
 
     const link =
-      document.createElement("a");
+      document.createElement(
+        "a"
+      );
 
 
-    link.href = url;
+    link.href =
+      url;
+
 
     link.download =
       "vocabulary.csv";
@@ -2359,9 +3624,7 @@
     link.click();
 
 
-    document.body.removeChild(
-      link
-    );
+    link.remove();
 
 
     URL.revokeObjectURL(
@@ -2371,24 +3634,192 @@
   }
 
 
-  /*
-   * ============================================
-   * START
-   * ============================================
-   */
+  function csvEscape(value) {
 
-  function start() {
+    const string =
+      String(
+        value ?? ""
+      );
 
-    updateStats();
 
-    setupTranslationInputs();
+    if (
+      string.includes(",") ||
+      string.includes('"') ||
+      string.includes("\n") ||
+      string.includes("\r")
+    ) {
 
-    loadVocabulary();
+      return (
+        '"' +
+        string.replace(
+          /"/g,
+          '""'
+        ) +
+        '"'
+      );
+
+    }
+
+
+    return string;
 
   }
 
 
-  start();
+  /*
+   * ================================================
+   * LOKALE VOKABELN LÖSCHEN
+   * ================================================
+   */
+
+  function deleteLocalVocabulary() {
+
+    const confirmed =
+      confirm(
+        "Möchtest du wirklich alle lokal hinzugefügten Vokabeln löschen?"
+      );
+
+
+    if (
+      !confirmed
+    ) {
+
+      return;
+
+    }
+
+
+    localVocabulary = [];
+
+
+    saveLocalVocabulary();
+
+
+    vocabulary =
+      mergeVocabulary(
+        csvVocabulary,
+        localVocabulary
+      );
+
+
+    updateLearningStats();
+
+    updateDifficultList();
+
+
+    if (
+      currentIndex >=
+      vocabulary.length
+    ) {
+
+      currentIndex =
+        0;
+
+    }
+
+
+    displayCurrentWord();
+
+  }
+
+
+  /*
+   * ================================================
+   * HILFSFUNKTIONEN
+   * ================================================
+   */
+
+  function normalize(
+    text
+  ) {
+
+    return String(
+      text
+    )
+      .toLowerCase()
+      .trim()
+      .replace(
+        /\s+/g,
+        " "
+      )
+      .replace(
+        /[.,!?;:]+$/g,
+        ""
+      );
+
+  }
+
+
+  function escapeHTML(
+    value
+  ) {
+
+    return String(
+      value
+    )
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  function escapeAttribute(
+    value
+  ) {
+
+    return String(
+      value
+    )
+      .replace(
+        /\\/g,
+        "\\\\"
+      )
+      .replace(
+        /'/g,
+        "\\'"
+      );
+
+  }
+
+
+  /*
+   * ================================================
+   * SPEECH VOICES
+   * ================================================
+   */
+
+  if (
+    "speechSynthesis" in window
+  ) {
+
+    window.speechSynthesis
+      .onvoiceschanged =
+      () => {
+
+        window.speechSynthesis
+          .getVoices();
+
+      };
+
+  }
 
 </script>
 
