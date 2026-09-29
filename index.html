@@ -96,7 +96,7 @@
       margin-top: 8px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
     }
 
     .word-detail {
@@ -107,6 +107,20 @@
 
     .word-detail strong {
       color: #555;
+      font-weight: 600;
+    }
+
+    .example-sentence {
+      margin-top: 7px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+      font-style: italic;
+    }
+
+    .example-sentence strong {
+      color: #444;
+      font-style: normal;
       font-weight: 600;
     }
 
@@ -296,6 +310,7 @@
     }
 
     @media (max-width: 650px) {
+
       body {
         padding: 12px;
       }
@@ -324,6 +339,10 @@
 
       .word-detail {
         font-size: 12px;
+      }
+
+      .example-sentence {
+        font-size: 13px;
       }
     }
   </style>
@@ -387,7 +406,10 @@
 
             </div>
 
-            <div id="questionDetails" class="word-details"></div>
+            <div
+              id="questionDetails"
+              class="word-details">
+            </div>
 
           </div>
 
@@ -691,6 +713,47 @@
       );
 
 
+    /*
+     * Beispielsatz-Spalte erkennen.
+     *
+     * Unterstützt mehrere mögliche
+     * Bezeichnungen der CSV-Spalte.
+     */
+
+    const exampleNames = [
+      "example sentence",
+      "example sentences",
+      "example",
+      "examples",
+      "beispielsatz",
+      "beispielsätze",
+      "beispiel",
+      "beispiele"
+    ];
+
+
+    let exampleIndex = -1;
+
+
+    for (
+      const name of exampleNames
+    ) {
+
+      const index =
+        header.indexOf(name);
+
+
+      if (index !== -1) {
+
+        exampleIndex = index;
+
+        break;
+
+      }
+
+    }
+
+
     if (englishIndex === -1) {
       englishIndex = 0;
     }
@@ -750,14 +813,36 @@
           .trim();
 
 
+      let example = "";
+
+
+      if (
+        exampleIndex !== -1
+      ) {
+
+        example =
+          (rows[i][exampleIndex] || "")
+            .trim();
+
+      }
+
+
       if (english && german) {
 
         result.push({
+
           english,
+
           german,
+
           construction,
+
           noun,
-          adjective
+
+          adjective,
+
+          example
+
         });
 
       }
@@ -1108,6 +1193,14 @@
     container.innerHTML = "";
 
 
+    /*
+     * Die Zusatzinformationen gehören
+     * zur englischen Vokabel.
+     *
+     * Deshalb werden sie nur beim
+     * englischen Block angezeigt.
+     */
+
     if (language !== "english") {
       return;
     }
@@ -1158,6 +1251,27 @@
       div.innerHTML =
         "<strong>Adjektiv/Partizip:</strong> " +
         escapeHtml(item.adjective);
+
+      container.appendChild(div);
+
+    }
+
+
+    /*
+     * Beispielsatz
+     */
+
+    if (item.example) {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "example-sentence";
+
+      div.innerHTML =
+        "<strong>Beispielsatz:</strong> " +
+        escapeHtml(item.example);
 
       container.appendChild(div);
 
@@ -1777,11 +1891,19 @@
 
 
     const newWord = {
+
       english,
+
       german,
+
       construction: "",
+
       noun: "",
-      adjective: ""
+
+      adjective: "",
+
+      example: ""
+
     };
 
 
@@ -1882,11 +2004,19 @@
   function exportCSV() {
 
     const header = [
+
       "English",
+
       "Verb + preposition/construction",
+
       "Noun",
+
       "Adjective/Participle",
-      "Deutsch"
+
+      "Deutsch",
+
+      "Example sentence"
+
     ];
 
 
@@ -1899,11 +2029,19 @@
       item => {
 
         rows.push([
+
           item.english,
+
           item.construction || "",
+
           item.noun || "",
+
           item.adjective || "",
-          item.german
+
+          item.german,
+
+          item.example || ""
+
         ]);
 
       }
