@@ -1,4974 +1,3442 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
-
-  <meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
-  >
-
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="default"
-  >
-
-  <meta
-    name="theme-color"
-    content="#ffffff"
-  >
-
-  <title>Global HR Vocabulary</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #f5f5f7;
-      color: #222;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      text-align: center;
-      margin: 10px 0 12px;
-      font-size: 30px;
-    }
-
-    .top-stats {
-      text-align: center;
-      font-size: 15px;
-      color: #666;
-      line-height: 1.7;
-      margin-bottom: 22px;
-    }
-
-    .top-stats strong {
-      color: #222;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #666;
-    }
-
-    .card {
-      background: white;
-      border-radius: 22px;
-      padding: 25px;
-      box-shadow:
-        0 8px 30px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-    }
-
-    .direction {
-      text-align: center;
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .difficulty {
-      text-align: center;
-      margin-bottom: 18px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .difficulty-new {
-      color: #777;
-    }
-
-    .difficulty-easy {
-      color: #2e7d32;
-    }
-
-    .difficulty-medium {
-      color: #ef8c00;
-    }
-
-    .difficulty-hard {
-      color: #d32f2f;
-    }
-
-    .word-area {
-      display: grid;
-      grid-template-columns:
-        minmax(0, 1fr)
-        auto
-        minmax(0, 1fr);
-
-      align-items: center;
-      gap: 18px;
-      width: 100%;
-    }
-
-    .word-box {
-      min-width: 0;
-      text-align: center;
-    }
-
-    .word {
-      font-size: clamp(25px, 5vw, 42px);
-      font-weight: 700;
-      line-height: 1.15;
-      overflow-wrap: anywhere;
-    }
-
-    .word-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .speaker-button {
-      border: none;
-      background: #f0f0f2;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      font-size: 20px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .speaker-button:active {
-      transform: scale(0.94);
-    }
-
-    .connector {
-      width: 55px;
-      height: 2px;
-      background: #ddd;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .connector::after {
-      content: "";
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #bbb;
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .answer-hidden {
-      visibility: hidden;
-    }
-
-    .show-button {
-      min-width: 145px;
-      min-height: 58px;
-      padding: 14px 22px;
-      border: none;
-      border-radius: 16px;
-      background: #222;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .show-button:active {
-      transform: scale(0.97);
-    }
-
-    .show-button.test-reveal {
-      background: #555;
-    }
-
-    .example-area {
-      width: 100%;
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid #eee;
-    }
-
-    .example-label {
-      font-size: 12px;
-      color: #888;
-      text-transform: uppercase;
-      margin-bottom: 7px;
-      letter-spacing: 0.4px;
-    }
-
-    .example-content {
-      font-size: 18px;
-      line-height: 1.5;
-      width: 100%;
-    }
-
-    .example-speaker {
-      margin-left: 6px;
-      vertical-align: middle;
-    }
-
-    .details {
-      margin-top: 18px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-      color: #666;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-
-    .details div {
-      margin-bottom: 4px;
-    }
-
-    /*
-     * ==========================================
-     * ACTIVE RECALL / SPRACHE
-     * ==========================================
-     */
-
-    .recall-area {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
-
-    .recall-title {
-      text-align: center;
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 12px;
-    }
-
-    .speech-area {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    .speech-button {
-      border: none;
-      border-radius: 14px;
-      padding: 13px 18px;
-      background: #f0f0f2;
-      color: #222;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .speech-button:active {
-      transform: scale(0.97);
-    }
-
-    .speech-button.recording {
-      background: #222;
-      color: white;
-    }
-
-    .speech-status {
-      min-height: 22px;
-      margin-top: 8px;
-      font-size: 14px;
-      color: #777;
-    }
-
-    .speech-transcript {
-      min-height: 24px;
-      margin-top: 5px;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    /*
-     * ==========================================
-     * HANDSCHRIFT
-     * ==========================================
-     */
-
-    .handwriting-area {
-      margin-top: 18px;
-    }
-
-    .handwriting-title {
-      text-align: center;
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 10px;
-    }
-
-    .canvas-wrapper {
-      width: 100%;
-      background: #fafafa;
-      border: 2px solid #ddd;
-      border-radius: 15px;
-      overflow: hidden;
-      touch-action: none;
-    }
-
-    #handwritingCanvas {
-      display: block;
-      width: 100%;
-      height: 180px;
-      touch-action: none;
-      cursor: crosshair;
-    }
-
-    .writing-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .writing-buttons button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #eee;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    .writing-buttons button.primary {
-      background: #222;
-      color: white;
-    }
-
-    .writing-feedback {
-      text-align: center;
-      margin-top: 10px;
-      min-height: 22px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    /*
-     * ==========================================
-     * SELBSTBEWERTUNG
-     * ==========================================
-     */
-
-    .self-rating {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-    }
-
-    .self-rating button {
-      flex: 1;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .self-rating button.knew {
-      background: #e8f4e9;
-      color: #2e7d32;
-    }
-
-    .self-rating button.didnt-know {
-      background: #f8e8e8;
-      color: #c62828;
-    }
-
-    .self-rating button:active {
-      transform: scale(0.97);
-    }
-
-    .result {
-      text-align: center;
-      margin-top: 12px;
-      min-height: 24px;
-      font-weight: 600;
-    }
-
-    .correct {
-      color: #2e7d32;
-    }
-
-    .wrong {
-      color: #d32f2f;
-    }
-
-    .navigation {
-      display: flex;
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .navigation button {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: #eee;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .navigation button:last-child {
-      background: #222;
-      color: white;
-    }
-
-    .secondary-section {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow:
-        0 5px 20px rgba(0,0,0,0.05);
-    }
-
-    .secondary-section h2 {
-      font-size: 19px;
-      margin-top: 0;
-      margin-bottom: 15px;
-    }
-
-    .secondary-section input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    .secondary-section button {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
-      background: #eee;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 8px;
-    }
-
-    .secondary-section button.primary {
-      background: #222;
-      color: white;
-    }
-
-    .secondary-section button.danger {
-      background: #f7e8e8;
-      color: #b3261e;
-    }
-
-    .translation-status {
-      font-size: 14px;
-      color: #777;
-      min-height: 22px;
-      margin-bottom: 8px;
-    }
-
-    .mode-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .mode-buttons button {
-      flex: 1;
-      margin-bottom: 0;
-    }
-
-    .mode-buttons button.active {
-      background: #222;
-      color: white;
-    }
-
-    .learning-info {
-      font-size: 14px;
-      line-height: 1.7;
-      color: #666;
-    }
-
-    .difficult-list {
-      margin-top: 10px;
-    }
-
-    .difficult-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .difficult-item:last-child {
-      border-bottom: none;
-    }
-
-    .difficult-word {
-      font-weight: 600;
-    }
-
-    .difficult-score {
-      font-size: 13px;
-      color: #d32f2f;
-      white-space: nowrap;
-    }
-
-    .empty-message {
-      color: #888;
-      font-size: 14px;
-    }
-
-    .small-button {
-      width: auto !important;
-      padding: 8px 12px !important;
-      margin: 0 !important;
-      background: #f0f0f2 !important;
-      color: #222 !important;
-      font-size: 13px !important;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 700px) {
-
-      body {
-        padding: 12px;
-      }
-
-      .card {
-        padding: 18px;
-        border-radius: 18px;
-      }
-
-      .word-area {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      .connector {
-        width: 2px;
-        height: 28px;
-        margin: 0 auto;
-      }
-
-      .show-button {
-        width: 100%;
-      }
-
-      .word {
-        font-size: 31px;
-      }
-
-      .example-content {
-        font-size: 17px;
-      }
-
-      #handwritingCanvas {
-        height: 190px;
-      }
-
-      .self-rating {
-        flex-direction: column;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Global HR Vocabulary">
+<title>Global HR Vocabulary</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+
+html{
+  touch-action:pan-y;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  padding:18px 14px 40px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f4f4f6;
+  color:#202020;
+}
+
+button,
+input,
+textarea{
+  font-family:inherit;
+}
+
+button{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+
+.container{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+}
+
+.header{
+  position:relative;
+  padding:4px 0 14px;
+}
+
+h1{
+  text-align:center;
+  margin:0;
+  font-size:27px;
+  line-height:1.2;
+}
+
+.top-stats{
+  text-align:center;
+  margin-top:7px;
+  color:#8a8a8f;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.top-stats span{
+  margin:0 3px;
+}
+
+#loading{
+  text-align:center;
+  padding:45px 20px;
+  color:#777;
+}
+
+#app{
+  display:none;
+}
+
+/* =========================
+   MODI
+========================= */
+
+.mode-bar,
+.direction-controls{
+  display:flex;
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.mode-bar button,
+.direction-controls button{
+  flex:1;
+  border:0;
+  border-radius:11px;
+  padding:11px 8px;
+  background:#e5e5ea;
+  color:#555;
+  font-size:13px;
+  font-weight:600;
+}
+
+.mode-bar button.active,
+.direction-controls button.active{
+  background:#222;
+  color:#fff;
+}
+
+/* =========================
+   HAUPTKARTE
+========================= */
+
+.card{
+  background:#fff;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 3px 15px rgba(0,0,0,.07);
+}
+
+.mode-info{
+  text-align:center;
+  color:#888;
+  font-size:11px;
+  margin:2px 0 15px;
+}
+
+.connection{
+  display:flex;
+  flex-direction:column;
+}
+
+.word-block{
+  padding:8px 0;
+}
+
+.language{
+  color:#8a8a8f;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+
+.word{
+  font-size:27px;
+  font-weight:750;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+
+.answer-hidden{
+  visibility:hidden;
+}
+
+.connection-line{
+  height:1px;
+  background:#ddd;
+  margin:8px 0;
+}
+
+.connection-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#aaa;
+  align-self:center;
+  margin:1px 0;
+}
+
+.speaker,
+.mic-button,
+.difficult-button{
+  border:0;
+  background:transparent;
+  padding:5px;
+  margin-left:4px;
+  font-size:21px;
+  vertical-align:middle;
+}
+
+.difficult-button{
+  font-size:20px;
+}
+
+.show-button{
+  width:100%;
+  min-height:58px;
+  margin-top:15px;
+  border:0;
+  border-radius:14px;
+  background:#222;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+}
+
+.show-button:active,
+.action-button:active,
+.assessment button:active{
+  transform:scale(.98);
+}
+
+/* =========================
+   ACTIVE RECALL
+========================= */
+
+.recall-box{
+  margin-top:16px;
+  padding-top:15px;
+  border-top:1px solid #eee;
+}
+
+.recall-title{
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+  margin-bottom:10px;
+}
+
+.recall-status{
+  display:flex;
+  gap:7px;
+  margin-bottom:11px;
+}
+
+.status{
+  flex:1;
+  text-align:center;
+  border-radius:9px;
+  background:#f0f0f2;
+  color:#888;
+  padding:8px 4px;
+  font-size:11px;
+}
+
+.status.done{
+  background:#dedee2;
+  color:#222;
+  font-weight:700;
+}
+
+.recall-actions{
+  display:flex;
+  gap:8px;
+}
+
+.action-button{
+  flex:1;
+  min-height:46px;
+  border:0;
+  border-radius:11px;
+  background:#e8e8ed;
+  color:#222;
+  font-size:13px;
+  font-weight:650;
+}
+
+.action-button.primary{
+  background:#222;
+  color:#fff;
+}
+
+/* =========================
+   HANDSCHRIFT
+========================= */
+
+.handwriting{
+  margin-top:12px;
+  display:none;
+}
+
+.canvas-wrapper{
+  position:relative;
+  width:100%;
+  height:180px;
+  border:1px solid #d6d6da;
+  border-radius:14px;
+  background:#fafafa;
+  overflow:hidden;
+}
+
+#handwritingCanvas{
+  display:block;
+  width:100%;
+  height:100%;
+  touch-action:none;
+}
+
+.canvas-hint{
+  position:absolute;
+  top:10px;
+  left:12px;
+  color:#aaa;
+  font-size:11px;
+  pointer-events:none;
+}
+
+.canvas-actions{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.canvas-actions button{
+  flex:1;
+  min-height:42px;
+  border:0;
+  border-radius:10px;
+  background:#e7e7eb;
+  font-size:13px;
+  font-weight:600;
+}
+
+/* =========================
+   SPRACHE
+========================= */
+
+.speech-box{
+  margin-top:12px;
+  display:none;
+}
+
+.speech-status{
+  min-height:20px;
+  text-align:center;
+  font-size:12px;
+  color:#777;
+  margin-bottom:7px;
+}
+
+.speak-answer{
+  width:100%;
+  min-height:46px;
+  border:0;
+  border-radius:11px;
+  background:#e8e8ed;
+  font-size:13px;
+  font-weight:650;
+}
+
+/* =========================
+   BEISPIEL
+========================= */
+
+.example-area{
+  width:100%;
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid #eee;
+}
+
+.example{
+  font-size:13px;
+  line-height:1.5;
+  color:#666;
+}
+
+.example strong{
+  color:#444;
+}
+
+.example-speaker{
+  border:0;
+  background:transparent;
+  padding:2px 5px;
+  font-size:19px;
+}
+
+/* =========================
+   BEWERTUNG
+========================= */
+
+.assessment{
+  display:none;
+  margin-top:15px;
+  padding-top:14px;
+  border-top:1px solid #eee;
+}
+
+.assessment-title{
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+  margin-bottom:9px;
+}
+
+.assessment-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.assessment button{
+  flex:1;
+  min-height:47px;
+  border:0;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:700;
+  background:#e7e7eb;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navigation{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.navigation button{
+  flex:1;
+  min-height:44px;
+  border:0;
+  border-radius:11px;
+  background:#e7e7eb;
+  font-size:13px;
+  font-weight:650;
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.word-details{
+  margin-top:9px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.word-detail{
+  font-size:11px;
+  color:#777;
+  line-height:1.4;
+}
+
+.word-detail strong{
+  color:#555;
+}
+
+.example-detail{
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.5;
+  color:#777;
+}
+
+/* =========================
+   BEREICHE
+========================= */
+
+.section{
+  background:#fff;
+  border-radius:17px;
+  padding:17px;
+  margin-bottom:14px;
+  box-shadow:0 2px 9px rgba(0,0,0,.05);
+}
+
+.section h2{
+  margin:0 0 12px;
+  font-size:17px;
+}
+
+.section-subtitle{
+  color:#888;
+  font-size:11px;
+  margin:-6px 0 12px;
+}
+
+/* =========================
+   SCHWIERIGE WÖRTER
+========================= */
+
+.difficult-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.difficult-item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 10px;
+  background:#f3f3f5;
+  border-radius:9px;
+  font-size:12px;
+}
+
+.difficult-item strong{
+  font-weight:700;
+}
+
+.difficult-item span{
+  color:#888;
+}
+
+/* =========================
+   STATISTIK
+========================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.stat{
+  background:#f3f3f5;
+  border-radius:11px;
+  padding:12px;
+  text-align:center;
+}
+
+.stat-value{
+  font-size:21px;
+  font-weight:750;
+}
+
+.stat-label{
+  margin-top:3px;
+  font-size:10px;
+  color:#888;
+}
+
+/* =========================
+   CHALLENGE
+========================= */
+
+.challenge-box{
+  text-align:center;
+}
+
+.challenge-number{
+  font-size:31px;
+  font-weight:800;
+}
+
+.challenge-text{
+  color:#777;
+  font-size:12px;
+  margin:2px 0 12px;
+}
+
+.challenge-progress{
+  height:7px;
+  background:#e5e5e8;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.challenge-progress-inner{
+  height:100%;
+  width:0%;
+  background:#222;
+}
+
+/* =========================
+   GLOBAL HR / MEETING
+========================= */
+
+.context-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.context-buttons button{
+  flex:1;
+  min-height:43px;
+  border:0;
+  border-radius:10px;
+  background:#e8e8ed;
+  font-size:12px;
+  font-weight:650;
+}
+
+.context-buttons button.active{
+  background:#222;
+  color:#fff;
+}
+
+/* =========================
+   FORMULAR
+========================= */
+
+.add-section input{
+  width:100%;
+  padding:11px;
+  margin-bottom:7px;
+  border:1px solid #ccc;
+  border-radius:9px;
+  font-size:15px;
+  -webkit-user-select:text;
+  user-select:text;
+}
+
+.add-section input::selection{
+  background:#ddd;
+}
+
+.add-section button,
+.file-section button{
+  width:100%;
+  min-height:43px;
+  margin-top:6px;
+  border:0;
+  border-radius:10px;
+  background:#222;
+  color:#fff;
+  font-size:13px;
+  font-weight:650;
+}
+
+.file-section input{
+  width:100%;
+  margin-bottom:6px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:700px){
+  body{
+    padding-top:28px;
+  }
+
+  .card{
+    padding:24px;
+  }
+
+  .connection{
+    flex-direction:row;
+    align-items:center;
+    gap:18px;
+  }
+
+  .words{
+    flex:1;
+    min-width:0;
+  }
+
+  .show-button{
+    width:145px;
+    min-height:70px;
+    margin-top:0;
+  }
+}
+
+/* =========================
+   IPHONE
+========================= */
+
+@media(max-width:699px){
+  .word{
+    font-size:25px;
+  }
+
+  .card{
+    padding:17px;
+  }
+
+  .mode-bar button,
+  .direction-controls button{
+    font-size:12px;
+    padding:10px 5px;
+  }
+}
+</style>
 </head>
-
 
 <body>
 
 <div class="container">
 
+<header class="header">
   <h1>Global HR Vocabulary</h1>
 
   <div class="top-stats">
+    <span>CSV: <span id="csvCount">0</span></span>
+    ·
+    <span>Geübt: <span id="practicedCount">0</span></span>
+    ·
+    <span>Serie: <span id="streakCount">0</span> 🔥</span>
+  </div>
+</header>
 
-    <div>
-      <strong>CSV-Einträge:</strong>
-      <span id="csvCount">0</span>
+<div id="loading">Vokabeln werden geladen ...</div>
+
+<div id="app">
+
+  <!-- MODUS -->
+  <div class="mode-bar">
+    <button id="modeLearn" class="active" onclick="setMode('learn')">
+      🧠 Lernen
+    </button>
+
+    <button id="modeTest" onclick="setMode('test')">
+      🎯 Testen
+    </button>
+
+    <button id="modeToday" onclick="setMode('today')">
+      📅 Heute
+    </button>
+  </div>
+
+  <!-- RICHTUNG -->
+  <div class="direction-controls">
+    <button id="directionRandom" class="active" onclick="setDirection('random')">
+      Zufall
+    </button>
+
+    <button id="directionEnDe" onclick="setDirection('en-de')">
+      EN → DE
+    </button>
+
+    <button id="directionDeEn" onclick="setDirection('de-en')">
+      DE → EN
+    </button>
+  </div>
+
+  <!-- HAUPTKARTE -->
+  <div class="card">
+
+    <div class="mode-info" id="modeInfo">
+      Aktiver Abruf · erst denken, dann auflösen
     </div>
 
-    <div>
-      <strong>Geübt:</strong>
-      <span id="practicedCount">0</span>
-      Wörter
+    <div class="connection">
+
+      <div class="words">
+
+        <!-- FRAGE -->
+        <div class="word-block">
+          <div class="language" id="questionLanguage"></div>
+          <div class="word" id="questionWord"></div>
+          <div class="word-details" id="questionDetails"></div>
+        </div>
+
+        <div class="connection-line"></div>
+        <div class="connection-dot"></div>
+        <div class="connection-line"></div>
+
+        <!-- ANTWORT -->
+        <div class="word-block">
+          <div class="language" id="answerLanguage"></div>
+          <div class="word answer-hidden" id="answerWord"></div>
+          <div class="word-details answer-hidden" id="answerDetails"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RECALL -->
+    <div class="recall-box">
+
+      <div class="recall-title">
+        Aktiver Abruf
+      </div>
+
+      <div class="recall-status">
+
+        <div class="status" id="handStatus">
+          ✍️ Handschrift
+        </div>
+
+        <div class="status" id="speechStatusBox">
+          🎙️ Sprechen
+        </div>
+
+      </div>
+
+      <div class="recall-actions">
+
+        <button class="action-button" onclick="toggleHandwriting()">
+          ✍️ Schreiben
+        </button>
+
+        <button class="action-button" onclick="startSpeechRecognition()">
+          🎙️ Sprechen
+        </button>
+
+      </div>
+
+      <!-- HANDSCHRIFT -->
+      <div class="handwriting" id="handwritingSection">
+
+        <div class="canvas-wrapper">
+          <canvas id="handwritingCanvas"></canvas>
+          <div class="canvas-hint">
+            Schreibe deine Antwort mit dem Finger
+          </div>
+        </div>
+
+        <div class="canvas-actions">
+
+          <button onclick="clearCanvas()">
+            Löschen
+          </button>
+
+          <button onclick="finishHandwriting()">
+            Fertig
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- SPRACHE -->
+      <div class="speech-box" id="speechBox">
+
+        <div class="speech-status" id="speechStatus">
+          Tippe auf 🎙️ und sage das englische Wort.
+        </div>
+
+        <button
+          class="speak-answer"
+          onclick="startSpeechRecognition()">
+          🎙️ Antwort sprechen
+        </button>
+
+      </div>
+
+      <button
+        class="show-button"
+        id="showButton"
+        onclick="showAnswerAndNext()">
+        ANZEIGEN
+      </button>
+
+    </div>
+
+    <!-- BEISPIEL -->
+    <div class="example-area hidden" id="exampleArea"></div>
+
+    <!-- BEWERTUNG -->
+    <div class="assessment" id="assessment">
+
+      <div class="assessment-title">
+        Wie war dein Abruf?
+      </div>
+
+      <div class="assessment-buttons">
+
+        <button onclick="markWrong()">
+          ✗ Noch nicht
+        </button>
+
+        <button onclick="markCorrect()">
+          ✓ Konnte ich
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="navigation">
+
+      <button onclick="previousWord()">
+        ← Zurück
+      </button>
+
+      <button onclick="nextWord()">
+        Weiter →
+      </button>
+
     </div>
 
   </div>
 
+  <!-- CHALLENGE -->
+  <div class="section challenge-box">
 
-  <div
-    id="loading"
-    class="loading"
-  >
-    Vokabeln werden geladen …
+    <div class="challenge-number">
+      <span id="challengeCount">0</span>/5
+    </div>
+
+    <div class="challenge-text">
+      Global HR Challenge heute
+    </div>
+
+    <div class="challenge-progress">
+      <div
+        class="challenge-progress-inner"
+        id="challengeProgress">
+      </div>
+    </div>
+
   </div>
 
+  <!-- KONTEXT -->
+  <div class="section">
 
-  <div
-    id="app"
-    class="hidden"
-  >
+    <h2>Global HR Training</h2>
 
-
-    <!-- LERNMODUS -->
-
-    <div class="secondary-section">
-
-      <h2>Lernmodus</h2>
-
-      <div class="mode-buttons">
-
-        <button
-          id="learningModeButton"
-          class="active"
-          onclick="setMode('learning')"
-        >
-          🧠 LERNEN
-        </button>
-
-        <button
-          id="testModeButton"
-          onclick="setMode('test')"
-        >
-          🎯 TESTEN
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- HAUPTKARTE -->
-
-    <div class="card">
-
-      <div
-        id="direction"
-        class="direction"
-      >
-      </div>
-
-
-      <div
-        id="difficulty"
-        class="difficulty difficulty-new"
-      >
-        ⚪ Neu
-      </div>
-
-
-      <div class="word-area">
-
-        <div class="word-box">
-
-          <div class="word-row">
-
-            <div
-              id="questionWord"
-              class="word"
-            >
-            </div>
-
-            <button
-              class="speaker-button"
-              onclick="speakEnglish()"
-              title="Englisch anhören"
-            >
-              🔊
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div class="connector"></div>
-
-
-        <div class="word-box">
-
-          <div
-            id="answerWord"
-            class="word answer-hidden"
-          >
-          </div>
-
-          <div
-            id="answerSpeakerArea"
-            class="answer-hidden"
-          >
-
-            <button
-              class="speaker-button"
-              onclick="speakEnglish()"
-              title="Englisch anhören"
-            >
-              🔊
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          id="showButton"
-          class="show-button"
-          onclick="showAnswerAndNext()"
-        >
-          ANZEIGEN
-        </button>
-
-      </div>
-
-
-      <!-- BEISPIELSATZ -->
-
-      <div
-        id="exampleArea"
-        class="example-area answer-hidden"
-      >
-
-        <div class="example-label">
-          Beispielsatz
-        </div>
-
-        <div
-          id="exampleContent"
-          class="example-content"
-        >
-        </div>
-
-      </div>
-
-
-      <!-- DETAILS -->
-
-      <div
-        id="answerDetails"
-        class="details answer-hidden"
-      >
-      </div>
-
-
-      <!-- ACTIVE RECALL -->
-
-      <div class="recall-area">
-
-        <div
-          id="recallTitle"
-          class="recall-title"
-        >
-          🧠 Erst erinnern – dann auflösen
-        </div>
-
-
-        <!-- SPRECHEN -->
-
-        <div class="speech-area">
-
-          <button
-            id="speechButton"
-            class="speech-button"
-            onclick="startSpeechRecognition()"
-          >
-            🎙️ ENGLISCH SPRECHEN
-          </button>
-
-          <div
-            id="speechStatus"
-            class="speech-status"
-          >
-          </div>
-
-          <div
-            id="speechTranscript"
-            class="speech-transcript"
-          >
-          </div>
-
-        </div>
-
-
-        <!-- HANDSCHRIFT -->
-
-        <div class="handwriting-area">
-
-          <div
-            id="handwritingTitle"
-            class="handwriting-title"
-          >
-            ✍️ Schreibe deine Antwort mit dem Finger
-          </div>
-
-
-          <div class="canvas-wrapper">
-
-            <canvas
-              id="handwritingCanvas"
-            ></canvas>
-
-          </div>
-
-
-          <div class="writing-buttons">
-
-            <button
-              onclick="clearCanvas()"
-            >
-              LÖSCHEN
-            </button>
-
-            <button
-              class="primary"
-              onclick="checkHandwriting()"
-            >
-              FERTIG
-            </button>
-
-          </div>
-
-
-          <div
-            id="writingFeedback"
-            class="writing-feedback"
-          >
-          </div>
-
-        </div>
-
-
-        <!-- SELBSTBEWERTUNG -->
-
-        <div
-          id="selfRating"
-          class="self-rating hidden"
-        >
-
-          <button
-            class="knew"
-            onclick="rateAnswer(true)"
-          >
-            ✓ ICH WUSSTE ES
-          </button>
-
-          <button
-            class="didnt-know"
-            onclick="rateAnswer(false)"
-          >
-            ✕ NOCH NICHT
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="result"
-        class="result"
-      >
-      </div>
-
-
-      <!-- NAVIGATION -->
-
-      <div class="navigation">
-
-        <button
-          onclick="previousWord()"
-        >
-          ← ZURÜCK
-        </button>
-
-        <button
-          id="nextButton"
-          onclick="nextWord()"
-        >
-          WEITER →
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- SCHWIERIGE WÖRTER -->
-
-    <div class="secondary-section">
-
-      <h2>⭐ Schwierige Wörter</h2>
-
-      <div
-        id="difficultList"
-        class="difficult-list"
-      >
-      </div>
-
-    </div>
-
-
-    <!-- LERNFORTSCHRITT -->
-
-    <div class="secondary-section">
-
-      <h2>📊 Lernfortschritt</h2>
-
-      <div
-        id="learningStats"
-        class="learning-info"
-      >
-      </div>
-
-    </div>
-
-
-    <!-- VOKABEL HINZUFÜGEN -->
-
-    <div class="secondary-section">
-
-      <h2>+ VOKABEL HINZUFÜGEN</h2>
-
-      <input
-        id="newEnglish"
-        type="text"
-        placeholder="Englisch"
-      >
-
-      <input
-        id="newGerman"
-        type="text"
-        placeholder="Deutsch"
-      >
+    <div class="context-buttons">
 
       <button
-        onclick="findTranslation()"
-      >
-        🔍 ÜBERSETZUNG SUCHEN
+        id="contextGlobal"
+        class="active"
+        onclick="setContext('global')">
+        💼 Global HR
       </button>
 
-      <div
-        id="translationStatus"
-        class="translation-status"
-      >
-      </div>
+      <button
+        id="contextMeeting"
+        onclick="setContext('meeting')">
+        🗣️ Meeting
+      </button>
 
       <button
-        class="primary"
-        onclick="addVocabulary()"
-      >
-        VOKABEL SPEICHERN
+        id="contextSpeak"
+        onclick="setContext('speak')">
+        👂 Speak First
       </button>
 
     </div>
 
+  </div>
 
-    <!-- DATEN -->
+  <!-- SCHWIERIGE WÖRTER -->
+  <div class="section">
 
-    <div class="secondary-section">
+    <h2>Schwierige Wörter</h2>
 
-      <h2>💾 Daten</h2>
+    <div class="section-subtitle">
+      Wörter mit mehreren Fehlversuchen
+    </div>
 
-      <button
-        onclick="exportCSV()"
-      >
-        CSV EXPORTIEREN
+    <div
+      class="difficult-list"
+      id="difficultList">
+    </div>
+
+  </div>
+
+  <!-- VERWECHSLUNG -->
+  <div class="section">
+
+    <h2>Verwechslungsgruppen</h2>
+
+    <div class="section-subtitle">
+      Ähnliche Wörter gezielt unterscheiden
+    </div>
+
+    <div class="context-buttons">
+
+      <button onclick="startConfusionGroup('ensure')">
+        ensure
       </button>
 
-      <button
-        class="danger"
-        onclick="deleteLocalVocabulary()"
-      >
-        LOKALE VOKABELN LÖSCHEN
+      <button onclick="startConfusionGroup('encourage')">
+        encourage
+      </button>
+
+      <button onclick="startConfusionGroup('engage')">
+        engage
+      </button>
+
+      <button onclick="startConfusionGroup('enhance')">
+        enhance
       </button>
 
     </div>
 
+  </div>
+
+  <!-- STATISTIK -->
+  <div class="section">
+
+    <h2>Lernfortschritt</h2>
+
+    <div class="stats-grid">
+
+      <div class="stat">
+        <div class="stat-value" id="statSeen">0</div>
+        <div class="stat-label">Versuche</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-value" id="statCorrect">0</div>
+        <div class="stat-label">Konnte ich</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-value" id="statWrong">0</div>
+        <div class="stat-label">Noch nicht</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-value" id="statAccuracy">0%</div>
+        <div class="stat-label">Trefferquote</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- VOKABEL HINZUFÜGEN -->
+  <div class="section add-section">
+
+    <h2>+ Vokabel hinzufügen</h2>
+
+    <input
+      type="text"
+      id="newEnglish"
+      placeholder="English">
+
+    <input
+      type="text"
+      id="newGerman"
+      placeholder="Deutsch">
+
+    <input
+      type="text"
+      id="newVerb"
+      placeholder="Verb + preposition/construction">
+
+    <input
+      type="text"
+      id="newNoun"
+      placeholder="Noun">
+
+    <input
+      type="text"
+      id="newAdjective"
+      placeholder="Adjective/Participle">
+
+    <input
+      type="text"
+      id="newExample"
+      placeholder="Example sentence">
+
+    <button onclick="findTranslation()">
+      🔍 Übersetzung suchen
+    </button>
+
+    <div
+      id="translationStatus"
+      class="section-subtitle">
+    </div>
+
+    <button onclick="saveVocabulary()">
+      Vokabel speichern
+    </button>
+
+  </div>
+
+  <!-- DATEI -->
+  <div class="section file-section">
+
+    <h2>Vokabeldatei</h2>
+
+    <input
+      type="file"
+      id="csvFile"
+      accept=".csv">
+
+    <button onclick="exportCSV()">
+      CSV exportieren
+    </button>
+
+    <button onclick="deleteLocalVocabulary()">
+      Eigene Vokabeln löschen
+    </button>
 
   </div>
 
 </div>
 
-
 <script>
 
-  /*
-   * ==================================================
-   * GRUNDVARIABLEN
-   * ==================================================
-   */
+/* ==================================================
+   GRUNDVARIABLEN
+================================================== */
 
-  let csvVocabulary = [];
+let vocabulary = [];
+let csvVocabulary = [];
 
-  let localVocabulary = [];
+let currentIndex = 0;
+let currentDirection = "en-de";
+let selectedDirection = "random";
 
-  let vocabulary = [];
+let currentMode = "learn";
+let currentContext = "global";
 
-  let currentIndex = 0;
+let handwritingAttempted = false;
+let speechAttempted = false;
+let answerRevealed = false;
+let currentAssessed = false;
 
-  let history = [];
+let currentConfusionGroup = null;
 
-  let currentItem = null;
+let speechTimer = null;
+let recognition = null;
+let recognitionActive = false;
 
-  let currentDirection = null;
+let streak = Number(
+  localStorage.getItem("learningStreak") || "0"
+);
 
-  let currentMode = "learning";
+let lastLearningDay =
+  localStorage.getItem("lastLearningDay") || "";
 
-  let speechTimeout = null;
-
-  let exampleSpeechTimeout = null;
-
-  let speechRecognition = null;
-
-  let speechIsListening = false;
-
-  let speechWasSuccessful = false;
-
-  let handwritingWasConfirmed = false;
-
-  let answerWasRevealed = false;
-
-  let selfRatingDone = false;
-
-
-  const STORAGE_KEY =
-    "globalHrVocabularyLocal";
-
-
-  const PROGRESS_KEY =
-    "globalHrVocabularyProgress";
-
-
-  /*
-   * ==================================================
-   * INITIALISIERUNG
-   * ==================================================
-   */
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-      loadLocalVocabulary();
-
-      loadVocabulary();
-
-      updatePracticedCount();
-
-      updateLearningStats();
-
-      updateDifficultList();
-
-      setupCanvas();
-
-      setupSpeechRecognition();
-
-    }
+let dailyChallenge =
+  JSON.parse(
+    localStorage.getItem("dailyChallenge") || "[]"
   );
 
+let progress =
+  JSON.parse(
+    localStorage.getItem("vocabProgress") || "{}"
+  );
 
-  /*
-   * ==================================================
-   * LOCAL STORAGE
-   * ==================================================
-   */
+let difficultWords =
+  JSON.parse(
+    localStorage.getItem("difficultWords") || "[]"
+  );
 
-  function loadLocalVocabulary() {
+let localVocabulary =
+  JSON.parse(
+    localStorage.getItem("localVocabulary") || "[]"
+  );
 
-    try {
+/* ==================================================
+   HILFSFUNKTIONEN
+================================================== */
 
-      const saved =
-        localStorage.getItem(
-          STORAGE_KEY
-        );
+function normalize(value){
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[’']/g,"'")
+    .replace(/[.,!?;:()[\]{}]/g,"")
+    .replace(/\s+/g," ");
+}
 
-      localVocabulary =
-        saved
-          ? JSON.parse(saved)
-          : [];
+function normalizeSpeech(value){
+  return normalize(value)
+    .replace(/\bto\b/g,"")
+    .trim();
+}
 
-    }
+function escapeHtml(value){
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-    catch (error) {
+function wordKey(item){
+  return normalize(item.English) + "|" +
+         normalize(item.Deutsch);
+}
 
-      console.error(error);
+function getProgress(item){
+  const key = wordKey(item);
 
-      localVocabulary = [];
-
-    }
-
-  }
-
-
-  function saveLocalVocabulary() {
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(
-        localVocabulary
-      )
-    );
-
-  }
-
-
-  /*
-   * ==================================================
-   * FORTSCHRITT
-   * ==================================================
-   */
-
-  function loadProgress() {
-
-    try {
-
-      const saved =
-        localStorage.getItem(
-          PROGRESS_KEY
-        );
-
-      return saved
-        ? JSON.parse(saved)
-        : {};
-
-    }
-
-    catch (error) {
-
-      return {};
-
-    }
-
-  }
-
-
-  function saveProgress(
-    progress
-  ) {
-
-    localStorage.setItem(
-      PROGRESS_KEY,
-      JSON.stringify(
-        progress
-      )
-    );
-
-  }
-
-
-  function getProgressKey(
-    item
-  ) {
-
-    return (
-      normalize(
-        item.english
-      ) +
-      "|" +
-      normalize(
-        item.german
-      )
-    );
-
-  }
-
-
-  function getWordProgress(
-    item
-  ) {
-
-    const progress =
-      loadProgress();
-
-    const key =
-      getProgressKey(
-        item
-      );
-
-
-    return progress[key] || {
-
-      seen: 0,
-
-      correct: 0,
-
-      wrong: 0,
-
-      revealed: 0,
-
-      lastSeen: null,
-
-      nextReview: null,
-
-      interval: 0
-
+  if(!progress[key]){
+    progress[key] = {
+      seen:0,
+      correct:0,
+      wrong:0,
+      revealed:0,
+      lastSeen:0,
+      nextReview:0
     };
-
   }
 
+  return progress[key];
+}
 
-  /*
-   * ==================================================
-   * FORTSCHRITT SPEICHERN
-   * ==================================================
-   */
+function saveProgress(){
+  localStorage.setItem(
+    "vocabProgress",
+    JSON.stringify(progress)
+  );
+}
 
-  function registerAttempt(
-    wasCorrect
-  ) {
+function isDifficult(item){
+  const p = getProgress(item);
 
-    if (!currentItem) {
+  return difficultWords.includes(wordKey(item)) ||
+         p.wrong >= 2;
+}
 
-      return;
+/* ==================================================
+   CSV
+================================================== */
 
-    }
+function parseCSV(text){
 
+  const lines =
+    text.split(/\r?\n/)
+      .filter(line => line.trim() !== "");
 
-    if (selfRatingDone) {
+  if(!lines.length) return [];
 
-      return;
+  const separator =
+    lines[0].includes(";") ? ";" : ",";
 
-    }
-
-
-    const progress =
-      loadProgress();
-
-    const key =
-      getProgressKey(
-        currentItem
+  const headers =
+    parseCSVLine(lines[0],separator)
+      .map(h =>
+        h.trim()
+         .replace(/^"|"$/g,"")
       );
 
+  return lines.slice(1)
+    .map(line => {
 
-    if (!progress[key]) {
+      const values =
+        parseCSVLine(line,separator);
 
-      progress[key] = {
+      const item = {};
 
-        seen: 0,
+      headers.forEach((header,index)=>{
+        item[header] =
+          (values[index] || "")
+          .trim();
+      });
 
-        correct: 0,
+      return {
+        English:
+          item.English ||
+          values[0] ||
+          "",
 
-        wrong: 0,
+        Deutsch:
+          item.Deutsch ||
+          values[1] ||
+          "",
 
-        revealed: 0,
+        "Verb + preposition/construction":
+          item["Verb + preposition/construction"] ||
+          item.construction ||
+          values[2] ||
+          "",
 
-        lastSeen: null,
+        Noun:
+          item.Noun ||
+          item.Nomen ||
+          values[3] ||
+          "",
 
-        nextReview: null,
+        "Adjective/Participle":
+          item["Adjective/Participle"] ||
+          item.Adjective ||
+          item.Adjektiv ||
+          values[4] ||
+          "",
 
-        interval: 0
-
+        Example:
+          item["Example sentence"] ||
+          item.Example ||
+          item["Example sentence(s)"] ||
+          item["Beispielsatz"] ||
+          item["Beispielsätze"] ||
+          values[5] ||
+          ""
       };
 
+    })
+    .filter(item =>
+      item.English || item.Deutsch
+    );
+}
+
+function parseCSVLine(line,separator){
+
+  const values=[];
+  let current="";
+  let insideQuotes=false;
+
+  for(let i=0;i<line.length;i++){
+
+    const char=line[i];
+
+    if(char === '"'){
+
+      if(
+        insideQuotes &&
+        line[i+1] === '"'
+      ){
+        current += '"';
+        i++;
+      }else{
+        insideQuotes=!insideQuotes;
+      }
+
+    }else if(
+      char === separator &&
+      !insideQuotes
+    ){
+
+      values.push(current);
+      current="";
+
+    }else{
+
+      current += char;
+
     }
+  }
 
+  values.push(current);
 
-    progress[key].seen += 1;
+  return values;
+}
 
-    progress[key].revealed += 1;
+/* ==================================================
+   LADEN
+================================================== */
 
-    progress[key].lastSeen =
+async function loadVocabulary(){
+
+  try{
+
+    const url =
+      new URL(
+        "vocabulary.csv",
+        window.location.href
+      ).href +
+      "?v=" +
       Date.now();
 
+    const controller =
+      new AbortController();
 
-    if (wasCorrect) {
-
-      progress[key].correct += 1;
-
-      /*
-       * Praktische Spaced-Repetition-
-       * Intervalle:
-       *
-       * 1 → 3 → 7 → 14 → 30 Tage
-       */
-
-      const intervals = [
-        1,
-        3,
-        7,
-        14,
-        30
-      ];
-
-
-      let currentInterval =
-        progress[key].interval || 0;
-
-
-      let nextInterval =
-        intervals.find(
-          value =>
-            value >
-            currentInterval
-        );
-
-
-      if (
-        !nextInterval
-      ) {
-
-        nextInterval =
-          30;
-
-      }
-
-
-      progress[key].interval =
-        nextInterval;
-
-
-      progress[key].nextReview =
-        Date.now() +
-        nextInterval *
-        24 *
-        60 *
-        60 *
-        1000;
-
-    }
-
-    else {
-
-      progress[key].wrong += 1;
-
-      /*
-       * Fehler setzt die Wiederholung
-       * wieder nach vorne.
-       */
-
-      progress[key].interval =
-        0;
-
-
-      progress[key].nextReview =
-        Date.now() +
-        24 *
-        60 *
-        60 *
-        1000;
-
-    }
-
-
-    currentItem._counted =
-      true;
-
-
-    selfRatingDone =
-      true;
-
-
-    saveProgress(
-      progress
-    );
-
-
-    updatePracticedCount();
-
-    updateLearningStats();
-
-    updateDifficultList();
-
-  }
-
-
-  /*
-   * ==================================================
-   * SCHWIERIGKEIT
-   * ==================================================
-   */
-
-  function getDifficulty(
-    item
-  ) {
-
-    const p =
-      getWordProgress(
-        item
+    const timeout =
+      setTimeout(
+        ()=>controller.abort(),
+        10000
       );
 
-
-    if (
-      p.wrong >= 3 &&
-      p.wrong > p.correct
-    ) {
-
-      return "hard";
-
-    }
-
-
-    if (
-      p.seen >= 2 &&
-      p.correct > p.wrong
-    ) {
-
-      return "easy";
-
-    }
-
-
-    if (
-      p.seen > 0
-    ) {
-
-      return "medium";
-
-    }
-
-
-    return "new";
-
-  }
-
-
-  function getDifficultyLabel(
-    item
-  ) {
-
-    const difficulty =
-      getDifficulty(
-        item
+    const response =
+      await fetch(
+        url,
+        {signal:controller.signal}
       );
 
+    clearTimeout(timeout);
 
-    if (
-      difficulty === "hard"
-    ) {
-
-      return "🔴 Schwierig";
-
-    }
-
-
-    if (
-      difficulty === "medium"
-    ) {
-
-      return "🟡 In Wiederholung";
-
-    }
-
-
-    if (
-      difficulty === "easy"
-    ) {
-
-      return "🟢 Sicher";
-
-    }
-
-
-    return "⚪ Neu";
-
-  }
-
-
-  function updateDifficultyDisplay() {
-
-    const element =
-      document.getElementById(
-        "difficulty"
-      );
-
-
-    if (!currentItem) {
-
-      return;
-
-    }
-
-
-    const difficulty =
-      getDifficulty(
-        currentItem
-      );
-
-
-    element.className =
-      "difficulty difficulty-" +
-      difficulty;
-
-
-    element.textContent =
-      getDifficultyLabel(
-        currentItem
-      );
-
-  }
-
-
-  /*
-   * ==================================================
-   * CSV LADEN
-   * ==================================================
-   */
-
-  async function loadVocabulary() {
-
-    try {
-
-      const controller =
-        new AbortController();
-
-
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          10000
-        );
-
-
-      const url =
-        new URL(
-          "vocabulary.csv",
-          window.location.href
-        ).href +
-        "?v=" +
-        Date.now();
-
-
-      const response =
-        await fetch(
-          url,
-          {
-            signal:
-              controller.signal
-          }
-        );
-
-
-      clearTimeout(
-        timeout
-      );
-
-
-      if (
-        !response.ok
-      ) {
-
-        throw new Error(
-          "CSV konnte nicht geladen werden."
-        );
-
-      }
-
+    if(response.ok){
 
       const text =
         await response.text();
 
-
       csvVocabulary =
-        parseCSV(
-          text
-        );
+        parseCSV(text);
 
+    }
 
-      document.getElementById(
-        "csvCount"
-      ).textContent =
-        csvVocabulary.length;
+  }catch(error){
 
+    console.log(
+      "CSV konnte nicht geladen werden:",
+      error
+    );
 
-      vocabulary =
-        mergeVocabulary(
-          csvVocabulary,
-          localVocabulary
-        );
+  }
 
+  mergeVocabulary();
 
-      if (
-        vocabulary.length === 0
-      ) {
+  document.getElementById(
+    "loading"
+  ).style.display="none";
 
-        throw new Error(
-          "Keine Vokabeln gefunden."
-        );
+  document.getElementById(
+    "app"
+  ).style.display="block";
 
+  updateStats();
+  updateDifficultList();
+  updateChallenge();
+
+  if(vocabulary.length){
+
+    currentIndex =
+      selectNextWord();
+
+    displayCurrentWord();
+
+  }
+}
+
+function mergeVocabulary(){
+
+  const combined=[
+    ...csvVocabulary,
+    ...localVocabulary
+  ];
+
+  const seen=new Set();
+
+  vocabulary =
+    combined.filter(item=>{
+
+      const key =
+        wordKey(item);
+
+      if(seen.has(key)){
+        return false;
       }
 
-
-      document.getElementById(
-        "loading"
-      ).classList.add(
-        "hidden"
-      );
-
-
-      document.getElementById(
-        "app"
-      ).classList.remove(
-        "hidden"
-      );
-
-
-      currentIndex =
-        Math.floor(
-          Math.random() *
-          vocabulary.length
-        );
-
-
-      displayCurrentWord();
-
-
-      updateLearningStats();
-
-      updateDifficultList();
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-
-      document.getElementById(
-        "loading"
-      ).textContent =
-        "Fehler beim Laden der vocabulary.csv";
-
-    }
-
-  }
-
-
-  /*
-   * ==================================================
-   * CSV PARSER
-   * ==================================================
-   */
-
-  function parseCSV(
-    text
-  ) {
-
-    const rows = [];
-
-    let row = [];
-
-    let cell = "";
-
-    let insideQuotes = false;
-
-
-    for (
-      let i = 0;
-      i < text.length;
-      i++
-    ) {
-
-      const char =
-        text[i];
-
-      const next =
-        text[i + 1];
-
-
-      if (
-        char === '"' &&
-        insideQuotes &&
-        next === '"'
-      ) {
-
-        cell += '"';
-
-        i++;
-
-      }
-
-      else if (
-        char === '"'
-      ) {
-
-        insideQuotes =
-          !insideQuotes;
-
-      }
-
-      else if (
-        char === "," &&
-        !insideQuotes
-      ) {
-
-        row.push(
-          cell
-        );
-
-        cell = "";
-
-      }
-
-      else if (
-        (
-          char === "\n" ||
-          char === "\r"
-        ) &&
-        !insideQuotes
-      ) {
-
-        if (
-          char === "\r" &&
-          next === "\n"
-        ) {
-
-          i++;
-
-        }
-
-
-        row.push(
-          cell
-        );
-
-        cell = "";
-
-
-        if (
-          row.some(
-            value =>
-              value.trim() !== ""
-          )
-        ) {
-
-          rows.push(
-            row
-          );
-
-        }
-
-
-        row = [];
-
-      }
-
-      else {
-
-        cell += char;
-
-      }
-
-    }
-
-
-    if (
-      cell !== "" ||
-      row.length > 0
-    ) {
-
-      row.push(
-        cell
-      );
-
-
-      if (
-        row.some(
-          value =>
-            value.trim() !== ""
-        )
-      ) {
-
-        rows.push(
-          row
-        );
-
-      }
-
-    }
-
-
-    if (
-      rows.length < 2
-    ) {
-
-      return [];
-
-    }
-
-
-    const headers =
-      rows[0].map(
-        header =>
-          header
-            .replace(
-              /^\uFEFF/,
-              ""
-            )
-            .trim()
-            .toLowerCase()
-      );
-
-
-    function findHeader(
-      names
-    ) {
-
-      for (
-        const name of names
-      ) {
-
-        const index =
-          headers.indexOf(
-            name
-          );
-
-
-        if (
-          index !== -1
-        ) {
-
-          return index;
-
-        }
-
-      }
-
-
-      return -1;
-
-    }
-
-
-    const englishIndex =
-      findHeader([
-        "english"
-      ]);
-
-
-    const germanIndex =
-      findHeader([
-        "deutsch",
-        "german"
-      ]);
-
-
-    const constructionIndex =
-      findHeader([
-        "verb + preposition/construction",
-        "verb + preposition / construction",
-        "verb + construction",
-        "construction"
-      ]);
-
-
-    const nounIndex =
-      findHeader([
-        "noun",
-        "nomen"
-      ]);
-
-
-    const adjectiveIndex =
-      findHeader([
-        "adjective/participle",
-        "adjective / participle",
-        "adjective",
-        "adjektiv/partizip",
-        "adjektiv"
-      ]);
-
-
-    const exampleIndex =
-      findHeader([
-        "example sentence",
-        "example sentences",
-        "example",
-        "examples",
-        "beispielsatz",
-        "beispielsätze",
-        "beispiel",
-        "beispiele"
-      ]);
-
-
-    const result = [];
-
-
-    for (
-      let i = 1;
-      i < rows.length;
-      i++
-    ) {
-
-      const row =
-        rows[i];
-
-
-      const english =
-        englishIndex >= 0
-          ? (
-              row[
-                englishIndex
-              ] || ""
-            ).trim()
-          : "";
-
-
-      const german =
-        germanIndex >= 0
-          ? (
-              row[
-                germanIndex
-              ] || ""
-            ).trim()
-          : "";
-
-
-      if (
-        !english ||
-        !german
-      ) {
-
-        continue;
-
-      }
-
-
-      result.push({
-
-        english,
-
-        german,
-
-        construction:
-          constructionIndex >= 0
-            ? (
-                row[
-                  constructionIndex
-                ] || ""
-              ).trim()
-            : "",
-
-        noun:
-          nounIndex >= 0
-            ? (
-                row[
-                  nounIndex
-                ] || ""
-              ).trim()
-            : "",
-
-        adjective:
-          adjectiveIndex >= 0
-            ? (
-                row[
-                  adjectiveIndex
-                ] || ""
-              ).trim()
-            : "",
-
-        example:
-          exampleIndex >= 0
-            ? (
-                row[
-                  exampleIndex
-                ] || ""
-              ).trim()
-            : ""
-
-      });
-
-    }
-
-
-    return result;
-
-  }
-
-
-  /*
-   * ==================================================
-   * MERGEN
-   * ==================================================
-   */
-
-  function mergeVocabulary(
-    csvItems,
-    localItems
-  ) {
-
-    const result = [];
-
-    const keys =
-      new Set();
-
-
-    [
-      ...csvItems,
-      ...localItems
-    ].forEach(
-      item => {
-
-        const key =
-          normalize(
-            item.english
-          ) +
-          "|" +
-          normalize(
-            item.german
-          );
-
-
-        if (
-          !keys.has(key)
-        ) {
-
-          keys.add(key);
-
-          result.push(
-            item
-          );
-
-        }
-
-      }
-    );
-
-
-    return result;
-
-  }
-
-
-  /*
-   * ==================================================
-   * WORT ANZEIGEN
-   * ==================================================
-   */
-
-  function displayCurrentWord() {
-
-    clearSpeech();
-
-    stopSpeechRecognition();
-
-    clearCanvas();
-
-
-    if (
-      !vocabulary.length
-    ) {
-
-      return;
-
-    }
-
-
-    currentItem =
-      vocabulary[
-        currentIndex
-      ];
-
-
-    currentItem._counted =
-      false;
-
-
-    currentDirection =
-      Math.random() < 0.5
-        ? "de-en"
-        : "en-de";
-
-
-    answerWasRevealed =
-      false;
-
-
-    handwritingWasConfirmed =
-      false;
-
-
-    speechWasSuccessful =
-      false;
-
-
-    selfRatingDone =
-      false;
-
-
-    const question =
-      currentDirection === "de-en"
-        ? currentItem.german
-        : currentItem.english;
-
-
-    const answer =
-      currentDirection === "de-en"
-        ? currentItem.english
-        : currentItem.german;
-
-
-    document.getElementById(
-      "direction"
-    ).textContent =
-      currentDirection === "de-en"
-        ? "Deutsch → Englisch"
-        : "Englisch → Deutsch";
-
-
-    document.getElementById(
-      "questionWord"
-    ).textContent =
-      question.toLowerCase();
-
-
-    document.getElementById(
-      "answerWord"
-    ).textContent =
-      answer.toLowerCase();
-
-
-    /*
-     * Beispiel
-     */
-
-    const exampleArea =
-      document.getElementById(
-        "exampleArea"
-      );
-
-
-    const exampleContent =
-      document.getElementById(
-        "exampleContent"
-      );
-
-
-    if (
-      currentItem.example
-    ) {
-
-      exampleContent.innerHTML =
-        escapeHTML(
-          currentItem.example
-        ) +
-        `
-          <button
-            class="speaker-button example-speaker"
-            onclick="speakExample()"
-            title="Beispielsatz anhören"
-          >
-            🔊
-          </button>
-        `;
-
-    }
-
-    else {
-
-      exampleContent.textContent =
-        "";
-
-    }
-
-
-    document.getElementById(
-      "answerDetails"
-    ).innerHTML =
-      buildDetails(
-        currentItem
-      );
-
-
-    /*
-     * Antwort verstecken
-     */
-
-    document.getElementById(
-      "answerWord"
-    ).classList.add(
-      "answer-hidden"
-    );
-
-
-    document.getElementById(
-      "answerDetails"
-    ).classList.add(
-      "answer-hidden"
-    );
-
-
-    exampleArea.classList.add(
-      "answer-hidden"
-    );
-
-
-    document.getElementById(
-      "answerSpeakerArea"
-    ).classList.add(
-      "answer-hidden"
-    );
-
-
-    /*
-     * Hauptbutton
-     */
-
-    const showButton =
-      document.getElementById(
-        "showButton"
-      );
-
-
-    showButton.textContent =
-      currentMode === "test"
-        ? "LÖSUNG ANZEIGEN"
-        : "ANZEIGEN";
-
-
-    showButton.classList.toggle(
-      "test-reveal",
-      currentMode === "test"
-    );
-
-
-    /*
-     * Ergebnisse zurücksetzen
-     */
-
-    document.getElementById(
-      "result"
-    ).textContent =
-      "";
-
-
-    document.getElementById(
-      "result"
-    ).className =
-      "result";
-
-
-    document.getElementById(
-      "writingFeedback"
-    ).textContent =
-      "";
-
-
-    document.getElementById(
-      "speechStatus"
-    ).textContent =
-      "";
-
-
-    document.getElementById(
-      "speechTranscript"
-    ).textContent =
-      "";
-
-
-    document.getElementById(
-      "selfRating"
-    ).classList.add(
-      "hidden"
-    );
-
-
-    updateDifficultyDisplay();
-
-    updateModeDescription();
-
-  }
-
-
-  function buildDetails(
-    item
-  ) {
-
-    let html = "";
-
-
-    if (
-      item.construction
-    ) {
-
-      html +=
-        `<div>
-          <strong>Konstruktion:</strong>
-          ${escapeHTML(
-            item.construction
-          )}
-        </div>`;
-
-    }
-
-
-    if (
-      item.noun
-    ) {
-
-      html +=
-        `<div>
-          <strong>Nomen:</strong>
-          ${escapeHTML(
-            item.noun
-          )}
-        </div>`;
-
-    }
-
-
-    if (
-      item.adjective
-    ) {
-
-      html +=
-        `<div>
-          <strong>Adjektiv/Partizip:</strong>
-          ${escapeHTML(
-            item.adjective
-          )}
-        </div>`;
-
-    }
-
-
-    return html;
-
-  }
-
-
-  /*
-   * ==================================================
-   * ANTWORT AUFLÖSEN
-   * ==================================================
-   */
-
-  function showAnswerAndNext() {
-
-    const answerWord =
-      document.getElementById(
-        "answerWord"
-      );
-
-
-    if (
-      answerWord.classList.contains(
-        "answer-hidden"
-      )
-    ) {
-
-      revealAnswer();
-
-    }
-
-    else {
-
-      /*
-       * In TESTEN soll erst bewertet
-       * werden, bevor weitergegangen wird.
-       */
-
-      if (
-        currentMode === "test" &&
-        !selfRatingDone
-      ) {
-
-        document.getElementById(
-          "result"
-        ).textContent =
-          "Bitte zuerst „Ich wusste es“ oder „Noch nicht“ auswählen.";
-
-        document.getElementById(
-          "result"
-        ).className =
-          "result";
-
-        document.getElementById(
-          "selfRating"
-        ).classList.remove(
-          "hidden"
-        );
-
-        return;
-
-      }
-
-
-      nextWord();
-
-    }
-
-  }
-
-
-  function revealAnswer() {
-
-    answerWasRevealed =
-      true;
-
-
-    document.getElementById(
-      "answerWord"
-    ).classList.remove(
-      "answer-hidden"
-    );
-
-
-    document.getElementById(
-      "answerDetails"
-    ).classList.remove(
-      "answer-hidden"
-    );
-
-
-    document.getElementById(
-      "exampleArea"
-    ).classList.remove(
-      "answer-hidden"
-    );
-
-
-    document.getElementById(
-      "answerSpeakerArea"
-    ).classList.remove(
-      "answer-hidden"
-    );
-
-
-    document.getElementById(
-      "showButton"
-    ).textContent =
-      currentMode === "test"
-        ? "BEWERTEN"
-        : "WEITER →";
-
-
-    /*
-     * In TESTEN:
-     * Erst jetzt wird die Selbstbewertung angeboten.
-     */
-
-    if (
-      currentMode === "test"
-    ) {
-
-      document.getElementById(
-        "selfRating"
-      ).classList.remove(
-        "hidden"
-      );
-
-    }
-
-
-    /*
-     * Im Lernmodus gilt die Auflösung
-     * bereits als gesehen, aber NICHT als
-     * richtig oder falsch.
-     */
-
-    if (
-      currentMode === "learning"
-    ) {
-
-      markAsPracticed();
-
-    }
-
-
-    /*
-     * Erst visuell aufnehmen.
-     * Dann 1 Sekunde warten.
-     */
-
-    clearSpeech();
-
-
-    speechTimeout =
-      setTimeout(
-        () => {
-
-          speechTimeout =
-            null;
-
-          speakEnglish();
-
-          /*
-           * Falls vorhanden:
-           * Beispielsatz etwas später.
-           */
-
-          if (
-            currentItem &&
-            currentItem.example
-          ) {
-
-            exampleSpeechTimeout =
-              setTimeout(
-                () => {
-
-                  exampleSpeechTimeout =
-                    null;
-
-                  speakExample();
-
-                },
-                1800
-              );
-
-          }
-
-        },
-        1000
-      );
-
-  }
-
-
-  /*
-   * ==================================================
-   * LERNMODUS: NUR GESEHEN
-   * ==================================================
-   */
-
-  function markAsPracticed() {
-
-    if (!currentItem) {
-
-      return;
-
-    }
-
-
-    const progress =
-      loadProgress();
-
-    const key =
-      getProgressKey(
-        currentItem
-      );
-
-
-    if (!progress[key]) {
-
-      progress[key] = {
-
-        seen: 0,
-
-        correct: 0,
-
-        wrong: 0,
-
-        revealed: 0,
-
-        lastSeen: null,
-
-        nextReview: null,
-
-        interval: 0
-
-      };
-
-    }
-
-
-    if (
-      currentItem._counted
-    ) {
-
-      return;
-
-    }
-
-
-    currentItem._counted =
-      true;
-
-
-    progress[key].seen += 1;
-
-    progress[key].revealed += 1;
-
-    progress[key].lastSeen =
-      Date.now();
-
-
-    saveProgress(
-      progress
-    );
-
-
-    updatePracticedCount();
-
-    updateLearningStats();
-
-    updateDifficultList();
-
-  }
-
-
-  /*
-   * ==================================================
-   * SELBSTBEWERTUNG
-   * ==================================================
-   */
-
-  function rateAnswer(
-    wasCorrect
-  ) {
-
-    if (
-      !answerWasRevealed
-    ) {
-
-      return;
-
-    }
-
-
-    if (
-      selfRatingDone
-    ) {
-
-      return;
-
-    }
-
-
-    registerAttempt(
-      wasCorrect
-    );
-
-
-    const result =
-      document.getElementById(
-        "result"
-      );
-
-
-    if (
-      wasCorrect
-    ) {
-
-      result.textContent =
-        "✓ Sehr gut – dieses Wort sitzt.";
-
-      result.className =
-        "result correct";
-
-    }
-
-    else {
-
-      result.textContent =
-        "↻ Kein Problem – dieses Wort kommt wieder.";
-
-      result.className =
-        "result wrong";
-
-    }
-
-
-    document.getElementById(
-      "selfRating"
-    ).classList.add(
-      "hidden"
-    );
-
-
-    document.getElementById(
-      "showButton"
-    ).textContent =
-      "WEITER →";
-
-
-    updateDifficultyDisplay();
-
-  }
-
-
-  /*
-   * ==================================================
-   * SPRACHE / TEXT-TO-SPEECH
-   * ==================================================
-   */
-
-  function clearSpeech() {
-
-    if (
-      speechTimeout
-    ) {
-
-      clearTimeout(
-        speechTimeout
-      );
-
-      speechTimeout =
-        null;
-
-    }
-
-
-    if (
-      exampleSpeechTimeout
-    ) {
-
-      clearTimeout(
-        exampleSpeechTimeout
-      );
-
-      exampleSpeechTimeout =
-        null;
-
-    }
-
-
-    if (
-      "speechSynthesis" in window
-    ) {
-
-      window.speechSynthesis.cancel();
-
-    }
-
-  }
-
-
-  function speakEnglish() {
-
-    clearSpeech();
-
-
-    if (
-      !currentItem ||
-      !("speechSynthesis" in window)
-    ) {
-
-      return;
-
-    }
-
-
-    const utterance =
-      new SpeechSynthesisUtterance(
-        currentItem.english
-      );
-
-
-    utterance.lang =
-      "en-US";
-
-
-    utterance.rate =
-      0.9;
-
-
-    utterance.pitch =
-      1;
-
-
-    const voices =
-      window.speechSynthesis
-        .getVoices();
-
-
-    const englishVoice =
-      voices.find(
-        voice =>
-          voice.lang
-            .toLowerCase()
-            .startsWith(
-              "en-us"
-            )
-      ) ||
-      voices.find(
-        voice =>
-          voice.lang
-            .toLowerCase()
-            .startsWith(
-              "en"
-            )
-      );
-
-
-    if (
-      englishVoice
-    ) {
-
-      utterance.voice =
-        englishVoice;
-
-    }
-
-
-    window.speechSynthesis
-      .speak(
-        utterance
-      );
-
-  }
-
-
-  function speakExample() {
-
-    clearSpeech();
-
-
-    if (
-      !currentItem ||
-      !currentItem.example ||
-      !("speechSynthesis" in window)
-    ) {
-
-      return;
-
-    }
-
-
-    const utterance =
-      new SpeechSynthesisUtterance(
-        currentItem.example
-      );
-
-
-    utterance.lang =
-      "en-US";
-
-
-    utterance.rate =
-      0.88;
-
-
-    utterance.pitch =
-      1;
-
-
-    const voices =
-      window.speechSynthesis
-        .getVoices();
-
-
-    const englishVoice =
-      voices.find(
-        voice =>
-          voice.lang
-            .toLowerCase()
-            .startsWith(
-              "en-us"
-            )
-      ) ||
-      voices.find(
-        voice =>
-          voice.lang
-            .toLowerCase()
-            .startsWith(
-              "en"
-            )
-      );
-
-
-    if (
-      englishVoice
-    ) {
-
-      utterance.voice =
-        englishVoice;
-
-    }
-
-
-    window.speechSynthesis
-      .speak(
-        utterance
-      );
-
-  }
-
-
-  /*
-   * ==================================================
-   * SPEECH RECOGNITION
-   * ==================================================
-   */
-
-  function setupSpeechRecognition() {
-
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
-
-
-    if (
-      !SpeechRecognition
-    ) {
-
-      document.getElementById(
-        "speechStatus"
-      ).textContent =
-        "Spracheingabe wird von diesem Browser nicht unterstützt.";
-
-      document.getElementById(
-        "speechButton"
-      ).disabled =
-        true;
-
-      return;
-
-    }
-
-
-    speechRecognition =
-      new SpeechRecognition();
-
-
-    speechRecognition.lang =
-      "en-US";
-
-
-    speechRecognition.interimResults =
-      false;
-
-
-    speechRecognition.continuous =
-      false;
-
-
-    speechRecognition.maxAlternatives =
-      3;
-
-
-    speechRecognition.onstart =
-      () => {
-
-        speechIsListening =
-          true;
-
-
-        const button =
-          document.getElementById(
-            "speechButton"
-          );
-
-
-        button.classList.add(
-          "recording"
-        );
-
-
-        button.textContent =
-          "🔴 ICH HÖRE ZU …";
-
-
-        document.getElementById(
-          "speechStatus"
-        ).textContent =
-          "Sprich jetzt das englische Wort.";
-
-      };
-
-
-    speechRecognition.onresult =
-      event => {
-
-        const result =
-          event.results[0][0];
-
-
-        const transcript =
-          result.transcript
-            .trim();
-
-
-        const confidence =
-          result.confidence;
-
-
-        speechWasSuccessful =
-          compareSpokenEnglish(
-            transcript
-          );
-
-
-        document.getElementById(
-          "speechTranscript"
-        ).textContent =
-          `Du hast gesagt: „${transcript}“`;
-
-
-        if (
-          speechWasSuccessful
-        ) {
-
-          document.getElementById(
-            "speechStatus"
-          ).textContent =
-            "✓ Passt – gut gesprochen.";
-
-        }
-
-        else {
-
-          document.getElementById(
-            "speechStatus"
-          ).textContent =
-            "↻ Noch nicht ganz – hör dir danach die korrekte Aussprache an.";
-
-        }
-
-      };
-
-
-    speechRecognition.onerror =
-      event => {
-
-        console.error(
-          "Speech recognition:",
-          event.error
-        );
-
-
-        if (
-          event.error ===
-          "not-allowed"
-        ) {
-
-          document.getElementById(
-            "speechStatus"
-          ).textContent =
-            "Mikrofonzugriff wurde nicht erlaubt.";
-
-        }
-
-        else if (
-          event.error ===
-          "no-speech"
-        ) {
-
-          document.getElementById(
-            "speechStatus"
-          ).textContent =
-            "Ich habe nichts gehört. Versuch es noch einmal.";
-
-        }
-
-        else {
-
-          document.getElementById(
-            "speechStatus"
-          ).textContent =
-            "Spracheingabe konnte nicht durchgeführt werden.";
-
-        }
-
-      };
-
-
-    speechRecognition.onend =
-      () => {
-
-        speechIsListening =
-          false;
-
-
-        const button =
-          document.getElementById(
-            "speechButton"
-          );
-
-
-        button.classList.remove(
-          "recording"
-        );
-
-
-        button.textContent =
-          "🎙️ NOCH EINMAL SPRECHEN";
-
-      };
-
-  }
-
-
-  function startSpeechRecognition() {
-
-    if (
-      !speechRecognition
-    ) {
-
-      return;
-
-    }
-
-
-    if (
-      speechIsListening
-    ) {
-
-      stopSpeechRecognition();
-
-      return;
-
-    }
-
-
-    clearSpeech();
-
-
-    document.getElementById(
-      "speechTranscript"
-    ).textContent =
-      "";
-
-
-    document.getElementById(
-      "speechStatus"
-    ).textContent =
-      "Mikrofon wird gestartet …";
-
-
-    try {
-
-      speechRecognition.start();
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-    }
-
-  }
-
-
-  function stopSpeechRecognition() {
-
-    if (
-      !speechRecognition
-    ) {
-
-      return;
-
-    }
-
-
-    try {
-
-      speechRecognition.stop();
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-    }
-
-
-    speechIsListening =
-      false;
-
-  }
-
-
-  function compareSpokenEnglish(
-    spoken
-  ) {
-
-    if (
-      !currentItem
-    ) {
-
-      return false;
-
-    }
-
-
-    const target =
-      normalizeSpeechText(
-        currentItem.english
-      );
-
-
-    const heard =
-      normalizeSpeechText(
-        spoken
-      );
-
-
-    /*
-     * Exakte Übereinstimmung
-     */
-
-    if (
-      heard === target
-    ) {
-
+      seen.add(key);
       return true;
 
-    }
+    });
+}
 
+/* ==================================================
+   MODUS
+================================================== */
 
-    /*
-     * Einzelne Satzzeichen /
-     * kleine Abweichungen tolerieren.
-     */
+function setMode(mode){
 
-    const targetWords =
-      target.split(" ");
+  currentMode=mode;
 
-    const heardWords =
-      heard.split(" ");
+  document
+    .getElementById("modeLearn")
+    .classList.toggle(
+      "active",
+      mode==="learn"
+    );
 
+  document
+    .getElementById("modeTest")
+    .classList.toggle(
+      "active",
+      mode==="test"
+    );
 
-    if (
-      targetWords.length ===
-      heardWords.length
-    ) {
+  document
+    .getElementById("modeToday")
+    .classList.toggle(
+      "active",
+      mode==="today"
+    );
 
-      let matches = 0;
+  if(mode==="test"){
 
+    document.getElementById(
+      "modeInfo"
+    ).textContent =
+      "Testmodus · erst abrufen, dann Lösung ansehen";
 
-      targetWords.forEach(
-        (
-          word,
-          index
-        ) => {
+  }else if(mode==="today"){
 
-          if (
-            heardWords[index] ===
-            word
-          ) {
+    document.getElementById(
+      "modeInfo"
+    ).textContent =
+      "Heute · gezielte Wiederholung deiner fälligen Wörter";
 
-            matches++;
+  }else{
 
-          }
+    document.getElementById(
+      "modeInfo"
+    ).textContent =
+      "Aktiver Abruf · erst denken, dann auflösen";
 
-        }
-      );
+  }
 
+  nextWord();
+}
 
-      if (
-        matches >=
-        Math.max(
-          1,
-          targetWords.length - 1
+function setDirection(direction){
+
+  selectedDirection=direction;
+
+  document
+    .getElementById("directionRandom")
+    .classList.toggle(
+      "active",
+      direction==="random"
+    );
+
+  document
+    .getElementById("directionEnDe")
+    .classList.toggle(
+      "active",
+      direction==="en-de"
+    );
+
+  document
+    .getElementById("directionDeEn")
+    .classList.toggle(
+      "active",
+      direction==="de-en"
+    );
+
+  nextWord();
+}
+
+/* ==================================================
+   KONTEXT
+================================================== */
+
+function setContext(context){
+
+  currentContext=context;
+
+  document
+    .getElementById("contextGlobal")
+    .classList.toggle(
+      "active",
+      context==="global"
+    );
+
+  document
+    .getElementById("contextMeeting")
+    .classList.toggle(
+      "active",
+      context==="meeting"
+    );
+
+  document
+    .getElementById("contextSpeak")
+    .classList.toggle(
+      "active",
+      context==="speak"
+    );
+
+  if(context==="meeting"){
+
+    document.getElementById(
+      "modeInfo"
+    ).textContent =
+      "Meeting Mode · sprich das Wort aktiv aus";
+
+  }else if(context==="speak"){
+
+    document.getElementById(
+      "modeInfo"
+    ).textContent =
+      "Speak First · zuerst hören und sprechen";
+
+  }else{
+
+    document.getElementById(
+      "modeInfo"
+    ).textContent =
+      "Global HR · aktive Wiederholung";
+
+  }
+}
+
+/* ==================================================
+   AUSWAHL
+================================================== */
+
+function selectNextWord(){
+
+  if(!vocabulary.length)
+    return 0;
+
+  let candidates =
+    vocabulary.map(
+      (item,index)=>{
+
+        const p =
+          getProgress(item);
+
+        let weight=1;
+
+        if(p.wrong>0)
+          weight +=
+            p.wrong * 5;
+
+        if(p.correct===0)
+          weight += 4;
+
+        if(isDifficult(item))
+          weight += 7;
+
+        if(
+          p.nextReview &&
+          p.nextReview <= Date.now()
         )
-      ) {
+          weight += 8;
 
-        return true;
+        if(
+          currentMode==="today" &&
+          (!p.nextReview ||
+           p.nextReview > Date.now())
+        )
+          weight = 0.2;
+
+        return {
+          index,
+          weight
+        };
 
       }
+    );
 
-    }
+  const available =
+    candidates.filter(
+      c=>c.weight>0
+    );
 
+  if(available.length)
+    candidates=available;
 
-    return false;
+  const total =
+    candidates.reduce(
+      (sum,c)=>sum+c.weight,
+      0
+    );
+
+  let random =
+    Math.random()*total;
+
+  for(const candidate of candidates){
+
+    random -= candidate.weight;
+
+    if(random<=0)
+      return candidate.index;
 
   }
 
+  return candidates[
+    candidates.length-1
+  ].index;
+}
 
-  function normalizeSpeechText(
-    text
-  ) {
+/* ==================================================
+   NÄCHSTES WORT
+================================================== */
 
-    return String(
-      text
+function nextWord(){
+
+  if(!vocabulary.length)
+    return;
+
+  clearSpeech();
+  stopRecognition();
+
+  currentIndex =
+    selectNextWord();
+
+  if(selectedDirection==="random"){
+
+    currentDirection =
+      Math.random()<0.5
+        ? "en-de"
+        : "de-en";
+
+  }else{
+
+    currentDirection=
+      selectedDirection;
+
+  }
+
+  displayCurrentWord();
+}
+
+/* ==================================================
+   VORHERIGES WORT
+================================================== */
+
+function previousWord(){
+
+  if(!vocabulary.length)
+    return;
+
+  clearSpeech();
+  stopRecognition();
+
+  currentIndex =
+    (currentIndex-1+vocabulary.length)
+    %vocabulary.length;
+
+  displayCurrentWord();
+}
+
+/* ==================================================
+   WORT ANZEIGEN
+================================================== */
+
+function displayCurrentWord(){
+
+  if(!vocabulary.length)
+    return;
+
+  const item =
+    vocabulary[currentIndex];
+
+  const questionLanguage =
+    document.getElementById(
+      "questionLanguage"
+    );
+
+  const answerLanguage =
+    document.getElementById(
+      "answerLanguage"
+    );
+
+  const questionWord =
+    document.getElementById(
+      "questionWord"
+    );
+
+  const answerWord =
+    document.getElementById(
+      "answerWord"
+    );
+
+  const questionDetails =
+    document.getElementById(
+      "questionDetails"
+    );
+
+  const answerDetails =
+    document.getElementById(
+      "answerDetails"
+    );
+
+  const showButton =
+    document.getElementById(
+      "showButton"
+    );
+
+  answerRevealed=false;
+  currentAssessed=false;
+  handwritingAttempted=false;
+  speechAttempted=false;
+
+  clearCanvas();
+
+  document
+    .getElementById("handwritingSection")
+    .style.display="none";
+
+  document
+    .getElementById("speechBox")
+    .style.display="none";
+
+  document
+    .getElementById("assessment")
+    .style.display="none";
+
+  document
+    .getElementById("exampleArea")
+    .classList.add("hidden");
+
+  document
+    .getElementById("answerWord")
+    .classList.add("answer-hidden");
+
+  document
+    .getElementById("answerDetails")
+    .classList.add("answer-hidden");
+
+  showButton.textContent =
+    "ANZEIGEN";
+
+  updateRecallStatus();
+
+  if(currentDirection==="en-de"){
+
+    questionLanguage.textContent=
+      "English";
+
+    answerLanguage.textContent=
+      "Deutsch";
+
+    questionWord.innerHTML=
+      `${escapeHtml(
+        String(item.English || "")
+          .toLowerCase()
+      )}
+      <button
+        class="speaker"
+        onclick="speakEnglish(event)"
+        aria-label="Englisches Wort vorlesen">
+        🔊
+      </button>
+      ${difficultButton()}`;
+
+    answerWord.textContent=
+      item.Deutsch;
+
+    questionDetails.innerHTML="";
+    answerDetails.innerHTML="";
+
+  }else{
+
+    questionLanguage.textContent=
+      "Deutsch";
+
+    answerLanguage.textContent=
+      "English";
+
+    questionWord.textContent=
+      String(item.Deutsch || "")
+        .toLowerCase();
+
+    answerWord.innerHTML=
+      `${escapeHtml(
+        String(item.English || "")
+          .toLowerCase()
+      )}
+      <button
+        class="speaker"
+        onclick="speakEnglish(event)"
+        aria-label="Englisches Wort vorlesen">
+        🔊
+      </button>
+      ${difficultButton()}`;
+
+    questionDetails.innerHTML="";
+
+    displayDetails(
+      answerDetails,
+      item
+    );
+
+  }
+
+  if(currentContext==="speak"){
+
+    setTimeout(
+      ()=>speakEnglish(),
+      350
+    );
+
+  }
+}
+
+/* ==================================================
+   DETAILS
+================================================== */
+
+function displayDetails(
+  container,
+  item
+){
+
+  container.innerHTML="";
+
+  if(
+    item[
+      "Verb + preposition/construction"
+    ]
+  ){
+
+    container.innerHTML += `
+      <div class="word-detail">
+        <strong>VERB:</strong>
+        ${escapeHtml(
+          item[
+            "Verb + preposition/construction"
+          ]
+        )}
+      </div>
+    `;
+
+  }
+
+  if(item.Noun){
+
+    container.innerHTML += `
+      <div class="word-detail">
+        <strong>NOMEN:</strong>
+        ${escapeHtml(item.Noun)}
+      </div>
+    `;
+
+  }
+
+  if(
+    item["Adjective/Participle"]
+  ){
+
+    container.innerHTML += `
+      <div class="word-detail">
+        <strong>ADJEKTIV/PARTIZIP:</strong>
+        ${escapeHtml(
+          item[
+            "Adjective/Participle"
+          ]
+        )}
+      </div>
+    `;
+
+  }
+
+}
+
+/* ==================================================
+   SCHWIERIG BUTTON
+================================================== */
+
+function difficultButton(){
+
+  const item =
+    vocabulary[currentIndex];
+
+  const star =
+    isDifficult(item)
+      ? "★"
+      : "☆";
+
+  return `
+    <button
+      class="difficult-button"
+      onclick="toggleDifficult(event)"
+      title="Schwieriges Wort markieren">
+      ${star}
+    </button>
+  `;
+}
+
+function toggleDifficult(event){
+
+  if(event)
+    event.stopPropagation();
+
+  const item =
+    vocabulary[currentIndex];
+
+  const key =
+    wordKey(item);
+
+  const index =
+    difficultWords.indexOf(key);
+
+  if(index>=0){
+
+    difficultWords.splice(
+      index,
+      1
+    );
+
+  }else{
+
+    difficultWords.push(key);
+
+  }
+
+  localStorage.setItem(
+    "difficultWords",
+    JSON.stringify(
+      difficultWords
     )
-      .toLowerCase()
-      .trim()
-      .replace(
-        /[.,!?;:]/g,
-        ""
-      )
-      .replace(
-        /\s+/g,
-        " "
-      );
+  );
 
-  }
+  displayCurrentWord();
+  updateDifficultList();
+}
 
+/* ==================================================
+   ACTIVE RECALL
+================================================== */
 
-  /*
-   * ==================================================
-   * HANDSCHRIFT CANVAS
-   * ==================================================
-   */
+function toggleHandwriting(){
 
-  let canvas = null;
+  const section =
+    document.getElementById(
+      "handwritingSection"
+    );
 
-  let ctx = null;
+  section.style.display =
+    section.style.display==="block"
+      ? "none"
+      : "block";
 
-  let drawing = false;
-
-  let hasWritten = false;
-
-
-  function setupCanvas() {
-
-    canvas =
-      document.getElementById(
-        "handwritingCanvas"
-      );
-
-
-    if (!canvas) {
-
-      return;
-
-    }
-
-
-    ctx =
-      canvas.getContext(
-        "2d"
-      );
-
+  if(section.style.display==="block"){
 
     resizeCanvas();
 
+  }
+}
 
-    canvas.addEventListener(
-      "pointerdown",
-      startDrawing
+function updateRecallStatus(){
+
+  document
+    .getElementById("handStatus")
+    .classList.toggle(
+      "done",
+      handwritingAttempted
     );
 
-
-    canvas.addEventListener(
-      "pointermove",
-      draw
+  document
+    .getElementById("speechStatusBox")
+    .classList.toggle(
+      "done",
+      speechAttempted
     );
+}
 
+function finishHandwriting(){
 
-    canvas.addEventListener(
-      "pointerup",
-      stopDrawing
-    );
+  handwritingAttempted=true;
 
+  updateRecallStatus();
 
-    canvas.addEventListener(
-      "pointercancel",
-      stopDrawing
-    );
+  if(
+    currentMode==="learn" ||
+    currentMode==="today"
+  ){
 
-
-    canvas.addEventListener(
-      "pointerleave",
-      stopDrawing
-    );
-
-
-    window.addEventListener(
-      "resize",
-      resizeCanvas
-    );
+    revealAnswer();
 
   }
 
+  else{
 
-  function resizeCanvas() {
-
-    if (!canvas) {
-
-      return;
-
-    }
-
-
-    const rect =
-      canvas.getBoundingClientRect();
-
-
-    const ratio =
-      window.devicePixelRatio ||
-      1;
-
-
-    canvas.width =
-      rect.width *
-      ratio;
-
-
-    canvas.height =
-      rect.height *
-      ratio;
-
-
-    ctx =
-      canvas.getContext(
-        "2d"
-      );
-
-
-    ctx.scale(
-      ratio,
-      ratio
-    );
-
-
-    ctx.lineWidth =
-      3;
-
-
-    ctx.lineCap =
-      "round";
-
-
-    ctx.lineJoin =
-      "round";
-
-
-    ctx.strokeStyle =
-      "#222";
-
-
-    hasWritten =
-      false;
+    document.getElementById(
+      "speechBox"
+    ).style.display="block";
 
   }
+}
 
+/* ==================================================
+   CANVAS
+================================================== */
 
-  function getCanvasPosition(
-    event
-  ) {
+const canvas =
+  document.getElementById(
+    "handwritingCanvas"
+  );
 
-    const rect =
-      canvas.getBoundingClientRect();
+const ctx =
+  canvas.getContext("2d");
 
+let drawing=false;
 
-    return {
+function resizeCanvas(){
 
-      x:
-        event.clientX -
-        rect.left,
+  const rect =
+    canvas.getBoundingClientRect();
 
-      y:
-        event.clientY -
-        rect.top
+  const dpr =
+    window.devicePixelRatio || 1;
 
-    };
+  canvas.width =
+    rect.width*dpr;
 
-  }
+  canvas.height =
+    rect.height*dpr;
 
+  ctx.scale(dpr,dpr);
 
-  function startDrawing(
-    event
-  ) {
+  ctx.lineWidth=3;
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
+  ctx.strokeStyle="#222";
+}
 
-    event.preventDefault();
+function canvasPoint(event){
 
+  const rect =
+    canvas.getBoundingClientRect();
 
-    drawing =
-      true;
+  return {
+    x:event.clientX-rect.left,
+    y:event.clientY-rect.top
+  };
+}
 
+canvas.addEventListener(
+  "pointerdown",
+  event=>{
 
-    hasWritten =
-      true;
-
-
-    const position =
-      getCanvasPosition(
-        event
-      );
-
-
-    ctx.beginPath();
-
-
-    ctx.moveTo(
-      position.x,
-      position.y
-    );
-
+    drawing=true;
 
     canvas.setPointerCapture(
       event.pointerId
     );
 
+    const p =
+      canvasPoint(event);
+
+    ctx.beginPath();
+    ctx.moveTo(p.x,p.y);
+
   }
+);
 
+canvas.addEventListener(
+  "pointermove",
+  event=>{
 
-  function draw(
-    event
-  ) {
-
-    if (!drawing) {
-
+    if(!drawing)
       return;
 
-    }
-
-
-    event.preventDefault();
-
-
-    const position =
-      getCanvasPosition(
-        event
-      );
-
+    const p =
+      canvasPoint(event);
 
     ctx.lineTo(
-      position.x,
-      position.y
+      p.x,
+      p.y
     );
-
 
     ctx.stroke();
 
   }
+);
 
+canvas.addEventListener(
+  "pointerup",
+  ()=>{
+    drawing=false;
+  }
+);
 
-  function stopDrawing() {
+canvas.addEventListener(
+  "pointercancel",
+  ()=>{
+    drawing=false;
+  }
+);
 
-    if (!drawing) {
+function clearCanvas(){
 
-      return;
+  const rect =
+    canvas.getBoundingClientRect();
 
-    }
+  ctx.clearRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
+}
 
+/* ==================================================
+   ANTWORT
+================================================== */
 
-    drawing =
-      false;
+function showAnswerAndNext(){
 
+  if(
+    document
+      .getElementById("answerWord")
+      .classList
+      .contains("answer-hidden")
+  ){
 
-    ctx.closePath();
+    revealAnswer();
+
+  }else{
+
+    nextWord();
 
   }
+}
 
+function revealAnswer(){
 
-  function clearCanvas() {
+  if(answerRevealed)
+    return;
 
-    if (
-      !canvas ||
-      !ctx
-    ) {
+  answerRevealed=true;
 
-      return;
+  const item =
+    vocabulary[currentIndex];
 
-    }
-
-
-    ctx.clearRect(
-      0,
-      0,
-      canvas.width,
-      canvas.height
+  const answerWord =
+    document.getElementById(
+      "answerWord"
     );
 
-
-    hasWritten =
-      false;
-
-
-    handwritingWasConfirmed =
-      false;
-
-
+  const answerDetails =
     document.getElementById(
-      "writingFeedback"
-    ).textContent =
-      "";
+      "answerDetails"
+    );
+
+  const showButton =
+    document.getElementById(
+      "showButton"
+    );
+
+  answerWord
+    .classList
+    .remove(
+      "answer-hidden"
+    );
+
+  answerDetails
+    .classList
+    .remove(
+      "answer-hidden"
+    );
+
+  showButton.textContent =
+    "WEITER →";
+
+  const p =
+    getProgress(item);
+
+  p.seen++;
+  p.revealed++;
+  p.lastSeen=Date.now();
+
+  saveProgress();
+
+  updateStats();
+
+  showExample(item);
+
+  document.getElementById(
+    "assessment"
+  ).style.display="block";
+
+  clearSpeech();
+
+  speechTimer =
+    setTimeout(
+      ()=>{
+        speakEnglish();
+      },
+      1000
+    );
+
+}
+
+/* ==================================================
+   BEISPIEL
+================================================== */
+
+function showExample(item){
+
+  const area =
+    document.getElementById(
+      "exampleArea"
+    );
+
+  if(!item.Example){
+
+    area.classList.add(
+      "hidden"
+    );
+
+    return;
+  }
+
+  area.classList.remove(
+    "hidden"
+  );
+
+  area.innerHTML=`
+    <div class="example">
+      <strong>Beispiel:</strong>
+      ${escapeHtml(item.Example)}
+
+      <button
+        class="example-speaker"
+        onclick="speakExample(event)">
+        🔊
+      </button>
+    </div>
+  `;
+}
+
+/* ==================================================
+   SPEECH SYNTHESIS
+================================================== */
+
+function clearSpeech(){
+
+  if(speechTimer){
+
+    clearTimeout(
+      speechTimer
+    );
+
+    speechTimer=null;
 
   }
 
+  if(
+    "speechSynthesis" in window
+  ){
 
-  /*
-   * ==================================================
-   * HANDSCHRIFT BESTÄTIGEN
-   * ==================================================
-   */
+    window.speechSynthesis.cancel();
 
-  function checkHandwriting() {
+  }
+}
 
-    if (
-      !hasWritten
-    ) {
+function getEnglishText(){
 
-      document.getElementById(
-        "writingFeedback"
-      ).textContent =
-        "✍️ Bitte zuerst die Antwort schreiben.";
+  if(!vocabulary.length)
+    return "";
 
-      return;
+  return String(
+    vocabulary[currentIndex]
+      .English || ""
+  ).trim();
+}
 
-    }
+function speakEnglish(event){
 
+  if(event)
+    event.stopPropagation();
 
-    handwritingWasConfirmed =
-      true;
+  clearSpeech();
 
+  const text =
+    getEnglishText();
+
+  if(!text)
+    return;
+
+  if(
+    !("speechSynthesis" in window)
+  )
+    return;
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+  utterance.lang="en-US";
+  utterance.rate=.9;
+  utterance.pitch=1;
+
+  const voices =
+    speechSynthesis.getVoices();
+
+  const preferred =
+    voices.find(
+      v=>v.lang==="en-US"
+    ) ||
+    voices.find(
+      v=>v.lang.startsWith("en")
+    );
+
+  if(preferred)
+    utterance.voice=
+      preferred;
+
+  speechSynthesis.speak(
+    utterance
+  );
+}
+
+function speakExample(event){
+
+  if(event)
+    event.stopPropagation();
+
+  const item =
+    vocabulary[currentIndex];
+
+  if(
+    !item ||
+    !item.Example ||
+    !("speechSynthesis" in window)
+  )
+    return;
+
+  speechSynthesis.cancel();
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      item.Example
+    );
+
+  utterance.lang="en-US";
+  utterance.rate=.88;
+  utterance.pitch=1;
+
+  const voices =
+    speechSynthesis.getVoices();
+
+  const preferred =
+    voices.find(
+      v=>v.lang==="en-US"
+    ) ||
+    voices.find(
+      v=>v.lang.startsWith("en")
+    );
+
+  if(preferred)
+    utterance.voice=
+      preferred;
+
+  speechSynthesis.speak(
+    utterance
+  );
+}
+
+/* ==================================================
+   SPRACHERKENNUNG
+================================================== */
+
+function startSpeechRecognition(){
+
+  speechAttempted=false;
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
 
     document.getElementById(
-      "writingFeedback"
+      "speechStatus"
     ).textContent =
-      "✓ Schreibversuch abgeschlossen.";
+      "Spracherkennung wird von diesem Browser nicht unterstützt.";
 
-    /*
-     * Im Lernmodus:
-     * Schreiben → Lösung zeigen.
-     */
+    document.getElementById(
+      "speechBox"
+    ).style.display="block";
 
-    if (
-      currentMode === "learning" &&
-      !answerWasRevealed
-    ) {
+    return;
+
+  }
+
+  if(recognitionActive){
+
+    stopRecognition();
+    return;
+
+  }
+
+  recognition =
+    new SpeechRecognition();
+
+  recognition.lang=
+    "en-US";
+
+  recognition.interimResults=false;
+  recognition.maxAlternatives=3;
+
+  recognition.onstart=()=>{
+
+    recognitionActive=true;
+
+    document.getElementById(
+      "speechBox"
+    ).style.display="block";
+
+    document.getElementById(
+      "speechStatus"
+    ).textContent =
+      "🎙️ Ich höre zu ...";
+
+  };
+
+  recognition.onresult=event=>{
+
+    const results =
+      Array.from(
+        event.results[0]
+          .length
+          ? event.results[0]
+          : []
+      );
+
+    const spoken =
+      event.results[0][0]
+        .transcript;
+
+    checkSpokenAnswer(
+      spoken
+    );
+
+  };
+
+  recognition.onerror=event=>{
+
+    recognitionActive=false;
+
+    document.getElementById(
+      "speechStatus"
+    ).textContent =
+      "Keine eindeutige Erkennung – versuche es noch einmal.";
+
+  };
+
+  recognition.onend=()=>{
+
+    recognitionActive=false;
+
+  };
+
+  recognition.start();
+}
+
+function stopRecognition(){
+
+  if(
+    recognition &&
+    recognitionActive
+  ){
+
+    try{
+      recognition.stop();
+    }catch(e){}
+
+  }
+
+  recognitionActive=false;
+}
+
+function checkSpokenAnswer(spoken){
+
+  speechAttempted=true;
+
+  updateRecallStatus();
+
+  const item =
+    vocabulary[currentIndex];
+
+  const expected =
+    normalizeSpeech(
+      item.English
+    );
+
+  const actual =
+    normalizeSpeech(
+      spoken
+    );
+
+  const correct =
+    actual===expected ||
+    actual.includes(expected) ||
+    expected.includes(actual);
+
+  const status =
+    document.getElementById(
+      "speechStatus"
+    );
+
+  if(correct){
+
+    status.textContent =
+      "✓ Erkannt – sehr gut.";
+
+    if(
+      currentMode==="learn" ||
+      currentMode==="today"
+    ){
 
       revealAnswer();
 
-      return;
-
     }
 
+  }else{
 
-    /*
-     * Im Testmodus:
-     * Schreiben ist echter Abruf.
-     * Danach darf die Lösung angesehen werden.
-     */
+    status.textContent =
+      `Gehört: „${spoken}“`;
 
-    if (
-      currentMode === "test" &&
-      !answerWasRevealed
-    ) {
+    if(
+      currentMode==="learn"
+    ){
 
-      document.getElementById(
-        "result"
-      ).textContent =
-        "✓ Antwort aufgeschrieben. Jetzt kannst du die Lösung aufdecken.";
-
-      document.getElementById(
-        "result"
-      ).className =
-        "result";
+      revealAnswer();
 
     }
 
   }
 
+}
 
-  /*
-   * ==================================================
-   * NÄCHSTES WORT
-   * ==================================================
-   */
+/* ==================================================
+   BEWERTUNG
+================================================== */
 
-  function nextWord() {
+function markCorrect(){
 
-    if (
-      currentMode === "test" &&
-      answerWasRevealed &&
-      !selfRatingDone
-    ) {
+  if(currentAssessed)
+    return;
 
-      document.getElementById(
-        "result"
-      ).textContent =
-        "Bitte zuerst deine Antwort bewerten.";
+  currentAssessed=true;
 
-      return;
+  const item =
+    vocabulary[currentIndex];
 
-    }
+  const p =
+    getProgress(item);
 
+  p.correct++;
 
-    clearSpeech();
+  p.lastSeen=Date.now();
 
-    stopSpeechRecognition();
+  /* längeres Wiederholungsintervall */
 
+  const intervals=[
+    1,
+    3,
+    7,
+    14,
+    30
+  ];
 
-    if (
-      currentItem
-    ) {
-
-      history.push(
-        currentIndex
-      );
-
-    }
-
-
-    currentIndex =
-      chooseNextIndex();
-
-
-    displayCurrentWord();
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  function chooseNextIndex() {
-
-    if (
-      vocabulary.length <= 1
-    ) {
-
-      return 0;
-
-    }
-
-
-    const now =
-      Date.now();
-
-
-    /*
-     * Zuerst fällige Wörter.
-     */
-
-    const dueIndices =
-      vocabulary
-        .map(
-          (
-            item,
-            index
-          ) => ({
-            item,
-            index,
-            progress:
-              getWordProgress(
-                item
-              )
-          })
-        )
-        .filter(
-          entry =>
-            entry.index !==
-            currentIndex &&
-            entry.progress.nextReview &&
-            entry.progress.nextReview <= now
-        );
-
-
-    if (
-      dueIndices.length > 0
-    ) {
-
-      /*
-       * Schwierige fällige Wörter zuerst
-       * gewichten.
-       */
-
-      const weightedDue = [];
-
-
-      dueIndices.forEach(
-        entry => {
-
-          const difficulty =
-            getDifficulty(
-              entry.item
-            );
-
-
-          let weight = 2;
-
-
-          if (
-            difficulty === "hard"
-          ) {
-
-            weight = 6;
-
-          }
-
-          else if (
-            difficulty === "medium"
-          ) {
-
-            weight = 4;
-
-          }
-
-
-          for (
-            let i = 0;
-            i < weight;
-            i++
-          ) {
-
-            weightedDue.push(
-              entry.index
-            );
-
-          }
-
-        }
-      );
-
-
-      return weightedDue[
-        Math.floor(
-          Math.random() *
-          weightedDue.length
-        )
-      ];
-
-    }
-
-
-    /*
-     * Danach normale gewichtete Auswahl.
-     */
-
-    const weighted = [];
-
-
-    vocabulary.forEach(
-      (
-        item,
-        index
-      ) => {
-
-        if (
-          index === currentIndex
-        ) {
-
-          return;
-
-        }
-
-
-        const difficulty =
-          getDifficulty(
-            item
-          );
-
-
-        let weight = 1;
-
-
-        if (
-          difficulty === "hard"
-        ) {
-
-          weight = 6;
-
-        }
-
-        else if (
-          difficulty === "medium"
-        ) {
-
-          weight = 3;
-
-        }
-
-        else if (
-          difficulty === "new"
-        ) {
-
-          weight = 2;
-
-        }
-
-
-        for (
-          let i = 0;
-          i < weight;
-          i++
-        ) {
-
-          weighted.push(
-            index
-          );
-
-        }
-
-      }
+  const level =
+    Math.min(
+      p.correct-1,
+      intervals.length-1
     );
 
+  p.nextReview =
+    Date.now() +
+    intervals[level] *
+    24 *
+    60 *
+    60 *
+    1000;
 
-    return weighted[
+  saveProgress();
+
+  updateStats();
+  updateDifficultList();
+
+  updateStreak();
+
+  updateChallenge();
+
+  document.getElementById(
+    "assessment"
+  ).style.display="none";
+
+}
+
+function markWrong(){
+
+  if(currentAssessed)
+    return;
+
+  currentAssessed=true;
+
+  const item =
+    vocabulary[currentIndex];
+
+  const p =
+    getProgress(item);
+
+  p.wrong++;
+  p.lastSeen=Date.now();
+
+  /* schwierige Wörter schneller wiederholen */
+
+  p.nextReview =
+    Date.now() +
+    10 *
+    60 *
+    1000;
+
+  saveProgress();
+
+  if(
+    !difficultWords.includes(
+      wordKey(item)
+    )
+  ){
+
+    difficultWords.push(
+      wordKey(item)
+    );
+
+    localStorage.setItem(
+      "difficultWords",
+      JSON.stringify(
+        difficultWords
+      )
+    );
+
+  }
+
+  updateStats();
+  updateDifficultList();
+  updateChallenge();
+
+  document.getElementById(
+    "assessment"
+  ).style.display="none";
+}
+
+/* ==================================================
+   STATISTIK
+================================================== */
+
+function updateStats(){
+
+  document.getElementById(
+    "csvCount"
+  ).textContent=
+    csvVocabulary.length;
+
+  const keys =
+    Object.keys(progress);
+
+  let seen=0;
+  let correct=0;
+  let wrong=0;
+
+  keys.forEach(key=>{
+
+    const p=progress[key];
+
+    seen += p.seen || 0;
+    correct += p.correct || 0;
+    wrong += p.wrong || 0;
+
+  });
+
+  const practiced =
+    new Set(
+      keys.filter(
+        key=>progress[key].seen>0
+      )
+    ).size;
+
+  document.getElementById(
+    "practicedCount"
+  ).textContent=
+    practiced;
+
+  document.getElementById(
+    "statSeen"
+  ).textContent=
+    seen;
+
+  document.getElementById(
+    "statCorrect"
+  ).textContent=
+    correct;
+
+  document.getElementById(
+    "statWrong"
+  ).textContent=
+    wrong;
+
+  const total=
+    correct+wrong;
+
+  document.getElementById(
+    "statAccuracy"
+  ).textContent=
+    total
+      ? Math.round(
+          correct/total*100
+        )+"%"
+      : "0%";
+
+  document.getElementById(
+    "streakCount"
+  ).textContent=
+    streak;
+}
+
+/* ==================================================
+   SCHWIERIGE LISTE
+================================================== */
+
+function updateDifficultList(){
+
+  const container =
+    document.getElementById(
+      "difficultList"
+    );
+
+  if(!container)
+    return;
+
+  const items =
+    vocabulary
+      .map(item=>({
+        item,
+        progress:getProgress(item)
+      }))
+      .filter(
+        x=>x.progress.wrong>0
+      )
+      .sort(
+        (a,b)=>
+          b.progress.wrong -
+          a.progress.wrong
+      )
+      .slice(0,10);
+
+  if(!items.length){
+
+    container.innerHTML=
+      `<div class="section-subtitle">
+        Noch keine schwierigen Wörter.
+      </div>`;
+
+    return;
+
+  }
+
+  container.innerHTML=
+    items.map(x=>`
+
+      <div class="difficult-item">
+
+        <strong>
+          ${escapeHtml(
+            String(
+              x.item.English || ""
+            ).toLowerCase()
+          )}
+        </strong>
+
+        <span>
+          ${x.progress.wrong} Fehler
+        </span>
+
+      </div>
+
+    `).join("");
+}
+
+/* ==================================================
+   STREAK
+================================================== */
+
+function updateStreak(){
+
+  const today =
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+  if(lastLearningDay===today)
+    return;
+
+  const yesterday =
+    new Date(
+      Date.now() -
+      86400000
+    )
+    .toISOString()
+    .slice(0,10);
+
+  if(
+    lastLearningDay===
+    yesterday
+  ){
+
+    streak++;
+
+  }else{
+
+    streak=1;
+
+  }
+
+  lastLearningDay=today;
+
+  localStorage.setItem(
+    "learningStreak",
+    streak
+  );
+
+  localStorage.setItem(
+    "lastLearningDay",
+    lastLearningDay
+  );
+
+  updateStats();
+}
+
+/* ==================================================
+   5-WÖRTER CHALLENGE
+================================================== */
+
+function updateChallenge(){
+
+  const today =
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+  if(
+    dailyChallenge.length &&
+    dailyChallenge[0]!==today
+  ){
+
+    dailyChallenge=[
+      today,
+      0
+    ];
+
+  }
+
+  if(!dailyChallenge.length){
+
+    dailyChallenge=[
+      today,
+      0
+    ];
+
+  }
+
+  localStorage.setItem(
+    "dailyChallenge",
+    JSON.stringify(
+      dailyChallenge
+    )
+  );
+
+  const count =
+    dailyChallenge[1] || 0;
+
+  document.getElementById(
+    "challengeCount"
+  ).textContent=
+    Math.min(count,5);
+
+  document.getElementById(
+    "challengeProgress"
+  ).style.width=
+    Math.min(
+      count/5*100,
+      100
+    )+"%";
+}
+
+/* ==================================================
+   VERWECHSLUNGSGRUPPEN
+================================================== */
+
+function startConfusionGroup(word){
+
+  currentConfusionGroup=word;
+
+  const group=[
+    "ensure",
+    "encourage",
+    "engage",
+    "enhance"
+  ];
+
+  const available =
+    vocabulary.filter(
+      item =>
+        group.includes(
+          normalize(item.English)
+        )
+    );
+
+  if(!available.length){
+
+    alert(
+      "Diese Verwechslungsgruppe ist in deiner CSV noch nicht vorhanden."
+    );
+
+    return;
+
+  }
+
+  const target =
+    available[
       Math.floor(
-        Math.random() *
-        weighted.length
+        Math.random()*
+        available.length
       )
     ];
 
+  currentIndex=
+    vocabulary.indexOf(
+      target
+    );
+
+  currentDirection="de-en";
+
+  displayCurrentWord();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+/* ==================================================
+   AUTOMATISCHE ÜBERSETZUNG
+================================================== */
+
+async function findTranslation(){
+
+  const english =
+    document.getElementById(
+      "newEnglish"
+    ).value.trim();
+
+  const german =
+    document.getElementById(
+      "newGerman"
+    ).value.trim();
+
+  const status =
+    document.getElementById(
+      "translationStatus"
+    );
+
+  if(!english && !german){
+
+    status.textContent=
+      "Bitte Englisch oder Deutsch eingeben.";
+
+    return;
+
   }
 
+  status.textContent=
+    "Übersetzung wird gesucht ...";
 
-  function previousWord() {
+  try{
 
-    clearSpeech();
+    let q="";
+    let pair="";
 
-    stopSpeechRecognition();
+    if(english && !german){
 
+      q=english;
+      pair="en|de";
 
-    if (
-      history.length === 0
-    ) {
+    }else if(
+      german &&
+      !english
+    ){
+
+      q=german;
+      pair="de|en";
+
+    }else{
+
+      status.textContent=
+        "Beide Felder sind bereits ausgefüllt.";
 
       return;
 
     }
 
+    const response =
+      await fetch(
+        "https://api.mymemory.translated.net/get?q="+
+        encodeURIComponent(q)+
+        "&langpair="+
+        pair
+      );
 
-    currentIndex =
-      history.pop();
+    const data =
+      await response.json();
 
+    const translation =
+      data?.responseData?.translatedText
+      || "";
 
-    displayCurrentWord();
+    if(!translation){
 
-  }
+      status.textContent=
+        "Keine Übersetzung gefunden.";
 
+      return;
 
-  /*
-   * ==================================================
-   * LERNMODUS
-   * ==================================================
-   */
+    }
 
-  function setMode(
-    mode
-  ) {
+    if(pair==="en|de"){
 
-    currentMode =
-      mode;
-
-
-    document.getElementById(
-      "learningModeButton"
-    ).classList.toggle(
-      "active",
-      mode === "learning"
-    );
-
-
-    document.getElementById(
-      "testModeButton"
-    ).classList.toggle(
-      "active",
-      mode === "test"
-    );
-
-
-    displayCurrentWord();
-
-  }
-
-
-  function updateModeDescription() {
-
-    const title =
       document.getElementById(
-        "handwritingTitle"
-      );
+        "newGerman"
+      ).value=
+        translation;
 
+    }else{
 
-    const recallTitle =
       document.getElementById(
-        "recallTitle"
-      );
-
-
-    if (!title) {
-
-      return;
+        "newEnglish"
+      ).value=
+        translation;
 
     }
 
+    status.textContent=
+      "✓ Übersetzung gefunden.";
 
-    if (
-      currentMode === "test"
-    ) {
+  }catch(error){
 
-      title.textContent =
-        currentDirection === "de-en"
-          ? "✍️ Schreibe deine englische Antwort mit dem Finger"
-          : "✍️ Schreibe deine deutsche Antwort mit dem Finger";
-
-
-      recallTitle.textContent =
-        "🧠 Erst selbst erinnern – dann Lösung aufdecken";
-
-    }
-
-    else {
-
-      title.textContent =
-        currentDirection === "de-en"
-          ? "✍️ Schreibe das englische Wort mit dem Finger"
-          : "✍️ Schreibe die deutsche Übersetzung mit dem Finger";
-
-
-      recallTitle.textContent =
-        "🧠 Erinnern → schreiben → hören";
-
-    }
+    status.textContent=
+      "Übersetzung konnte nicht geladen werden.";
 
   }
+}
 
+/* ==================================================
+   VOKABEL SPEICHERN
+================================================== */
 
-  /*
-   * ==================================================
-   * STATISTIK
-   * ==================================================
-   */
+function saveVocabulary(){
 
-  function updatePracticedCount() {
+  const english =
+    document.getElementById(
+      "newEnglish"
+    ).value.trim();
 
-    const progress =
-      loadProgress();
+  const german =
+    document.getElementById(
+      "newGerman"
+    ).value.trim();
 
+  const verb =
+    document.getElementById(
+      "newVerb"
+    ).value.trim();
 
-    let count = 0;
+  const noun =
+    document.getElementById(
+      "newNoun"
+    ).value.trim();
 
+  const adjective =
+    document.getElementById(
+      "newAdjective"
+    ).value.trim();
 
-    Object.keys(
-      progress
-    ).forEach(
-      key => {
+  const example =
+    document.getElementById(
+      "newExample"
+    ).value.trim();
 
-        if (
-          progress[key].revealed > 0
-        ) {
+  if(!english || !german){
 
-          count++;
-
-        }
-
-      }
+    alert(
+      "Bitte mindestens Englisch und Deutsch eingeben."
     );
 
-
-    document.getElementById(
-      "practicedCount"
-    ).textContent =
-      count;
+    return;
 
   }
 
+  const newWord={
+    English:english.toLowerCase(),
 
-  function updateLearningStats() {
+    Deutsch:german.toLowerCase(),
 
-    if (
-      !vocabulary.length
-    ) {
+    "Verb + preposition/construction":
+      verb,
 
-      return;
+    Noun:noun,
 
-    }
+    "Adjective/Participle":
+      adjective,
 
+    Example:example
+  };
 
-    let newWords = 0;
-
-    let easyWords = 0;
-
-    let mediumWords = 0;
-
-    let hardWords = 0;
-
-
-    vocabulary.forEach(
-      item => {
-
-        const difficulty =
-          getDifficulty(
-            item
-          );
-
-
-        if (
-          difficulty === "new"
-        ) {
-
-          newWords++;
-
-        }
-
-        else if (
-          difficulty === "easy"
-        ) {
-
-          easyWords++;
-
-        }
-
-        else if (
-          difficulty === "medium"
-        ) {
-
-          mediumWords++;
-
-        }
-
-        else if (
-          difficulty === "hard"
-        ) {
-
-          hardWords++;
-
-        }
-
-      }
+  const duplicate =
+    vocabulary.some(
+      item =>
+        wordKey(item)===
+        wordKey(newWord)
     );
 
+  if(duplicate){
 
-    document.getElementById(
-      "learningStats"
-    ).innerHTML = `
+    alert(
+      "Diese Vokabel existiert bereits."
+    );
 
-      <div>
-        Gesamt:
-        <strong>
-          ${vocabulary.length}
-        </strong>
-      </div>
-
-      <div>
-        🟢 Sicher:
-        <strong>
-          ${easyWords}
-        </strong>
-      </div>
-
-      <div>
-        🟡 In Wiederholung:
-        <strong>
-          ${mediumWords}
-        </strong>
-      </div>
-
-      <div>
-        🔴 Schwierig:
-        <strong>
-          ${hardWords}
-        </strong>
-      </div>
-
-      <div>
-        ⚪ Neu:
-        <strong>
-          ${newWords}
-        </strong>
-      </div>
-
-    `;
+    return;
 
   }
 
+  localVocabulary.push(
+    newWord
+  );
 
-  /*
-   * ==================================================
-   * SCHWIERIGE WÖRTER
-   * ==================================================
-   */
+  localStorage.setItem(
+    "localVocabulary",
+    JSON.stringify(
+      localVocabulary
+    )
+  );
 
-  function updateDifficultList() {
-
-    const container =
-      document.getElementById(
-        "difficultList"
-      );
-
-
-    if (
-      !vocabulary.length
-    ) {
-
-      return;
-
-    }
-
-
-    const difficult =
-      vocabulary
-        .map(
-          item => ({
-
-            item,
-
-            progress:
-              getWordProgress(
-                item
-              )
-
-          })
-        )
-        .filter(
-          entry =>
-            entry.progress.wrong > 0
-        )
-        .sort(
-          (
-            a,
-            b
-          ) =>
-            b.progress.wrong -
-            a.progress.wrong
-        )
-        .slice(
-          0,
-          10
-        );
-
-
-    if (
-      difficult.length === 0
-    ) {
-
-      container.innerHTML =
-        `
-          <div class="empty-message">
-            Noch keine schwierigen Wörter.
-          </div>
-        `;
-
-      return;
-
-    }
-
-
-    container.innerHTML =
-      difficult
-        .map(
-          entry => {
-
-            const item =
-              entry.item;
-
-
-            const p =
-              entry.progress;
-
-
-            return `
-
-              <div class="difficult-item">
-
-                <div>
-
-                  <div class="difficult-word">
-                    ${escapeHTML(
-                      item.english
-                    )}
-                  </div>
-
-                  <div
-                    style="
-                      font-size:13px;
-                      color:#777;
-                    "
-                  >
-                    ${escapeHTML(
-                      item.german
-                    )}
-                  </div>
-
-                </div>
-
-                <div class="difficult-score">
-                  ${p.wrong}× falsch
-                </div>
-
-                <button
-                  class="small-button"
-                  onclick="
-                    practiceSpecificWord(
-                      '${escapeAttribute(
-                        item.english
-                      )}'
-                    )
-                  "
-                >
-                  ÜBEN
-                </button>
-
-              </div>
-
-            `;
-
-          }
-        )
-        .join("");
-
-  }
-
-
-  function practiceSpecificWord(
-    english
-  ) {
-
-    const index =
-      vocabulary.findIndex(
-        item =>
-          normalize(
-            item.english
-          ) ===
-          normalize(
-            english
-          )
-      );
-
-
-    if (
-      index === -1
-    ) {
-
-      return;
-
-    }
-
-
-    currentIndex =
-      index;
-
-
-    displayCurrentWord();
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  }
-
-
-  /*
-   * ==================================================
-   * VOKABEL HINZUFÜGEN
-   * ==================================================
-   */
+  mergeVocabulary();
+  updateStats();
 
   document.getElementById(
     "newEnglish"
-  ).addEventListener(
-    "input",
-    () => {
-
-      document.getElementById(
-        "newGerman"
-      ).value = "";
-
-    }
-  );
-
+  ).value="";
 
   document.getElementById(
     "newGerman"
-  ).addEventListener(
-    "input",
-    () => {
+  ).value="";
 
-      document.getElementById(
-        "newEnglish"
-      ).value = "";
+  document.getElementById(
+    "newVerb"
+  ).value="";
 
-    }
-  );
+  document.getElementById(
+    "newNoun"
+  ).value="";
 
+  document.getElementById(
+    "newAdjective"
+  ).value="";
 
-  async function findTranslation() {
+  document.getElementById(
+    "newExample"
+  ).value="";
 
-    const english =
-      document.getElementById(
-        "newEnglish"
-      ).value.trim();
+  document.getElementById(
+    "translationStatus"
+  ).textContent=
+    "✓ Vokabel gespeichert.";
 
+}
 
-    const german =
-      document.getElementById(
-        "newGerman"
-      ).value.trim();
+/* ==================================================
+   CSV EXPORT
+================================================== */
 
+function csvEscape(value){
 
-    const status =
-      document.getElementById(
-        "translationStatus"
-      );
+  const s=
+    String(value || "");
 
+  if(
+    s.includes(",") ||
+    s.includes(";") ||
+    s.includes('"') ||
+    s.includes("\n")
+  ){
 
-    let source = "";
-
-    let sourceLanguage = "";
-
-    let targetLanguage = "";
-
-
-    if (
-      english
-    ) {
-
-      source =
-        english;
-
-      sourceLanguage =
-        "en";
-
-      targetLanguage =
-        "de";
-
-    }
-
-    else if (
-      german
-    ) {
-
-      source =
-        german;
-
-      sourceLanguage =
-        "de";
-
-      targetLanguage =
-        "en";
-
-    }
-
-    else {
-
-      status.textContent =
-        "Bitte zuerst ein Wort eingeben.";
-
-      return;
-
-    }
-
-
-    status.textContent =
-      "Übersetzung wird gesucht …";
-
-
-    try {
-
-      const url =
-        "https://api.mymemory.translated.net/get?q=" +
-        encodeURIComponent(
-          source
-        ) +
-        "&langpair=" +
-        sourceLanguage +
-        "|" +
-        targetLanguage;
-
-
-      const response =
-        await fetch(
-          url
-        );
-
-
-      const data =
-        await response.json();
-
-
-      const translation =
-        data?.responseData?.translatedText;
-
-
-      if (
-        !translation
-      ) {
-
-        throw new Error(
-          "Keine Übersetzung gefunden."
-        );
-
-      }
-
-
-      if (
-        sourceLanguage === "en"
-      ) {
-
-        document.getElementById(
-          "newGerman"
-        ).value =
-          translation;
-
-      }
-
-      else {
-
-        document.getElementById(
-          "newEnglish"
-        ).value =
-          translation;
-
-      }
-
-
-      status.textContent =
-        "✓ Übersetzung gefunden.";
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-
-      status.textContent =
-        "Übersetzung konnte nicht gefunden werden.";
-
-    }
+    return '"' +
+      s.replace(
+        /"/g,
+        '""'
+      ) +
+      '"';
 
   }
 
-
-  function addVocabulary() {
-
-    const english =
-      document.getElementById(
-        "newEnglish"
-      ).value.trim();
-
-
-    const german =
-      document.getElementById(
-        "newGerman"
-      ).value.trim();
-
-
-    const status =
-      document.getElementById(
-        "translationStatus"
-      );
-
-
-    if (
-      !english ||
-      !german
-    ) {
-
-      status.textContent =
-        "Bitte Englisch und Deutsch eingeben.";
-
-      return;
-
-    }
-
-
-    const duplicate =
-      vocabulary.some(
-        item =>
-          normalize(
-            item.english
-          ) ===
-          normalize(
-            english
-          ) &&
-          normalize(
-            item.german
-          ) ===
-          normalize(
-            german
-          )
-      );
-
-
-    if (
-      duplicate
-    ) {
-
-      status.textContent =
-        "Diese Vokabel existiert bereits.";
-
-      return;
-
-    }
-
-
-    const item = {
-
-      english,
-
-      german,
-
-      construction: "",
-
-      noun: "",
-
-      adjective: "",
-
-      example: ""
-
-    };
-
-
-    localVocabulary.push(
-      item
-    );
-
-
-    saveLocalVocabulary();
-
-
-    vocabulary =
-      mergeVocabulary(
-        csvVocabulary,
-        localVocabulary
-      );
-
-
-    document.getElementById(
-      "newEnglish"
-    ).value = "";
-
-
-    document.getElementById(
-      "newGerman"
-    ).value = "";
-
-
-    status.textContent =
-      "✓ Vokabel gespeichert.";
-
-
-    document.getElementById(
-      "csvCount"
-    ).textContent =
-      csvVocabulary.length;
-
-
-    updateLearningStats();
-
-    updateDifficultList();
-
-  }
-
-
-  /*
-   * ==================================================
-   * CSV EXPORT
-   * ==================================================
-   */
-
-  function exportCSV() {
-
-    const header = [
-
-      "English",
-
-      "Verb + preposition/construction",
-
-      "Noun",
-
-      "Adjective/Participle",
-
-      "Deutsch",
-
-      "Example sentence"
-
-    ];
-
-
-    const rows =
-      vocabulary.map(
-        item => [
-
-          item.english,
-
-          item.construction || "",
-
-          item.noun || "",
-
-          item.adjective || "",
-
-          item.german,
-
-          item.example || ""
-
-        ]
-      );
-
-
-    const csv = [
-
-      header,
-
-      ...rows
-
-    ]
+  return s;
+}
+
+function exportCSV(){
+
+  const headers=[
+    "English",
+    "Verb + preposition/construction",
+    "Noun",
+    "Adjective/Participle",
+    "Deutsch",
+    "Example sentence"
+  ];
+
+  const rows=[
+    headers
+  ];
+
+  vocabulary.forEach(item=>{
+
+    rows.push([
+      item.English,
+      item[
+        "Verb + preposition/construction"
+      ],
+      item.Noun,
+      item[
+        "Adjective/Participle"
+      ],
+      item.Deutsch,
+      item.Example
+    ]);
+
+  });
+
+  const text=
+    "\uFEFF"+
+    rows
       .map(
         row =>
           row
-            .map(
-              value =>
-                csvEscape(
-                  value
-                )
-            )
+            .map(csvEscape)
             .join(",")
       )
       .join("\r\n");
 
-
-    const blob =
-      new Blob(
-        [
-          "\uFEFF" +
-          csv
-        ],
-        {
-          type:
-            "text/csv;charset=utf-8;"
-        }
-      );
-
-
-    const url =
-      URL.createObjectURL(
-        blob
-      );
-
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.href =
-      url;
-
-
-    link.download =
-      "vocabulary.csv";
-
-
-    document.body.appendChild(
-      link
+  const blob =
+    new Blob(
+      [text],
+      {
+        type:
+          "text/csv;charset=utf-8;"
+      }
     );
 
+  const url =
+    URL.createObjectURL(blob);
 
-    link.click();
+  const a =
+    document.createElement("a");
 
+  a.href=url;
+  a.download=
+    "vocabulary.csv";
 
-    link.remove();
+  a.click();
 
+  URL.revokeObjectURL(url);
+}
 
-    URL.revokeObjectURL(
-      url
+/* ==================================================
+   LOKALE VOKABELN LÖSCHEN
+================================================== */
+
+function deleteLocalVocabulary(){
+
+  if(!localVocabulary.length){
+
+    alert(
+      "Es gibt keine eigenen Vokabeln."
     );
+
+    return;
 
   }
 
+  if(
+    !confirm(
+      "Möchtest du alle selbst hinzugefügten Vokabeln löschen?"
+    )
+  )
+    return;
 
-  function csvEscape(
-    value
-  ) {
+  localVocabulary=[];
 
-    const string =
-      String(
-        value ?? ""
-      );
+  localStorage.removeItem(
+    "localVocabulary"
+  );
 
+  mergeVocabulary();
 
-    if (
-      string.includes(",") ||
-      string.includes('"') ||
-      string.includes("\n") ||
-      string.includes("\r")
-    ) {
+  currentIndex=0;
 
-      return (
-        '"' +
-        string.replace(
-          /"/g,
-          '""'
-        ) +
-        '"'
-      );
+  updateStats();
+  updateDifficultList();
 
-    }
-
-
-    return string;
-
-  }
-
-
-  /*
-   * ==================================================
-   * LOKALE VOKABELN LÖSCHEN
-   * ==================================================
-   */
-
-  function deleteLocalVocabulary() {
-
-    const confirmed =
-      confirm(
-        "Möchtest du wirklich alle lokal hinzugefügten Vokabeln löschen?"
-      );
-
-
-    if (
-      !confirmed
-    ) {
-
-      return;
-
-    }
-
-
-    localVocabulary = [];
-
-
-    saveLocalVocabulary();
-
-
-    vocabulary =
-      mergeVocabulary(
-        csvVocabulary,
-        localVocabulary
-      );
-
-
-    updateLearningStats();
-
-    updateDifficultList();
-
-
-    if (
-      currentIndex >=
-      vocabulary.length
-    ) {
-
-      currentIndex =
-        0;
-
-    }
-
-
+  if(vocabulary.length)
     displayCurrentWord();
+}
 
+/* ==================================================
+   IOS / TOUCH
+================================================== */
+
+document.addEventListener(
+  "contextmenu",
+  event=>{
+    if(
+      !event.target.matches(
+        "input,textarea"
+      )
+    ){
+      event.preventDefault();
+    }
   }
+);
 
-
-  /*
-   * ==================================================
-   * HILFSFUNKTIONEN
-   * ==================================================
-   */
-
-  function normalize(
-    text
-  ) {
-
-    return String(
-      text
-    )
-      .toLowerCase()
-      .trim()
-      .replace(
-        /\s+/g,
-        " "
+document.addEventListener(
+  "selectstart",
+  event=>{
+    if(
+      !event.target.matches(
+        "input,textarea"
       )
-      .replace(
-        /[.,!?;:]+$/g,
-        ""
-      );
-
+    ){
+      event.preventDefault();
+    }
   }
+);
 
+document.addEventListener(
+  "gesturestart",
+  event=>{
+    event.preventDefault();
+  },
+  {passive:false}
+);
 
-  function escapeHTML(
-    value
-  ) {
-
-    return String(
-      value
-    )
-      .replace(
-        /&/g,
-        "&amp;"
+document.addEventListener(
+  "dblclick",
+  event=>{
+    if(
+      !event.target.matches(
+        "input,textarea"
       )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
+    ){
+      event.preventDefault();
+    }
+  },
+  {passive:false}
+);
 
-  }
+/* ==================================================
+   START
+================================================== */
 
+function start(){
 
-  function escapeAttribute(
-    value
-  ) {
+  resizeCanvas();
 
-    return String(
-      value
-    )
-      .replace(
-        /\\/g,
-        "\\\\"
-      )
-      .replace(
-        /'/g,
-        "\\'"
-      );
-
-  }
-
-
-  /*
-   * ==================================================
-   * SPEECH VOICES
-   * ==================================================
-   */
-
-  if (
+  if(
     "speechSynthesis" in window
-  ) {
+  ){
 
-    window.speechSynthesis
-      .onvoiceschanged =
-      () => {
-
-        window.speechSynthesis
-          .getVoices();
-
-      };
+    speechSynthesis.getVoices();
 
   }
+
+  loadVocabulary();
+
+  window.addEventListener(
+    "resize",
+    resizeCanvas
+  );
+}
+
+start();
 
 </script>
 
