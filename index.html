@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
+
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
 <meta
-name="apple-mobile-web-app-capable"
-content="yes">
+  name="apple-mobile-web-app-capable"
+  content="yes">
 
 <meta
-name="apple-mobile-web-app-status-bar-style"
-content="default">
+  name="apple-mobile-web-app-status-bar-style"
+  content="default">
 
 <meta
-name="apple-mobile-web-app-title"
-content="Global HR Vocabulary">
+  name="apple-mobile-web-app-title"
+  content="Global HR Vocabulary">
 
 <title>Global HR Vocabulary</title>
 
@@ -516,11 +516,12 @@ h2{
   .difficulty-button{
     font-size:8px;
   }
+
 }
 
 </style>
-
 </head>
+
 
 <body>
 
@@ -528,222 +529,314 @@ h2{
 
   <div class="header">
 
-```
-<h1>
-  Global HR Vocabulary
-</h1>
+    <h1>
+      Global HR Vocabulary
+    </h1>
 
-<div class="top-stats">
+    <div class="top-stats">
 
-  <span>
-    CSV-Einträge:
-    <b id="csvCount">0</b>
-  </span>
+      <span>
+        CSV-Einträge:
+        <b id="csvCount">0</b>
+      </span>
 
-  <span>
-    Geübt:
-    <b id="practicedCount">0</b>
-  </span>
+      <span>
+        Geübt:
+        <b id="practicedCount">0</b>
+      </span>
 
-  <span>
-    Serie:
-    <b id="streak">0</b>
-  </span>
+      <span>
+        Serie:
+        <b id="streak">0</b>
+      </span>
 
-</div>
-```
+    </div>
 
   </div>
+
 
   <div id="loading">
     Vokabeln werden geladen …
   </div>
 
+
   <div
     id="app"
     class="hidden">
 
-```
-<!-- =================================================
-     MODI
-================================================== -->
 
-<div class="section">
+    <!-- =================================================
+         MODI
+    ================================================== -->
 
-  <div class="modebar">
+    <div class="section">
 
-    <button
-      id="learnMode"
-      class="mode-btn active"
-      onclick="setMode('learn')">
+      <div class="modebar">
 
-      🧠 LERNEN
+        <button
+          id="learnMode"
+          class="mode-btn active"
+          onclick="setMode('learn')">
 
-    </button>
+          🧠 LERNEN
 
-
-    <button
-      id="testMode"
-      class="mode-btn"
-      onclick="setMode('test')">
-
-      🎯 TESTEN
-
-    </button>
+        </button>
 
 
-    <button
-      id="mobilityMode"
-      class="mode-btn"
-      onclick="toggleMobility()">
+        <button
+          id="testMode"
+          class="mode-btn"
+          onclick="setMode('test')">
 
-      🚗🔊 MOBIL
+          🎯 TESTEN
 
-    </button>
-
-  </div>
+        </button>
 
 
-  <div
-    id="modeStatus"
-    class="status">
+        <button
+          id="mobilityMode"
+          class="mode-btn"
+          onclick="toggleMobility()">
 
-    Englisch ↔ Deutsch
+          🚗🔊 MOBIL
 
-  </div>
+        </button>
+
+      </div>
 
 
-  <div class="progress">
+      <div
+        id="modeStatus"
+        class="status">
+
+        Englisch ↔ Deutsch
+
+      </div>
+
+
+      <div class="progress">
+
+        <div
+          id="progressFill"
+          class="progress-fill">
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         HAUPTKARTE
+    ================================================== -->
+
+    <div class="section card">
+
+      <div class="meta">
+
+        <span id="counter">
+          1 / 0
+        </span>
+
+        <span id="difficultyText">
+          NEU
+        </span>
+
+      </div>
+
+
+      <div class="word-area">
+
+        <div>
+
+          <div
+            class="language"
+            id="questionLanguage">
+
+            ENGLISH
+
+          </div>
+
+
+          <div
+            class="word"
+            id="questionWord">
+          </div>
+
+
+          <div
+            id="questionDetails"
+            class="details">
+          </div>
+
+
+          <div class="connector"></div>
+
+
+          <div
+            class="language"
+            id="answerLanguage">
+
+            DEUTSCH
+
+          </div>
+
+
+          <div
+            id="answerWord"
+            class="word answer-hidden">
+          </div>
+
+
+          <div
+            id="answerDetails"
+            class="details answer-hidden">
+          </div>
+
+        </div>
+
+
+        <div class="solution-area">
+
+          <button
+            id="solutionButton"
+            class="solution-button"
+            onclick="showAnswer()">
+
+            LÖSUNG
+
+          </button>
+
+
+          <div
+            id="difficultyLabel"
+            class="difficulty-label">
+
+            Schwierigkeit
+
+          </div>
+
+
+          <div class="difficulty-buttons">
+
+            <button
+              id="easyButton"
+              class="difficulty-button easy"
+              onclick="setDifficulty('easy')">
+
+              🟢 Einfach
+
+            </button>
+
+
+            <button
+              id="mediumButton"
+              class="difficulty-button medium"
+              onclick="setDifficulty('medium')">
+
+              🟡 Mittel
+
+            </button>
+
+
+            <button
+              id="hardButton"
+              class="difficulty-button hard"
+              onclick="setDifficulty('hard')">
+
+              🔴 Schwer
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="exampleArea"
+        class="example-area answer-hidden">
+
+        <div
+          id="exampleText"
+          class="example">
+        </div>
+
+      </div>
+
+
+      <div class="navigation">
+
+        <button onclick="previousWord()">
+          ← ZURÜCK
+        </button>
+
+
+        <button onclick="nextWord()">
+          WEITER →
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         MOBILITÄTSMODUS
+    ================================================== -->
 
     <div
-      id="progressFill"
-      class="progress-fill">
-    </div>
+      id="mobilityPanel"
+      class="section hidden">
 
-  </div>
+      <div class="mobility-info">
 
-</div>
+        <strong>
+          🚗🔊 Mobilitätsmodus
+        </strong>
 
+        <br>
 
-<!-- =================================================
-     HAUPTKARTE
-================================================== -->
+        Englisch → Deutsch ·
+        vollständig automatisch
 
-<div class="section card">
+        <br><br>
 
-  <div class="meta">
+        Englisch → 6 Sek. Bedenkzeit →
+        Lösung → Nomen → Adverb →
+        Beispielsatz → 6 Sek. Pause →
+        nächstes Wort
 
-    <span id="counter">
-      1 / 0
-    </span>
+        <br><br>
 
-    <span id="difficultyText">
-      NEU
-    </span>
-
-  </div>
-
-
-  <div class="word-area">
-
-    <div>
-
-      <div
-        class="language"
-        id="questionLanguage">
-
-        ENGLISH
+        Die automatische Bildschirmsperre
+        wird während des Mobilitätsmodus verhindert.
 
       </div>
 
 
       <div
-        class="word"
-        id="questionWord">
+        id="mobilityTimer"
+        class="mobility-timer">
       </div>
 
 
-      <div
-        id="questionDetails"
-        class="details">
-      </div>
-
-
-      <div class="connector"></div>
-
-
-      <div
-        class="language"
-        id="answerLanguage">
-
-        DEUTSCH
-
-      </div>
-
-
-      <div
-        id="answerWord"
-        class="word answer-hidden">
-      </div>
-
-
-      <div
-        id="answerDetails"
-        class="details answer-hidden">
-      </div>
-
-    </div>
-
-
-    <div class="solution-area">
-
-      <button
-        id="solutionButton"
-        class="solution-button"
-        onclick="showAnswer()">
-
-        LÖSUNG
-
-      </button>
-
-
-      <div
-        id="difficultyLabel"
-        class="difficulty-label">
-
-        Schwierigkeit
-
-      </div>
-
-
-      <div class="difficulty-buttons">
+      <div class="mobility-controls">
 
         <button
-          id="easyButton"
-          class="difficulty-button easy"
-          onclick="setDifficulty('easy')">
+          onclick="repeatMobilityAudio()">
 
-          🟢 Einfach
+          🔊 NOCHMAL
 
         </button>
 
 
         <button
-          id="mediumButton"
-          class="difficulty-button medium"
-          onclick="setDifficulty('medium')">
+          onclick="nextMobilityWord()">
 
-          🟡 Mittel
-
-        </button>
-
-
-        <button
-          id="hardButton"
-          class="difficulty-button hard"
-          onclick="setDifficulty('hard')">
-
-          🔴 Schwer
+          WEITER →
 
         </button>
 
@@ -751,130 +844,206 @@ h2{
 
     </div>
 
-  </div>
+
+    <!-- =================================================
+         LERNFORTSCHRITT
+    ================================================== -->
+
+    <div class="section">
+
+      <h2>
+        📊 Lernfortschritt
+      </h2>
 
 
-  <div
-    id="exampleArea"
-    class="example-area answer-hidden">
+      <div class="stats">
 
-    <div
-      id="exampleText"
-      class="example">
-    </div>
+        <div class="stat">
 
-  </div>
+          <b id="statSeen">
+            0
+          </b>
 
+          <span>
+            Versuche
+          </span>
 
-  <div class="navigation">
-
-    <button onclick="previousWord()">
-      ← ZURÜCK
-    </button>
+        </div>
 
 
-    <button onclick="nextWord()">
-      WEITER →
-    </button>
+        <div class="stat">
 
-  </div>
+          <b id="statCorrect">
+            0
+          </b>
 
-</div>
+          <span>
+            Richtig
+          </span>
 
-
-<!-- =================================================
-     MOBILITÄTSMODUS
-================================================== -->
-
-<div
-  id="mobilityPanel"
-  class="section hidden">
-
-  <div class="mobility-info">
-
-    <strong>
-      🚗🔊 Mobilitätsmodus
-    </strong>
-
-    <br>
-
-    Englisch → Deutsch ·
-    vollständig automatisch
-
-    <br><br>
-
-    Englisch → 6 Sek. Bedenkzeit →
-    Lösung → Nomen → Adverb →
-    Beispielsatz → 6 Sek. Pause →
-    nächstes Wort
-
-  </div>
+        </div>
 
 
-  <div
-    id="mobilityTimer"
-    class="mobility-timer">
-  </div>
+        <div class="stat">
 
+          <b id="statWrong">
+            0
+          </b>
 
-  <div class="mobility-controls">
+          <span>
+            Fehler
+          </span>
 
-    <button
-      onclick="repeatMobilityAudio()">
+        </div>
 
-      🔊 NOCHMAL
-
-    </button>
-
-
-    <button
-      onclick="nextMobilityWord()">
-
-      WEITER →
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =================================================
-     LERNFORTSCHRITT
-================================================== -->
-
-<div class="section">
-
-  <h2>
-    📊 Lernfortschritt
-  </h2>
-
-
-  <div class="stats">
-
-    <div class="stat">
-
-      <b id="statSeen">0</b>
-
-      <span>Versuche</span>
+      </div>
 
     </div>
 
 
-    <div class="stat">
+    <!-- =================================================
+         SCHWIERIGE WÖRTER
+    ================================================== -->
 
-      <b id="statCorrect">0</b>
+    <div class="section">
 
-      <span>Richtig</span>
+      <h2>
+        🔴 Schwierige Wörter
+      </h2>
+
+
+      <div
+        id="difficultList"
+        class="list">
+      </div>
 
     </div>
 
 
-    <div class="stat">
+    <!-- =================================================
+         VOKABEL HINZUFÜGEN
+    ================================================== -->
 
-      <b id="statWrong">0</b>
+    <div class="section add">
 
-      <span>Fehler</span>
+      <h2>
+        ＋ Vokabel hinzufügen
+      </h2>
+
+
+      <input
+        id="newEnglish"
+        placeholder="English">
+
+
+      <input
+        id="newGerman"
+        placeholder="Deutsch">
+
+
+      <div class="form-grid">
+
+        <input
+          id="newVerb"
+          placeholder="Verb + construction">
+
+
+        <input
+          id="newNoun"
+          placeholder="Noun / Nominative">
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <input
+          id="newAdjective"
+          placeholder="Adjective / Participle">
+
+
+        <input
+          id="newAdverb"
+          placeholder="Adverb">
+
+      </div>
+
+
+      <textarea
+        id="newExample"
+        placeholder="Example sentence">
+      </textarea>
+
+
+      <div
+        id="translationStatus"
+        class="translation-status">
+      </div>
+
+
+      <div class="add-buttons">
+
+        <button
+          class="secondary"
+          onclick="translateWord()">
+
+          🔍 ÜBERSETZUNG
+
+        </button>
+
+
+        <button
+          class="primary"
+          onclick="saveVocabulary()">
+
+          SPEICHERN
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         DATEN
+    ================================================== -->
+
+    <div class="section">
+
+      <h2>
+        💾 Daten
+      </h2>
+
+
+      <div class="add-buttons">
+
+        <button
+          class="secondary"
+          onclick="exportCSV()">
+
+          CSV EXPORTIEREN
+
+        </button>
+
+
+        <button
+          class="secondary"
+          onclick="deleteLocalVocabulary()">
+
+          EIGENE LÖSCHEN
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer">
+
+      Global HR Vocabulary ·
+      Visual + Audio Learning
 
     </div>
 
@@ -882,157 +1051,6 @@ h2{
 
 </div>
 
-
-<!-- =================================================
-     SCHWIERIGE WÖRTER
-================================================== -->
-
-<div class="section">
-
-  <h2>
-    🔴 Schwierige Wörter
-  </h2>
-
-
-  <div
-    id="difficultList"
-    class="list">
-  </div>
-
-</div>
-
-
-<!-- =================================================
-     VOKABEL HINZUFÜGEN
-================================================== -->
-
-<div class="section add">
-
-  <h2>
-    ＋ Vokabel hinzufügen
-  </h2>
-
-
-  <input
-    id="newEnglish"
-    placeholder="English">
-
-
-  <input
-    id="newGerman"
-    placeholder="Deutsch">
-
-
-  <div class="form-grid">
-
-    <input
-      id="newVerb"
-      placeholder="Verb + construction">
-
-
-    <input
-      id="newNoun"
-      placeholder="Noun / Nominative">
-
-  </div>
-
-
-  <div class="form-grid">
-
-    <input
-      id="newAdjective"
-      placeholder="Adjective / Participle">
-
-
-    <input
-      id="newAdverb"
-      placeholder="Adverb">
-
-  </div>
-
-
-  <textarea
-    id="newExample"
-    placeholder="Example sentence">
-  </textarea>
-
-
-  <div
-    id="translationStatus"
-    class="translation-status">
-  </div>
-
-
-  <div class="add-buttons">
-
-    <button
-      class="secondary"
-      onclick="translateWord()">
-
-      🔍 ÜBERSETZUNG
-
-    </button>
-
-
-    <button
-      class="primary"
-      onclick="saveVocabulary()">
-
-      SPEICHERN
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =================================================
-     DATEN
-================================================== -->
-
-<div class="section">
-
-  <h2>
-    💾 Daten
-  </h2>
-
-
-  <div class="add-buttons">
-
-    <button
-      class="secondary"
-      onclick="exportCSV()">
-
-      CSV EXPORTIEREN
-
-    </button>
-
-
-    <button
-      class="secondary"
-      onclick="deleteLocalVocabulary()">
-
-      EIGENE LÖSCHEN
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<div class="footer">
-
-  Global HR Vocabulary ·
-  Visual + Audio Learning
-
-</div>
-```
-
-  </div>
-
-</div>
 
 <script>
 
@@ -1083,6 +1101,7 @@ let mode = "learn";
 
 let mobilityMode = false;
 
+
 let currentAttempt = {
 
   revealed:false,
@@ -1092,25 +1111,57 @@ let currentAttempt = {
 };
 
 
+/* =====================================================
+   LERNRUNDEN
+===================================================== */
+
+/*
+  Wichtig:
+
+  Früher wurde jedes neue Wort über eine
+  gewichtete Zufallsauswahl bestimmt.
+
+  Dadurch konnten einige Wörter sehr häufig
+  erscheinen, während andere lange nicht
+  abgefragt wurden.
+
+  Jetzt arbeitet die App mit echten Lernrunden:
+
+  - jedes Wort genau einmal
+  - zufällige Reihenfolge
+  - erst danach beginnt die nächste Runde
+*/
+
+let learningRound = [];
+
+let learningRoundPosition = 0;
+
+
+/* =====================================================
+   MOBILITÄTSRUNDEN
+===================================================== */
+
+let mobilityRound = [];
+
+let mobilityRoundPosition = 0;
+
+
+/* =====================================================
+   AUDIO / TIMER
+===================================================== */
+
 let speechTimer = null;
 
 let mobilityTimer = null;
 
 let mobilitySequenceId = 0;
 
+let mobilityRunning = false;
+
 
 /* =====================================================
    SCREEN WAKE LOCK
 ===================================================== */
-
-/*
-  Im Mobilitätsmodus versuchen wir zu verhindern,
-  dass das iPhone den Bildschirm automatisch sperrt.
-
-  Wichtig:
-  Eine manuell ausgelöste Sperre des iPhones kann
-  eine Safari-Webseite trotzdem pausieren.
-*/
 
 let wakeLock = null;
 
@@ -1137,6 +1188,13 @@ async function requestWakeLock(){
 
 
   try{
+
+    if(wakeLock){
+
+      return;
+
+    }
+
 
     wakeLock =
       await navigator.wakeLock.request(
@@ -1195,9 +1253,9 @@ async function releaseWakeLock(){
 
 
 /*
-  Wenn Safari die Seite kurz in den Hintergrund
-  verschiebt, versuchen wir den Wake Lock nach
-  der Rückkehr erneut zu aktivieren.
+  Wenn Firefox/Safari die Seite kurz
+  aus dem sichtbaren Zustand nimmt,
+  versuchen wir den Wake Lock erneut.
 */
 
 document.addEventListener(
@@ -1257,12 +1315,160 @@ function escapeHtml(value){
 
 
 /* =====================================================
+   LERNRUNDE ERSTELLEN
+===================================================== */
+
+function shuffleArray(array){
+
+  const result =
+    [...array];
+
+
+  for(
+    let i = result.length - 1;
+    i > 0;
+    i--
+  ){
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (i + 1)
+      );
+
+
+    [
+      result[i],
+      result[j]
+    ] =
+    [
+      result[j],
+      result[i]
+    ];
+
+  }
+
+
+  return result;
+
+}
+
+
+function createLearningRound(){
+
+  learningRound =
+    shuffleArray(
+      vocabulary.map(
+        (_,index) =>
+          index
+      )
+    );
+
+
+  learningRoundPosition = 0;
+
+}
+
+
+function getNextLearningIndex(){
+
+  if(!vocabulary.length){
+
+    return 0;
+
+  }
+
+
+  if(
+    learningRound.length !==
+    vocabulary.length ||
+    learningRoundPosition >=
+    learningRound.length
+  ){
+
+    createLearningRound();
+
+  }
+
+
+  const index =
+    learningRound[
+      learningRoundPosition
+    ];
+
+
+  learningRoundPosition++;
+
+
+  return index;
+
+}
+
+
+/* =====================================================
+   MOBILITÄTSRUNDE ERSTELLEN
+===================================================== */
+
+function createMobilityRound(){
+
+  mobilityRound =
+    shuffleArray(
+      vocabulary.map(
+        (_,index) =>
+          index
+      )
+    );
+
+
+  mobilityRoundPosition = 0;
+
+}
+
+
+function getNextMobilityIndex(){
+
+  if(!vocabulary.length){
+
+    return 0;
+
+  }
+
+
+  if(
+    mobilityRound.length !==
+    vocabulary.length ||
+    mobilityRoundPosition >=
+    mobilityRound.length
+  ){
+
+    createMobilityRound();
+
+  }
+
+
+  const index =
+    mobilityRound[
+      mobilityRoundPosition
+    ];
+
+
+  mobilityRoundPosition++;
+
+
+  return index;
+
+}
+
+
+/* =====================================================
    PROGRESS
 ===================================================== */
 
 function getProgress(item){
 
-  const k = key(item);
+  const k =
+    key(item);
+
 
   return progress[k] || {
 
@@ -1332,7 +1538,8 @@ function parseCSV(text){
     i++
   ){
 
-    const c = text[i];
+    const c =
+      text[i];
 
 
     if(c === '"'){
@@ -1348,7 +1555,8 @@ function parseCSV(text){
 
       }else{
 
-        quoted = !quoted;
+        quoted =
+          !quoted;
 
       }
 
@@ -1357,7 +1565,9 @@ function parseCSV(text){
       !quoted
     ){
 
-      row.push(cell.trim());
+      row.push(
+        cell.trim()
+      );
 
       cell = "";
 
@@ -1376,14 +1586,17 @@ function parseCSV(text){
       }
 
 
-      row.push(cell.trim());
+      row.push(
+        cell.trim()
+      );
 
       cell = "";
 
 
       if(
         row.some(
-          x => x !== ""
+          x =>
+            x !== ""
         )
       ){
 
@@ -1403,12 +1616,15 @@ function parseCSV(text){
   }
 
 
-  row.push(cell.trim());
+  row.push(
+    cell.trim()
+  );
 
 
   if(
     row.some(
-      x => x !== ""
+      x =>
+        x !== ""
     )
   ){
 
@@ -1436,77 +1652,90 @@ function parseCSV(text){
 
   return rows
     .slice(1)
-    .map(r => {
+    .map(
+      r => {
 
-      const o = {};
-
-
-      headers.forEach(
-        (h,i) => {
-
-          o[h] =
-            (r[i] || "").trim();
-
-        }
-      );
+        const o = {};
 
 
-      return {
+        headers.forEach(
+          (h,i) => {
 
-        English:
-          o.English ||
-          r[0] ||
-          "",
+            o[h] =
+              (r[i] || "")
+                .trim();
 
-
-        Deutsch:
-          o.Deutsch ||
-          o.German ||
-          r[1] ||
-          "",
+          }
+        );
 
 
-        "Verb + preposition/construction":
-          o[
-            "Verb + preposition/construction"
-          ] ||
-          o.construction ||
-          r[2] ||
-          "",
+        return {
+
+          English:
+            o.English ||
+            r[0] ||
+            "",
 
 
-        Noun:
-          o.Noun ||
-          o.Nomen ||
-          r[3] ||
-          "",
+          Deutsch:
+            o.Deutsch ||
+            o.German ||
+            r[1] ||
+            "",
 
 
-        "Adjective/Participle":
-          o["Adjective/Participle"] ||
-          o.Adjective ||
-          o["Adjektiv/Partizip"] ||
-          r[4] ||
-          "",
+          "Verb + preposition/construction":
+            o[
+              "Verb + preposition/construction"
+            ] ||
+            o.construction ||
+            r[2] ||
+            "",
 
 
-        Adverb:
-          o.Adverb ||
-          r[5] ||
-          "",
+          Noun:
+            o.Noun ||
+            o.Nomen ||
+            r[3] ||
+            "",
 
 
-        Example:
-          o.Example ||
-          o["Example sentence"] ||
-          o["Example sentence(s)"] ||
-          o["Beispielsatz(e)"] ||
-          r[6] ||
-          ""
+          "Adjective/Participle":
+            o[
+              "Adjective/Participle"
+            ] ||
+            o.Adjective ||
+            o[
+              "Adjektiv/Partizip"
+            ] ||
+            r[4] ||
+            "",
 
-      };
 
-    })
+          Adverb:
+            o.Adverb ||
+            r[5] ||
+            "",
+
+
+          Example:
+            o.Example ||
+            o[
+              "Example sentence"
+            ] ||
+            o[
+              "Example sentence(s)"
+            ] ||
+            o[
+              "Beispielsatz(e)"
+            ] ||
+            r[6] ||
+            ""
+
+        };
+
+      }
+    )
     .filter(
       x =>
         x.English ||
@@ -1577,6 +1806,11 @@ async function loadVocabulary(){
   mergeVocabulary();
 
 
+  createLearningRound();
+
+  createMobilityRound();
+
+
   $("loading")
     .classList
     .add("hidden");
@@ -1609,30 +1843,32 @@ function mergeVocabulary(){
       ...localVocabulary
 
     ]
-    .filter(item => {
+    .filter(
+      item => {
 
-      const k =
-        key(item);
+        const k =
+          key(item);
 
 
-      if(
-        seen.has(k)
-      ){
+        if(
+          seen.has(k)
+        ){
 
-        return false;
+          return false;
+
+        }
+
+
+        seen.add(k);
+
+
+        return !!(
+          item.English ||
+          item.Deutsch
+        );
 
       }
-
-
-      seen.add(k);
-
-
-      return !!(
-        item.English ||
-        item.Deutsch
-      );
-
-    });
+    );
 
 }
 
@@ -1647,9 +1883,18 @@ function setMode(newMode){
 
   releaseWakeLock();
 
-  mode = newMode;
 
-  mobilityMode = false;
+  mode =
+    newMode;
+
+
+  mobilityMode =
+    false;
+
+
+  mobilityRunning =
+    false;
+
 
   $("mobilityPanel")
     .classList
@@ -1690,51 +1935,18 @@ function setMode(newMode){
 
 async function toggleMobility(){
 
-  mobilityMode =
-    !mobilityMode;
-
-
   if(mobilityMode){
 
-    mode = "learn";
+    mobilityMode =
+      false;
 
 
-    $("learnMode")
-      .classList
-      .remove("active");
+    mobilityRunning =
+      false;
 
 
-    $("testMode")
-      .classList
-      .remove("active");
+    mobilitySequenceId++;
 
-
-    $("mobilityMode")
-      .classList
-      .add("active");
-
-
-    $("mobilityPanel")
-      .classList
-      .remove("hidden");
-
-
-    $("modeStatus").textContent =
-      "🚗 Audio · Bildschirm bleibt aktiv";
-
-
-    /*
-      Wake Lock direkt nach dem
-      Benutzer-Tap anfordern.
-    */
-
-    await requestWakeLock();
-
-
-    nextMobilityWord();
-
-
-  }else{
 
     stopAllAudio();
 
@@ -1766,149 +1978,68 @@ async function toggleMobility(){
 
     nextWord();
 
+
+    return;
+
   }
+
+
+  mobilityMode =
+    true;
+
+
+  mobilityRunning =
+    true;
+
+
+  mode =
+    "learn";
+
+
+  $("learnMode")
+    .classList
+    .remove("active");
+
+
+  $("testMode")
+    .classList
+    .remove("active");
+
+
+  $("mobilityMode")
+    .classList
+    .add("active");
+
+
+  $("mobilityPanel")
+    .classList
+    .remove("hidden");
+
+
+  $("modeStatus").textContent =
+    "🚗 Audio · wird gestartet …";
+
+
+  await requestWakeLock();
+
+
+  createMobilityRound();
+
+
+  startMobilityWord();
 
 }
 
 
 /* =====================================================
-   WORTAUSWAHL
+   NORMALE WORTAUSWAHL
 ===================================================== */
 
-function score(item){
-
-  const p =
-    getProgress(item);
-
-
-  let weight = 1;
-
-
-  if(!p.seen){
-
-    weight += 7;
-
-  }
-
-
-  if(p.wrong){
-
-    weight +=
-      Math.min(
-        p.wrong * 5,
-        25
-      );
-
-  }
-
-
-  if(
-    p.difficulty === "hard"
-  ){
-
-    weight += 14;
-
-  }
-
-
-  if(
-    p.difficulty === "medium"
-  ){
-
-    weight += 5;
-
-  }
-
-
-  if(
-    p.difficulty === "easy"
-  ){
-
-    weight *= .35;
-
-  }
-
-
-  if(
-    p.nextDue &&
-    p.nextDue <= Date.now()
-  ){
-
-    weight += 8;
-
-  }
-
-
-  return weight;
-
-}
-
-
-function chooseWord(){
-
-  if(!vocabulary.length){
-
-    return 0;
-
-  }
-
-
-  const list =
-    vocabulary.map(
-      (item,index) => ({
-
-        index,
-
-        weight:
-          score(item)
-
-      })
-    );
-
-
-  const total =
-    list.reduce(
-      (sum,x) =>
-        sum + x.weight,
-      0
-    );
-
-
-  let random =
-    Math.random() *
-    total;
-
-
-  for(
-    const x of list
-  ){
-
-    random -= x.weight;
-
-
-    if(random <= 0){
-
-      return x.index;
-
-    }
-
-  }
-
-
-  return list[0].index;
-
-}
-
-
-/* =====================================================
-   NÄCHSTES NORMALES WORT
-===================================================== */
-
-function nextWord(initial=false){
+function nextWord(){
 
   if(mobilityMode){
 
-    nextMobilityWord();
+    startMobilityWord();
 
     return;
 
@@ -1926,7 +2057,7 @@ function nextWord(initial=false){
 
 
   currentIndex =
-    chooseWord();
+    getNextLearningIndex();
 
 
   currentAttempt = {
@@ -2406,7 +2537,7 @@ function showAnswer(){
   updateProgress();
 
 
-  stopAllAudio();
+  stopSpeech();
 
 
   speechTimer =
@@ -2608,8 +2739,7 @@ function stopSpeech(){
 
 
   if(
-    "speechSynthesis"
-    in window
+    "speechSynthesis" in window
   ){
 
     speechSynthesis.cancel();
@@ -2622,6 +2752,9 @@ function stopSpeech(){
 function stopAllAudio(){
 
   mobilitySequenceId++;
+
+  mobilityRunning =
+    false;
 
   stopSpeech();
 
@@ -2749,11 +2882,19 @@ function speakText(
 
 
       u.onend =
-        resolve;
+        () => {
+
+          resolve();
+
+        };
 
 
       u.onerror =
-        resolve;
+        () => {
+
+          resolve();
+
+        };
 
 
       speechSynthesis.speak(u);
@@ -2765,7 +2906,7 @@ function speakText(
 
 
 /* =====================================================
-   WARTEZEIT MIT ANZEIGE
+   WARTEZEIT
 ===================================================== */
 
 function waitWithCountdown(
@@ -2784,7 +2925,8 @@ function waitWithCountdown(
 
         if(
           sequenceId !==
-          mobilitySequenceId
+          mobilitySequenceId ||
+          !mobilityMode
         ){
 
           $("mobilityTimer")
@@ -2825,15 +2967,23 @@ function waitWithCountdown(
             .textContent =
             `⏳ ${seconds} Sek.`;
 
-          requestAnimationFrame(
-            update
-          );
+
+          mobilityTimer =
+            setTimeout(
+              update,
+              250
+            );
 
         }else{
 
           $("mobilityTimer")
             .textContent =
             "";
+
+
+          mobilityTimer =
+            null;
+
 
           resolve();
 
@@ -2851,27 +3001,33 @@ function waitWithCountdown(
 
 
 /* =====================================================
-   MOBILITÄTSMODUS
+   MOBILITÄTSMODUS – START
 ===================================================== */
 
-async function nextMobilityWord(){
+function startMobilityWord(){
 
-  if(!vocabulary.length){
+  if(
+    !mobilityMode ||
+    !vocabulary.length
+  ){
 
     return;
 
   }
 
 
-  stopAllAudio();
+  if(mobilityRunning){
+
+    return;
+
+  }
 
 
-  /*
-    Wake Lock bei jedem neuen Wort
-    erneut sicherstellen.
-  */
+  mobilityRunning =
+    true;
 
-  await requestWakeLock();
+
+  mobilitySequenceId++;
 
 
   const sequenceId =
@@ -2879,7 +3035,7 @@ async function nextMobilityWord(){
 
 
   currentIndex =
-    chooseWord();
+    getNextMobilityIndex();
 
 
   currentAttempt = {
@@ -2894,168 +3050,290 @@ async function nextMobilityWord(){
   displayWord();
 
 
-  await wait(400);
+  requestWakeLock();
 
 
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  await speakText(
-    vocabulary[currentIndex].English,
-    "en-US"
-  );
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  await waitWithCountdown(
-    MOBILITY_RECALL_TIME,
+  runMobilitySequence(
     sequenceId
   );
 
+}
 
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
 
-    return;
+/* =====================================================
+   MOBILITÄTSMODUS – SEQUENZ
+===================================================== */
+
+async function runMobilitySequence(
+  sequenceId
+){
+
+  try{
+
+    await wait(
+      350
+    );
+
+
+    if(
+      !mobilityStillValid(
+        sequenceId
+      )
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      1. ENGLISCHES WORT
+    */
+
+    await speakText(
+      vocabulary[currentIndex].English,
+      "en-US"
+    );
+
+
+    if(
+      !mobilityStillValid(
+        sequenceId
+      )
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      2. 6 SEKUNDEN BEDENKZEIT
+    */
+
+    await waitWithCountdown(
+      MOBILITY_RECALL_TIME,
+      sequenceId
+    );
+
+
+    if(
+      !mobilityStillValid(
+        sequenceId
+      )
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      3. LÖSUNG
+    */
+
+    mobilityReveal();
+
+
+    const item =
+      vocabulary[currentIndex];
+
+
+    /*
+      4. DEUTSCH
+    */
+
+    await wait(250);
+
+
+    await speakText(
+      item.Deutsch,
+      "de-DE"
+    );
+
+
+    if(
+      !mobilityStillValid(
+        sequenceId
+      )
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      5. NOMEN
+    */
+
+    if(item.Noun){
+
+      await wait(300);
+
+
+      await speakText(
+        item.Noun,
+        "en-US"
+      );
+
+
+      if(
+        !mobilityStillValid(
+          sequenceId
+        )
+      ){
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      6. ADVERB
+    */
+
+    if(item.Adverb){
+
+      await wait(300);
+
+
+      await speakText(
+        item.Adverb,
+        "en-US"
+      );
+
+
+      if(
+        !mobilityStillValid(
+          sequenceId
+        )
+      ){
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      7. BEISPIELSATZ
+    */
+
+    if(item.Example){
+
+      await wait(400);
+
+
+      await speakText(
+        item.Example,
+        "en-US"
+      );
+
+
+      if(
+        !mobilityStillValid(
+          sequenceId
+        )
+      ){
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      8. 6 SEKUNDEN VERARBEITUNGSZEIT
+    */
+
+    await waitWithCountdown(
+      MOBILITY_AFTER_SOLUTION_TIME,
+      sequenceId
+    );
+
+
+    if(
+      !mobilityStillValid(
+        sequenceId
+      )
+    ){
+
+      return;
+
+    }
+
+
+    /*
+      9. NÄCHSTES WORT
+    */
+
+    mobilityRunning =
+      false;
+
+
+    startMobilityWord();
+
+  }catch(error){
+
+    console.log(
+      "Mobilitätsablauf:",
+      error
+    );
+
+
+    mobilityRunning =
+      false;
+
+
+    /*
+      Falls Firefox einen Audiofehler
+      produziert, versuchen wir den
+      Ablauf nach kurzer Pause erneut.
+    */
+
+    if(
+      mobilityStillValid(
+        sequenceId
+      )
+    ){
+
+      setTimeout(
+        () => {
+
+          if(
+            mobilityMode
+          ){
+
+            startMobilityWord();
+
+          }
+
+        },
+        1000
+      );
+
+    }
 
   }
 
-
-  mobilityReveal();
-
-
-  const item =
-    vocabulary[currentIndex];
+}
 
 
-  await wait(250);
+function mobilityStillValid(
+  sequenceId
+){
 
-
-  await speakText(
-    item.Deutsch,
-    "de-DE"
+  return (
+    mobilityMode &&
+    mobilityRunning &&
+    sequenceId ===
+      mobilitySequenceId
   );
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  if(item.Noun){
-
-    await wait(300);
-
-    await speakText(
-      item.Noun,
-      "en-US"
-    );
-
-  }
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  if(item.Adverb){
-
-    await wait(300);
-
-    await speakText(
-      item.Adverb,
-      "en-US"
-    );
-
-  }
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  if(item.Example){
-
-    await wait(400);
-
-    await speakText(
-      item.Example,
-      "en-US"
-    );
-
-  }
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  await waitWithCountdown(
-    MOBILITY_AFTER_SOLUTION_TIME,
-    sequenceId
-  );
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  nextMobilityWord();
 
 }
 
@@ -3174,7 +3452,7 @@ function mobilityReveal(){
 
 
 /* =====================================================
-   MOBILITÄT AUDIO WIEDERHOLEN
+   MOBILITÄT – NOCHMAL
 ===================================================== */
 
 function repeatMobilityAudio(){
@@ -3188,20 +3466,29 @@ function repeatMobilityAudio(){
 
   mobilitySequenceId++;
 
-  stopAllAudio();
-
-  mobilitySequenceId++;
-
-
-  const item =
-    vocabulary[currentIndex];
+  mobilityRunning =
+    false;
 
 
-  if(!item){
+  stopSpeech();
 
-    return;
+
+  if(
+    mobilityTimer
+  ){
+
+    clearTimeout(
+      mobilityTimer
+    );
+
+    mobilityTimer =
+      null;
 
   }
+
+
+  $("mobilityTimer").textContent =
+    "";
 
 
   currentAttempt = {
@@ -3216,107 +3503,23 @@ function repeatMobilityAudio(){
   displayWord();
 
 
-  mobilityCurrentWordAgain();
+  mobilityRunning =
+    true;
 
-}
 
+  mobilitySequenceId++;
 
-async function mobilityCurrentWordAgain(){
 
   const sequenceId =
     mobilitySequenceId;
 
 
-  await requestWakeLock();
+  requestWakeLock();
 
 
-  await wait(300);
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  await speakText(
-    vocabulary[currentIndex].English,
-    "en-US"
-  );
-
-
-  await waitWithCountdown(
-    MOBILITY_RECALL_TIME,
+  runMobilitySequence(
     sequenceId
   );
-
-
-  if(
-    !mobilityMode ||
-    sequenceId !==
-    mobilitySequenceId
-  ){
-
-    return;
-
-  }
-
-
-  mobilityReveal();
-
-
-  const item =
-    vocabulary[currentIndex];
-
-
-  await wait(250);
-
-
-  await speakText(
-    item.Deutsch,
-    "de-DE"
-  );
-
-
-  if(item.Noun){
-
-    await wait(300);
-
-    await speakText(
-      item.Noun,
-      "en-US"
-    );
-
-  }
-
-
-  if(item.Adverb){
-
-    await wait(300);
-
-    await speakText(
-      item.Adverb,
-      "en-US"
-    );
-
-  }
-
-
-  if(item.Example){
-
-    await wait(400);
-
-    await speakText(
-      item.Example,
-      "en-US"
-    );
-
-  }
 
 }
 
@@ -3901,25 +4104,28 @@ function saveVocabulary(){
 
   mergeVocabulary();
 
+
+  /*
+    Nach einer Änderung der Wortliste
+    beginnen wir bewusst eine neue Runde.
+  */
+
+  createLearningRound();
+
+  createMobilityRound();
+
+
   updateStats();
 
 
   [
-
     "newEnglish",
-
     "newGerman",
-
     "newVerb",
-
     "newNoun",
-
     "newAdjective",
-
     "newAdverb",
-
     "newExample"
-
   ].forEach(
     id =>
       $(id).value = ""
@@ -4146,6 +4352,11 @@ function deleteLocalVocabulary(){
 
 
   mergeVocabulary();
+
+
+  createLearningRound();
+
+  createMobilityRound();
 
 
   currentIndex = 0;
