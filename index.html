@@ -412,77 +412,6 @@ h2{
 }
 
 /* =====================================================
-   VOKABEL HINZUFÜGEN
-===================================================== */
-
-.add input,
-.add textarea{
-  width:100%;
-  border:1px solid #ccc;
-  border-radius:9px;
-  padding:10px;
-  margin-bottom:7px;
-  font-size:15px;
-
-  user-select:text;
-  -webkit-user-select:text;
-}
-
-.add textarea{
-  min-height:60px;
-  resize:vertical;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-}
-
-.add-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-}
-
-.add-buttons button,
-.data-buttons button{
-  border:0;
-  border-radius:10px;
-  padding:10px 6px;
-  font-size:10px;
-  font-weight:750;
-}
-
-.primary{
-  background:#222;
-  color:#fff;
-}
-
-.secondary{
-  background:#e8e8ed;
-  color:#222;
-}
-
-.translation-status{
-  min-height:16px;
-  text-align:center;
-  font-size:10px;
-  color:#888;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.footer{
-  text-align:center;
-  color:#aaa;
-  font-size:9px;
-  padding:4px;
-}
-
-/* =====================================================
    MOBIL
 ===================================================== */
 
@@ -921,91 +850,6 @@ h2{
 
 
     <!-- =================================================
-         VOKABEL HINZUFÜGEN
-    ================================================== -->
-
-    <div class="section add">
-
-      <h2>
-        ＋ Vokabel hinzufügen
-      </h2>
-
-
-      <input
-        id="newEnglish"
-        placeholder="English">
-
-
-      <input
-        id="newGerman"
-        placeholder="Deutsch">
-
-
-      <div class="form-grid">
-
-        <input
-          id="newVerb"
-          placeholder="Verb + construction">
-
-
-        <input
-          id="newNoun"
-          placeholder="Noun / Nominative">
-
-      </div>
-
-
-      <div class="form-grid">
-
-        <input
-          id="newAdjective"
-          placeholder="Adjective / Participle">
-
-
-        <input
-          id="newAdverb"
-          placeholder="Adverb">
-
-      </div>
-
-
-      <textarea
-        id="newExample"
-        placeholder="Example sentence">
-      </textarea>
-
-
-      <div
-        id="translationStatus"
-        class="translation-status">
-      </div>
-
-
-      <div class="add-buttons">
-
-        <button
-          class="secondary"
-          onclick="translateWord()">
-
-          🔍 ÜBERSETZUNG
-
-        </button>
-
-
-        <button
-          class="primary"
-          onclick="saveVocabulary()">
-
-          SPEICHERN
-
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- =================================================
          DATEN
     ================================================== -->
 
@@ -1270,6 +1114,10 @@ document.addEventListener(
 
       await requestWakeLock();
 
+      if("speechSynthesis" in window){
+        try{ speechSynthesis.resume(); }catch(e){}
+      }
+
     }
 
   }
@@ -1364,6 +1212,14 @@ function createLearningRound(){
       )
     );
 
+  // Kein identisches Wort direkt am Rundenübergang.
+  if(
+    learningRound.length > 1 &&
+    learningRound[0] === currentIndex
+  ){
+    [learningRound[0], learningRound[1]] =
+      [learningRound[1], learningRound[0]];
+  }
 
   learningRoundPosition = 0;
 
@@ -1419,6 +1275,14 @@ function createMobilityRound(){
       )
     );
 
+  // Kein identisches Wort direkt am Rundenübergang.
+  if(
+    mobilityRound.length > 1 &&
+    mobilityRound[0] === currentIndex
+  ){
+    [mobilityRound[0], mobilityRound[1]] =
+      [mobilityRound[1], mobilityRound[0]];
+  }
 
   mobilityRoundPosition = 0;
 
@@ -1933,7 +1797,7 @@ function setMode(newMode){
 }
 
 
-async function toggleMobility(){
+function toggleMobility(){
 
   if(mobilityMode){
 
@@ -1950,7 +1814,7 @@ async function toggleMobility(){
 
     stopAllAudio();
 
-    await releaseWakeLock();
+    releaseWakeLock();
 
 
     $("mobilityMode")
@@ -2020,12 +1884,14 @@ async function toggleMobility(){
     "🚗 Audio · wird gestartet …";
 
 
-  await requestWakeLock();
-
+  // Wichtig: Wake Lock darf hier NICHT mit await abgewartet werden.
+  // Sonst geht auf iPhone/Firefox die ursprüngliche Benutzeraktion verloren
+  // und SpeechSynthesis darf die erste Sprachausgabe blockieren.
+  requestWakeLock();
 
   createMobilityRound();
 
-
+  // Erste Sprachausgabe direkt aus dem Klick heraus starten.
   startMobilityWord();
 
 }
@@ -2855,49 +2721,75 @@ function speakText(
     resolve => {
 
       if(!text){
-
         resolve();
-
         return;
-
       }
 
+      if(!("speechSynthesis" in window)){
+        resolve();
+        return;
+      }
 
-      const u =
-        new SpeechSynthesisUtterance(
-          text
-        );
+      let finished = false;
 
+      const finish = () => {
+        if(finished){
+          return;
+        }
+        finished = true;
+        clearTimeout(timeout);
+        resolve();
+      };
 
-      u.lang =
-        lang;
+      // Firefox/iOS kann in seltenen Fällen onend nicht zurückmelden.
+      // Dann darf die gesamte MOBILE-Sequenz nicht hängen bleiben.
+      const timeout = setTimeout(
+        finish,
+        Math.max(12000, Math.min(30000, String(text).length * 140))
+      );
 
+      try{
 
-      u.rate =
-        .9;
+        speechSynthesis.resume();
 
+        const u =
+          new SpeechSynthesisUtterance(text);
 
-      u.pitch =
-        1;
+        u.lang = lang;
+        u.rate = .9;
+        u.pitch = 1;
 
+        const voices =
+          speechSynthesis.getVoices();
 
-      u.onend =
-        () => {
+        if(lang === "en-US"){
+          u.voice =
+            voices.find(v => v.lang === "en-US") ||
+            voices.find(v => v.lang && v.lang.startsWith("en")) ||
+            null;
+        }else if(lang === "de-DE"){
+          u.voice =
+            voices.find(v => v.lang === "de-DE") ||
+            voices.find(v => v.lang && v.lang.startsWith("de")) ||
+            null;
+        }
 
-          resolve();
+        u.onend = finish;
+        u.onerror = finish;
+        u.oncancel = finish;
 
-        };
+        speechSynthesis.speak(u);
 
+        // Manche mobile Browser stellen speechSynthesis nach längeren
+        // Sequenzen auf paused. Noch einmal fortsetzen.
+        setTimeout(() => {
+          try{ speechSynthesis.resume(); }catch(e){}
+        }, 100);
 
-      u.onerror =
-        () => {
-
-          resolve();
-
-        };
-
-
-      speechSynthesis.speak(u);
+      }catch(error){
+        console.log("SpeechSynthesis:", error);
+        finish();
+      }
 
     }
   );
@@ -3010,52 +2902,33 @@ function startMobilityWord(){
     !mobilityMode ||
     !vocabulary.length
   ){
-
     return;
-
   }
-
 
   if(mobilityRunning){
-
     return;
-
   }
 
-
-  mobilityRunning =
-    true;
-
-
+  mobilityRunning = true;
   mobilitySequenceId++;
 
-
-  const sequenceId =
-    mobilitySequenceId;
-
+  const sequenceId = mobilitySequenceId;
 
   currentIndex =
     getNextMobilityIndex();
 
-
   currentAttempt = {
-
     revealed:false,
-
     assessed:false
-
   };
-
 
   displayWord();
 
-
+  // Nicht awaiten: erster Audioaufruf muss möglichst direkt
+  // aus dem Benutzerklick heraus erfolgen.
   requestWakeLock();
 
-
-  runMobilitySequence(
-    sequenceId
-  );
+  runMobilitySequence(sequenceId);
 
 }
 
@@ -3070,24 +2943,10 @@ async function runMobilitySequence(
 
   try{
 
-    await wait(
-      350
-    );
-
-
-    if(
-      !mobilityStillValid(
-        sequenceId
-      )
-    ){
-
-      return;
-
-    }
-
-
     /*
       1. ENGLISCHES WORT
+      Direkt starten, damit Firefox/iPhone die Benutzeraktion
+      noch als Audio-Freigabe erkennt.
     */
 
     await speakText(
@@ -3908,279 +3767,6 @@ function speakExample(event){
   );
 
 }
-
-
-/* =====================================================
-   ÜBERSETZUNG
-===================================================== */
-
-async function translateWord(){
-
-  const english =
-    $("newEnglish")
-      .value
-      .trim();
-
-
-  const german =
-    $("newGerman")
-      .value
-      .trim();
-
-
-  if(
-    !english &&
-    !german
-  ){
-
-    $("translationStatus")
-      .textContent =
-      "Bitte Englisch oder Deutsch eingeben.";
-
-    return;
-
-  }
-
-
-  const pair =
-    english
-      ? "en|de"
-      : "de|en";
-
-
-  const text =
-    encodeURIComponent(
-      english || german
-    );
-
-
-  $("translationStatus")
-    .textContent =
-      "Übersetzung wird gesucht …";
-
-
-  try{
-
-    const response =
-      await fetch(
-        `https://api.mymemory.translated.net/get?q=${text}&langpair=${pair}`
-      );
-
-
-    const data =
-      await response.json();
-
-
-    const translation =
-      data
-        ?.responseData
-        ?.translatedText ||
-      "";
-
-
-    if(english){
-
-      $("newGerman").value =
-        translation;
-
-    }else{
-
-      $("newEnglish").value =
-        translation;
-
-    }
-
-
-    $("translationStatus")
-      .textContent =
-        translation
-          ? "Übersetzung gefunden."
-          : "Keine Übersetzung gefunden.";
-
-  }catch(error){
-
-    $("translationStatus")
-      .textContent =
-        "Übersetzung momentan nicht verfügbar.";
-
-  }
-
-}
-
-
-/* =====================================================
-   VOKABEL SPEICHERN
-===================================================== */
-
-function saveVocabulary(){
-
-  const item = {
-
-    English:
-      $("newEnglish")
-        .value
-        .trim(),
-
-
-    Deutsch:
-      $("newGerman")
-        .value
-        .trim(),
-
-
-    "Verb + preposition/construction":
-      $("newVerb")
-        .value
-        .trim(),
-
-
-    Noun:
-      $("newNoun")
-        .value
-        .trim(),
-
-
-    "Adjective/Participle":
-      $("newAdjective")
-        .value
-        .trim(),
-
-
-    Adverb:
-      $("newAdverb")
-        .value
-        .trim(),
-
-
-    Example:
-      $("newExample")
-        .value
-        .trim()
-
-  };
-
-
-  if(
-    !item.English ||
-    !item.Deutsch
-  ){
-
-    alert(
-      "Bitte Englisch und Deutsch eingeben."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    vocabulary.some(
-      x =>
-        key(x) ===
-        key(item)
-    )
-  ){
-
-    alert(
-      "Diese Vokabel gibt es bereits."
-    );
-
-    return;
-
-  }
-
-
-  localVocabulary.push(item);
-
-
-  localStorage.setItem(
-    "localVocabulary",
-    JSON.stringify(
-      localVocabulary
-    )
-  );
-
-
-  mergeVocabulary();
-
-
-  /*
-    Nach einer Änderung der Wortliste
-    beginnen wir bewusst eine neue Runde.
-  */
-
-  createLearningRound();
-
-  createMobilityRound();
-
-
-  updateStats();
-
-
-  [
-    "newEnglish",
-    "newGerman",
-    "newVerb",
-    "newNoun",
-    "newAdjective",
-    "newAdverb",
-    "newExample"
-  ].forEach(
-    id =>
-      $(id).value = ""
-  );
-
-
-  $("translationStatus")
-    .textContent =
-      "Vokabel gespeichert.";
-
-}
-
-
-/* =====================================================
-   EINGABEFELDER
-===================================================== */
-
-$("newEnglish")
-  .addEventListener(
-    "input",
-    () => {
-
-      if(
-        $("newEnglish")
-          .value
-          .trim()
-      ){
-
-        $("newGerman").value =
-          "";
-
-      }
-
-    }
-  );
-
-
-$("newGerman")
-  .addEventListener(
-    "input",
-    () => {
-
-      if(
-        $("newGerman")
-          .value
-          .trim()
-      ){
-
-        $("newEnglish").value =
-          "";
-
-      }
-
-    }
-  );
 
 
 /* =====================================================
