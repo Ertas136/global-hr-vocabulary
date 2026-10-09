@@ -740,8 +740,7 @@ h2{
 
         <br><br>
 
-        Die automatische Bildschirmsperre
-        wird während des Mobilitätsmodus verhindert.
+        Die normale Bildschirmsperre deines Geräts bleibt unverändert.
 
       </div>
 
@@ -1004,122 +1003,23 @@ let mobilityRunning = false;
 
 
 /* =====================================================
-   SCREEN WAKE LOCK
+   AUDIO BEIM ZURÜCKKEHREN ZUR APP FORTSETZEN
 ===================================================== */
-
-let wakeLock = null;
-
-
-async function requestWakeLock(){
-
-  if(!mobilityMode){
-
-    return;
-
-  }
-
-
-  if(
-    !("wakeLock" in navigator)
-  ){
-
-    $("modeStatus").textContent =
-      "🚗 Audio · Bildschirm aktiv halten";
-
-    return;
-
-  }
-
-
-  try{
-
-    if(wakeLock){
-
-      return;
-
-    }
-
-
-    wakeLock =
-      await navigator.wakeLock.request(
-        "screen"
-      );
-
-
-    $("modeStatus").textContent =
-      "🚗 Audio · Bildschirm bleibt aktiv";
-
-
-    wakeLock.addEventListener(
-      "release",
-      () => {
-
-        wakeLock = null;
-
-      }
-    );
-
-  }catch(error){
-
-    console.log(
-      "Wake Lock nicht verfügbar:",
-      error
-    );
-
-  }
-
-}
-
-
-async function releaseWakeLock(){
-
-  if(!wakeLock){
-
-    return;
-
-  }
-
-
-  try{
-
-    await wakeLock.release();
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
-
-  wakeLock = null;
-
-}
-
-
-/*
-  Wenn Firefox/Safari die Seite kurz
-  aus dem sichtbaren Zustand nimmt,
-  versuchen wir den Wake Lock erneut.
-*/
 
 document.addEventListener(
   "visibilitychange",
-  async () => {
-
+  () => {
     if(
-      document.visibilityState ===
-      "visible" &&
-      mobilityMode
+      document.visibilityState === "visible" &&
+      mobilityMode &&
+      "speechSynthesis" in window
     ){
-
-      await requestWakeLock();
-
-      if("speechSynthesis" in window){
-        try{ speechSynthesis.resume(); }catch(e){}
+      try{
+        speechSynthesis.resume();
+      }catch(error){
+        console.log(error);
       }
-
     }
-
   }
 );
 
@@ -1745,8 +1645,6 @@ function setMode(newMode){
 
   stopAllAudio();
 
-  releaseWakeLock();
-
 
   mode =
     newMode;
@@ -1814,9 +1712,7 @@ function toggleMobility(){
 
     stopAllAudio();
 
-    releaseWakeLock();
-
-
+  
     $("mobilityMode")
       .classList
       .remove("active");
@@ -1883,11 +1779,6 @@ function toggleMobility(){
   $("modeStatus").textContent =
     "🚗 Audio · wird gestartet …";
 
-
-  // Wichtig: Wake Lock darf hier NICHT mit await abgewartet werden.
-  // Sonst geht auf iPhone/Firefox die ursprüngliche Benutzeraktion verloren
-  // und SpeechSynthesis darf die erste Sprachausgabe blockieren.
-  requestWakeLock();
 
   createMobilityRound();
 
@@ -2924,10 +2815,6 @@ function startMobilityWord(){
 
   displayWord();
 
-  // Nicht awaiten: erster Audioaufruf muss möglichst direkt
-  // aus dem Benutzerklick heraus erfolgen.
-  requestWakeLock();
-
   runMobilitySequence(sequenceId);
 
 }
@@ -3372,8 +3259,6 @@ function repeatMobilityAudio(){
   const sequenceId =
     mobilitySequenceId;
 
-
-  requestWakeLock();
 
 
   runMobilitySequence(
