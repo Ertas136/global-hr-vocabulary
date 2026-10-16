@@ -969,57 +969,86 @@ function shuffleArray(array){
 
 function createLearningRound(){
 
-  learningRound =
-    shuffleArray(
-      vocabulary.map(
-        (_,index) =>
-          index
-      )
-    );
+  /*
+    Jede Vokabel kommt mindestens einmal pro Lernrunde vor.
+    Da die neu hinzugefügten Einträge in vocabulary.csv normalerweise
+    am Ende stehen, werden die neuesten Einträge zusätzlich gewichtet:
+    - die neuesten 15 %: insgesamt 3-mal pro Runde
+    - die davorliegenden 25 %: insgesamt 2-mal pro Runde
+    - ältere Einträge: 1-mal pro Runde
 
-  // Kein identisches Wort direkt am Rundenübergang.
-  if(
+    Lokal hinzugefügte Wörter stehen durch mergeVocabulary() ebenfalls
+    am Ende und werden deshalb wie besonders neue Wörter behandelt.
+  */
+  const total = vocabulary.length;
+  const recentStart = Math.max(0, Math.floor(total * 0.85));
+  const middleStart = Math.max(0, Math.floor(total * 0.60));
+  const weightedIndices = [];
+
+  vocabulary.forEach((_, index) => {
+    let repetitions = 1;
+
+    if (index >= recentStart) {
+      repetitions = 3;
+    } else if (index >= middleStart) {
+      repetitions = 2;
+    }
+
+    for (let n = 0; n < repetitions; n++) {
+      weightedIndices.push(index);
+    }
+  });
+
+  learningRound = shuffleArray(weightedIndices);
+
+  // Gleiche Vokabeln möglichst nicht direkt hintereinander anzeigen.
+  for (let i = 1; i < learningRound.length; i++) {
+    if (learningRound[i] === learningRound[i - 1]) {
+      const swapIndex = learningRound.findIndex(
+        (candidate, j) => j > i && candidate !== learningRound[i - 1]
+      );
+
+      if (swapIndex !== -1) {
+        [learningRound[i], learningRound[swapIndex]] =
+          [learningRound[swapIndex], learningRound[i]];
+      }
+    }
+  }
+
+  // Auch beim Übergang zur nächsten Runde nicht direkt dasselbe Wort.
+  if (
     learningRound.length > 1 &&
     learningRound[0] === currentIndex
-  ){
-    [learningRound[0], learningRound[1]] =
-      [learningRound[1], learningRound[0]];
+  ) {
+    const swapIndex = learningRound.findIndex(
+      (candidate, i) => i > 0 && candidate !== currentIndex
+    );
+
+    if (swapIndex !== -1) {
+      [learningRound[0], learningRound[swapIndex]] =
+        [learningRound[swapIndex], learningRound[0]];
+    }
   }
 
   learningRoundPosition = 0;
-
 }
 
 
 function getNextLearningIndex(){
 
   if(!vocabulary.length){
-
     return 0;
-
   }
-
 
   if(
-    learningRound.length !==
-    vocabulary.length ||
-    learningRoundPosition >=
-    learningRound.length
+    !learningRound.length ||
+    learningRoundPosition >= learningRound.length
   ){
-
     createLearningRound();
-
   }
 
-
-  const index =
-    learningRound[
-      learningRoundPosition
-    ];
-
-
+  const index = learningRound[learningRoundPosition];
   learningRoundPosition++;
-
 
   return index;
 
