@@ -501,3 +501,4 @@
 "mouse pointer; cursor";"Mauszeiger";"to move the cursor; to point to something";"";"pointer; cursor";"Move the mouse pointer over the icon to display additional information."
 "button";"Schaltfläche; Knopf";"to click a button; to press a button";"clickable; pressed";"button; click";"Click the button to save your changes."
 "selection; highlight; highlighted area";"Markierung; Auswahl; hervorgehobener Bereich";"to select something; to highlight something";"selected; highlighted";"selection; highlight";"Select the relevant cells and highlight them in yellow."
+"to discard something";"etwas verwerfen; wegwerfen; nicht übernehmen";"to discard changes; to discard a file";"discarded";"discard";"Click Discard changes to discard your unsaved changes."
