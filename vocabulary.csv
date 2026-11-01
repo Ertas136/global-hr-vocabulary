@@ -1,4 +1,4 @@
-"English + preposition/construction","Deutsch","Verb / related construction","Adjective / participle","Noun / related form","Example sentence"
+("English + preposition/construction","Deutsch","Verb / related construction","Adjective / participle","Noun / related form","Example sentence"
 "to take on a new role","eine neue Rolle übernehmen","to take on","taken on","role","I recently took on a new role in Global HR."
 "professional background","beruflicher Hintergrund","","professional","background","My professional background is in HR."
 "to build good relationships with","gute Beziehungen zu jemandem aufbauen","to build","built","relationship","It is important to build good relationships with colleagues."
@@ -491,4 +491,7 @@
 "regardless of something";"unabhängig von etwas; ungeachtet";"to apply regardless of location";"regardless";"";"The policy applies to all employees regardless of their location."
 "to acknowledge something";"etwas bestätigen; anerkennen; zur Kenntnis nehmen";"to acknowledge receipt of an email";"acknowledged";"acknowledgement";"Please acknowledge receipt of the updated policy."
 "to reconcile something with something";"etwas mit etwas in Einklang bringen; abstimmen";"to reconcile local requirements with global standards";"reconciled; reconcilable";"reconciliation";"We need to reconcile local regulations with global HR policies."
-"to revise something";"etwas überarbeiten; anpassen";"to revise a policy / an action plan";"revised";"revision";"We need to revise the action plan based on the latest feedback."
+"to revise something";"etwas überarbeiten; anpassen";"to revise a policy / an action plan";"revised";"revision";"We need to revise the action plan based on the latest feedback." ch
+"to be spread across / over something";"über etwas verteilt sein";"to spread across countries; to spread resources across teams";"spread; widespread";"spread; distribution";"Our Global HR colleagues are spread across different countries."
+"a decline in something";"ein Rückgang von etwas; eine Abnahme";"to decline; to experience a decline in something";"declining; decreased";"decline; decrease";"We have noticed a decline in employee engagement scores."
+"the underlying reason for something";"die zugrunde liegende Ursache für etwas";"to identify / investigate the underlying reasons";"underlying";"reason; root cause";"We need to identify the underlying reasons for the decline in employee engagement."
