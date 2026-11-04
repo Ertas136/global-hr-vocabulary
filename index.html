@@ -3,88 +3,331 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Global HR Vocabulary">
 <title>Global HR Vocabulary</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{
-  margin:0;padding:12px 10px 35px;
-  background:#f5f5f7;color:#222;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
-button{cursor:pointer;font-family:inherit}
-.container{width:min(100%,720px);margin:auto}
-h1{text-align:center;font-size:25px;margin:8px 0}
-h2{font-size:15px;margin:0 0 12px}
-.top-stats{text-align:center;color:#888;font-size:11px;margin-bottom:14px}
-.top-stats span{margin:0 5px}
-.section{
-  background:#fff;border-radius:18px;
-  padding:15px;margin-bottom:11px;
-  box-shadow:0 2px 12px rgba(0,0,0,.055)
+html {
+  touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
 }
-.hidden{display:none!important}
-.modebar{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.mode-btn{
-  border:0;border-radius:11px;padding:12px;
-  background:#e8e8ed;color:#555;font-weight:750
+body {
+  margin: 0;
+  padding: 12px 10px 35px;
+  background: #f5f5f7;
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow-x: hidden;
 }
-.mode-btn.active{background:#222;color:white}
-.status{text-align:center;color:#888;font-size:11px;margin-top:10px}
-.progress{height:5px;background:#eee;border-radius:10px;margin-top:10px;overflow:hidden}
-.progress-fill{height:100%;width:0;background:#222;transition:width .25s}
-.meta{display:flex;justify-content:space-between;color:#999;font-size:11px;margin-bottom:15px}
-.language{font-size:10px;color:#999;font-weight:750;margin-bottom:5px}
-.word{font-size:27px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}
-.word-area{display:grid;grid-template-columns:minmax(0,1fr) 125px;gap:12px;align-items:center}
-.connector{height:1px;background:#ddd;margin:12px 0}
-.answer-hidden{visibility:hidden}
-.speaker,.star{border:0;background:transparent;font-size:19px;padding:3px}
-.solution-area{display:flex;flex-direction:column;gap:7px}
-.solution-button{
-  border:0;border-radius:12px;min-height:55px;
-  background:#222;color:white;font-weight:800;font-size:13px
+button {
+  font-family: inherit;
+  cursor: pointer;
 }
-.sentence-button{background:#e8e8ed;color:#333;min-height:42px}
-.difficulty-label{text-align:center;font-size:10px;color:#888}
-.difficulty-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
-.difficulty-button{
-  border:0;border-radius:9px;padding:9px 3px;
-  min-height:57px;font-size:9px;font-weight:750;
-  line-height:1.35;background:#e8e8ed;color:#444;
+button:disabled {
+  cursor: default;
 }
-.easy.selected{background:#dceedd;color:#286236}
-.medium.selected{background:#f3ecd1;color:#756100}
-.hard.selected{background:#f1dcdc;color:#883333}
-.details{margin-top:7px}
-.detail{color:#777;font-size:11px;line-height:1.5}
-.example-area{margin-top:15px;border-top:1px solid #eee;padding-top:12px}
-.example{color:#666;font-size:12px;line-height:1.5}
-.navigation{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}
-.navigation button,.secondary{
-  border:0;border-radius:10px;padding:12px;
-  background:#e8e8ed;font-weight:750;font-size:11px
+.container {
+  width: min(100%, 720px);
+  margin: auto;
 }
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.stat{background:#f5f5f7;text-align:center;border-radius:10px;padding:12px 4px}
-.stat b{display:block;font-size:20px}
-.stat span{font-size:10px;color:#888}
-.list{display:flex;flex-direction:column;gap:6px}
-.list-row{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:8px;background:#f5f5f7;border-radius:9px;padding:9px;font-size:11px
+.hidden {
+  display: none !important;
 }
-.list-row b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.add-buttons{display:flex;gap:8px;flex-wrap:wrap}
-.footer{text-align:center;color:#aaa;font-size:10px;padding:10px}
-@media(max-width:390px){
-  .section{padding:12px}
-  .word{font-size:23px}
-  .word-area{grid-template-columns:minmax(0,1fr) 112px;gap:8px}
-  .difficulty-button{font-size:8px}
+.header {
+  padding: 4px 0 12px;
+}
+h1 {
+  text-align: center;
+  font-size: 25px;
+  margin: 4px 0 7px;
+}
+h2 {
+  font-size: 15px;
+  margin: 0 0 10px;
+}
+.top-stats {
+  text-align: center;
+  color: #999;
+  font-size: 10px;
+}
+.top-stats span {
+  margin: 0 4px;
+}
+.section {
+  background: #fff;
+  border-radius: 18px;
+  padding: 15px;
+  margin-bottom: 11px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.055);
+}
+.modebar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.mode-btn {
+  border: 0;
+  border-radius: 11px;
+  padding: 11px 4px;
+  background: #e8e8ed;
+  color: #555;
+  font-size: 11px;
+  font-weight: 750;
+}
+.mode-btn.active {
+  background: #222;
+  color: #fff;
+}
+.status {
+  text-align: center;
+  color: #888;
+  font-size: 10px;
+  min-height: 16px;
+  margin-top: 8px;
+}
+.progress {
+  height: 5px;
+  background: #e5e5e8;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 9px;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: #222;
+  transition: .25s;
+}
+.card {
+  padding: 16px;
+}
+.meta {
+  display: flex;
+  justify-content: space-between;
+  color: #999;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+.word-area {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 125px;
+  gap: 12px;
+  align-items: center;
+}
+.language {
+  font-size: 9px;
+  color: #999;
+  text-transform: uppercase;
+  font-weight: 750;
+  margin-bottom: 3px;
+}
+.word {
+  font-size: 27px;
+  line-height: 1.18;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+.speaker {
+  border: 0;
+  background: transparent;
+  padding: 2px 3px;
+  font-size: 20px;
+}
+.star {
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  padding: 2px;
+}
+.connector {
+  height: 1px;
+  background: #ddd;
+  margin: 8px 0;
+}
+.answer-hidden {
+  visibility: hidden;
+}
+.solution-area {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sentence-button {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: #e8e8ed;
+  color: #333;
+  font-size: 13px;
+  font-weight: 800;
+}
+.difficulty-buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+.difficulty-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 5px;
+  min-height: 44px;
+  background: #e8e8ed;
+  color: #444;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.3;
+  white-space: normal;
+}
+.difficulty-button.easy.selected {
+  background: #dceedd;
+  color: #286236;
+}
+.difficulty-button.medium.selected {
+  background: #f3ecd1;
+  color: #756100;
+}
+.difficulty-button.hard.selected {
+  background: #f1dcdc;
+  color: #883333;
+}
+.difficulty-button:disabled:not(.selected) {
+  opacity: .45;
+}
+.difficulty-label {
+  text-align: center;
+  font-size: 9px;
+  color: #888;
+}
+.details {
+  margin-top: 5px;
+}
+.detail {
+  color: #777;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.detail strong {
+  color: #555;
+}
+.example-area {
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+.example {
+  color: #666;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.example strong {
+  color: #444;
+}
+.navigation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-top: 12px;
+}
+.navigation button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  background: #e8e8ed;
+  font-size: 11px;
+  font-weight: 750;
+}
+.navigation .next-button {
+  background: #222;
+  color: white;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 6px;
+}
+.stat {
+  background: #f5f5f7;
+  border-radius: 10px;
+  text-align: center;
+  padding: 9px 3px;
+}
+.stat b {
+  display: block;
+  font-size: 18px;
+}
+.stat span {
+  font-size: 9px;
+  color: #888;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: #f5f5f7;
+  border-radius: 9px;
+  padding: 8px;
+  font-size: 10px;
+}
+.list-row b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.add-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.secondary {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  background: #e8e8ed;
+  font-size: 11px;
+  font-weight: 750;
+}
+.footer {
+  text-align: center;
+  color: #aaa;
+  font-size: 10px;
+  padding: 10px;
+}
+@media(max-width:390px) {
+  body {
+    padding: 9px 8px 30px;
+  }
+  .section {
+    padding: 13px;
+  }
+  .card {
+    padding: 13px;
+  }
+  .word {
+    font-size: 24px;
+  }
+  .word-area {
+    grid-template-columns: minmax(0,1fr) 112px;
+    gap: 8px;
+  }
+  .difficulty-button {
+    font-size: 10px;
+    padding: 9px 3px;
+  }
 }
 </style>
 </head>
@@ -92,110 +335,205 @@ h2{font-size:15px;margin:0 0 12px}
 <body>
 <div class="container">
 
-<header>
-  <h1>Global HR Vocabulary</h1>
-  <div class="top-stats">
-    <span>CSV: <b id="csvCount">0</b></span>
-    <span>Geübt: <b id="practicedCount">0</b></span>
-    <span>Serie: <b id="streak">0</b></span>
-  </div>
-</header>
+  <div class="header">
+    <h1>Global HR Vocabulary</h1>
 
-<div id="loading">Vokabeln werden geladen …</div>
-
-<div id="app" class="hidden">
-
-<section class="section">
-  <div class="modebar">
-    <button id="learnMode" class="mode-btn active" onclick="setMode('learn')">🧠 LERNEN</button>
-    <button id="testMode" class="mode-btn" onclick="setMode('test')">🎯 TESTEN</button>
-  </div>
-  <div id="modeStatus" class="status">Englisch ↔ Deutsch</div>
-  <div class="progress"><div id="progressFill" class="progress-fill"></div></div>
-</section>
-
-<section class="section">
-  <div class="meta">
-    <span id="counter">0 / 0</span>
-    <span id="difficultyText">NEU</span>
+    <div class="top-stats">
+      <span>CSV-Einträge: <b id="csvCount">0</b></span>
+      <span>Geübt: <b id="practicedCount">0</b></span>
+      <span>Serie: <b id="streak">0</b></span>
+    </div>
   </div>
 
-  <div class="word-area">
-    <div>
-      <div id="questionLanguage" class="language">ENGLISH</div>
-      <div id="questionWord" class="word"></div>
-      <div id="questionDetails" class="details"></div>
+  <div id="loading">Vokabeln werden geladen …</div>
 
-      <div class="connector"></div>
+  <div id="app" class="hidden">
 
-      <div id="answerLanguage" class="language">DEUTSCH</div>
-      <div id="answerWord" class="word answer-hidden"></div>
-      <div id="answerDetails" class="details answer-hidden"></div>
+    <div class="section">
+      <div class="modebar">
+        <button
+          id="learnMode"
+          class="mode-btn active"
+          onclick="setMode('learn')">
+          🧠 LERNEN
+        </button>
+
+        <button
+          id="testMode"
+          class="mode-btn"
+          onclick="setMode('test')">
+          🎯 TESTEN
+        </button>
+      </div>
+
+      <div id="modeStatus" class="status">
+        Englisch ↔ Deutsch
+      </div>
+
+      <div class="progress">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
     </div>
 
-    <div class="solution-area">
-      <button id="sentenceButton" class="solution-button sentence-button" onclick="showSentence()">SATZ</button>
-      <button id="solutionButton" class="solution-button" onclick="showAnswer()">LÖSUNG</button>
+    <div class="section card">
 
-      <div class="difficulty-label">Wie gut beherrschst du das Wort?</div>
+      <div class="meta">
+        <span id="counter">1 / 0</span>
+        <span id="difficultyText">NEU</span>
+      </div>
 
-      <div class="difficulty-buttons">
-        <button id="easyButton" class="difficulty-button easy" onclick="setDifficulty('easy')">
-          🟢 Beherrsche ich
+      <div class="word-area">
+
+        <div>
+          <div class="language" id="questionLanguage">
+            ENGLISH
+          </div>
+
+          <div class="word" id="questionWord"></div>
+          <div class="details" id="questionDetails"></div>
+
+          <div class="connector"></div>
+
+          <div class="language" id="answerLanguage">
+            DEUTSCH
+          </div>
+
+          <div
+            id="answerWord"
+            class="word answer-hidden">
+          </div>
+
+          <div
+            id="answerDetails"
+            class="details answer-hidden">
+          </div>
+        </div>
+
+        <div class="solution-area">
+
+          <button
+            id="sentenceButton"
+            class="sentence-button"
+            onclick="showSentence()">
+            SATZ
+          </button>
+
+          <div id="difficultyLabel" class="difficulty-label">
+            Wie gut beherrschst du das Wort?
+          </div>
+
+          <div class="difficulty-buttons">
+
+            <button
+              id="easyButton"
+              class="difficulty-button easy"
+              onclick="setDifficulty('easy')">
+              🟢 Beherrsche ich
+            </button>
+
+            <button
+              id="mediumButton"
+              class="difficulty-button medium"
+              onclick="setDifficulty('medium')">
+              🟡 Noch nicht so gut
+            </button>
+
+            <button
+              id="hardButton"
+              class="difficulty-button hard"
+              onclick="setDifficulty('hard')">
+              🔴 Beherrsche ich nicht
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="exampleArea"
+        class="example-area answer-hidden">
+        <div id="exampleText" class="example"></div>
+      </div>
+
+      <div class="navigation">
+        <button onclick="previousWord()">
+          ← ZURÜCK
         </button>
-        <button id="mediumButton" class="difficulty-button medium" onclick="setDifficulty('medium')">
-          🟡 Noch nicht so gut
+
+        <button
+          class="next-button"
+          onclick="nextWord()">
+          WEITER →
         </button>
-        <button id="hardButton" class="difficulty-button hard" onclick="setDifficulty('hard')">
-          🔴 Beherrsche ich nicht
+      </div>
+
+    </div>
+
+    <div class="section">
+      <h2>📊 Lernfortschritt</h2>
+
+      <div class="stats">
+        <div class="stat">
+          <b id="statSeen">0</b>
+          <span>Versuche</span>
+        </div>
+
+        <div class="stat">
+          <b id="statCorrect">0</b>
+          <span>Beherrscht</span>
+        </div>
+
+        <div class="stat">
+          <b id="statWrong">0</b>
+          <span>Schwierig</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🔴 Schwierige Wörter</h2>
+      <div id="difficultList" class="list"></div>
+    </div>
+
+    <div class="section">
+      <h2>💾 Daten</h2>
+
+      <div class="add-buttons">
+        <button
+          class="secondary"
+          onclick="exportCSV()">
+          CSV EXPORTIEREN
+        </button>
+
+        <button
+          class="secondary"
+          onclick="deleteLocalVocabulary()">
+          EIGENE LÖSCHEN
         </button>
       </div>
     </div>
+
+    <div class="footer">
+      Global HR Vocabulary · Visual + Audio Learning
+    </div>
+
   </div>
-
-  <div id="exampleArea" class="example-area answer-hidden">
-    <div id="exampleText" class="example"></div>
-  </div>
-
-  <div class="navigation">
-    <button onclick="previousWord()">← ZURÜCK</button>
-    <button onclick="nextWord()">WEITER →</button>
-  </div>
-</section>
-
-<section class="section">
-  <h2>📊 Lernfortschritt</h2>
-  <div class="stats">
-    <div class="stat"><b id="statSeen">0</b><span>Versuche</span></div>
-    <div class="stat"><b id="statCorrect">0</b><span>Beherrscht</span></div>
-    <div class="stat"><b id="statWrong">0</b><span>Noch unsicher</span></div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>🔴 Schwierige Wörter</h2>
-  <div id="difficultList" class="list"></div>
-</section>
-
-<section class="section">
-  <h2>💾 Daten</h2>
-  <div class="add-buttons">
-    <button class="secondary" onclick="exportCSV()">CSV EXPORTIEREN</button>
-    <button class="secondary" onclick="deleteLocalVocabulary()">EIGENE LÖSCHEN</button>
-  </div>
-</section>
-
-<div class="footer">Global HR Vocabulary · Visual + Audio Learning</div>
-</div>
 </div>
 
 <script>
+/* =========================================
+   GRUNDLAGEN
+========================================= */
+
 const $ = id => document.getElementById(id);
 
-const readStorage = (name, fallback) => {
-  try { return JSON.parse(localStorage.getItem(name)) ?? fallback; }
-  catch { return fallback; }
-};
+function readStorage(name, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(name)) ?? fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
 
 let vocabulary = [];
 let csvVocabulary = [];
@@ -205,543 +543,1196 @@ let difficultWords = readStorage("difficultWords", []);
 
 let currentIndex = 0;
 let mode = "learn";
-let currentAttempt = {revealed:false,assessed:false};
+
+let currentAttempt = {
+  revealed: false,
+  assessed: false
+};
+
 let learningRound = [];
 let learningRoundPosition = 0;
 let learningRoundNumber = 0;
+
 let history = [];
 let speechTimer = null;
 
-function normalize(v){
-  return String(v||"").trim().toLowerCase()
-    .replace(/[’‘]/g,"'").replace(/\s+/g," ");
+/* =========================================
+   NORMALISIERUNG
+========================================= */
+
+function normalize(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")
+    .replace(/\s+/g, " ");
 }
 
-function key(item){
-  return normalize(item.English)+"|"+normalize(item.Deutsch);
+function key(item) {
+  return normalize(item.English) +
+    "|" +
+    normalize(item.Deutsch);
 }
 
-function escapeHtml(v){
-  return String(v||"").replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-function getProgress(item){
+/* =========================================
+   LERNFORTSCHRITT
+========================================= */
+
+function getProgress(item) {
   const p = progress[key(item)] || {};
+
   return {
-    seen:p.seen||0,
-    correct:p.correct||0,
-    wrong:p.wrong||0,
-    revealed:p.revealed||0,
-    lastSeen:p.lastSeen||0,
-    nextDue:p.nextDue||0,
-    difficulty:p.difficulty||"",
-    difficultyCount:p.difficultyCount||{easy:0,medium:0,hard:0}
+    seen: p.seen || 0,
+    correct: p.correct || 0,
+    wrong: p.wrong || 0,
+    revealed: p.revealed || 0,
+    lastSeen: p.lastSeen || 0,
+    nextDue: p.nextDue || 0,
+    difficulty: p.difficulty || "",
+    difficultyCount: p.difficultyCount || {
+      easy: 0,
+      medium: 0,
+      hard: 0
+    }
   };
 }
 
-function saveProgress(){
-  localStorage.setItem("hrProgress",JSON.stringify(progress));
-  localStorage.setItem("difficultWords",JSON.stringify(difficultWords));
-}
-
-function shuffleArray(items){
-  const a=[...items];
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
-
-/* CSV-PARSER */
-function parseCSV(text){
-  const rows=[];
-  let row=[],cell="",quoted=false;
-
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(c==='"'){
-      if(quoted && text[i+1]==='"'){cell+='"';i++;}
-      else quoted=!quoted;
-    }else if((c===","||c===";")&&!quoted){
-      row.push(cell.trim());cell="";
-    }else if((c==="\n"||c==="\r")&&!quoted){
-      if(c==="\r"&&text[i+1]==="\n")i++;
-      row.push(cell.trim());cell="";
-      if(row.some(x=>x!==""))rows.push(row);
-      row=[];
-    }else cell+=c;
-  }
-  row.push(cell.trim());
-  if(row.some(x=>x!==""))rows.push(row);
-  if(!rows.length)return [];
-
-  const first=rows[0].map(x=>x.replace(/^\uFEFF/,""));
-  const hasHeader=first.some(x=>
-    /^(English|Deutsch|German|Example|Example sentence)$/i.test(x)
+function saveProgress() {
+  localStorage.setItem(
+    "hrProgress",
+    JSON.stringify(progress)
   );
 
-  const headers=hasHeader?first:[];
-  const data=hasHeader?rows.slice(1):rows;
+  localStorage.setItem(
+    "difficultWords",
+    JSON.stringify(difficultWords)
+  );
+}
 
-  return data.map(r=>{
-    const o={};
-    headers.forEach((h,i)=>o[h]=(r[i]||"").trim());
+/* =========================================
+   CSV PARSER
+========================================= */
 
-    if(hasHeader){
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+
+    if (c === '"') {
+      if (quoted && text[i + 1] === '"') {
+        cell += '"';
+        i++;
+      } else {
+        quoted = !quoted;
+      }
+    } else if ((c === "," || c === ";") && !quoted) {
+      row.push(cell.trim());
+      cell = "";
+    } else if ((c === "\n" || c === "\r") && !quoted) {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+
+      row.push(cell.trim());
+      cell = "";
+
+      if (row.some(x => x !== "")) {
+        rows.push(row);
+      }
+
+      row = [];
+    } else {
+      cell += c;
+    }
+  }
+
+  row.push(cell.trim());
+
+  if (row.some(x => x !== "")) {
+    rows.push(row);
+  }
+
+  if (!rows.length) return [];
+
+  const first = rows[0].map(
+    x => x.replace(/^\uFEFF/, "")
+  );
+
+  const hasHeader = first.some(
+    x => /^(English|Deutsch|German|Example|Example sentence)$/i.test(x)
+  );
+
+  const headers = hasHeader ? first : [];
+  const data = hasHeader ? rows.slice(1) : rows;
+
+  return data.map(r => {
+    const o = {};
+
+    headers.forEach((h, i) => {
+      o[h] = (r[i] || "").trim();
+    });
+
+    if (hasHeader) {
       return {
-        English:o.English||r[0]||"",
-        Deutsch:o.Deutsch||o.German||r[1]||"",
+        English: o.English || r[0] || "",
+        Deutsch: o.Deutsch || o.German || r[1] || "",
         "Verb + preposition/construction":
-          o["Verb + preposition/construction"]||
-          o["Verb / related construction"]||o.construction||r[2]||"",
-        Noun:o.Noun||o["Noun / related form"]||o.Nomen||r[3]||"",
+          o["Verb + preposition/construction"] ||
+          o["Verb / related construction"] ||
+          o.construction ||
+          r[2] || "",
+        Noun:
+          o.Noun ||
+          o["Noun / related form"] ||
+          o.Nomen ||
+          r[3] || "",
         "Adjective/Participle":
-          o["Adjective/Participle"]||
-          o["Adjective / participle"]||o.Adjective||r[4]||"",
-        Adverb:o.Adverb||"",
-        Example:o.Example||o["Example sentence"]||
-          o["Example sentence(s)"]||r[6]||""
+          o["Adjective/Participle"] ||
+          o["Adjective / participle"] ||
+          o.Adjective ||
+          r[4] || "",
+        Adverb: o.Adverb || "",
+        Example:
+          o.Example ||
+          o["Example sentence"] ||
+          o["Example sentence(s)"] ||
+          r[6] || ""
       };
     }
 
-    // Headerlose CSV: sechs Spalten gemäß Vokabelheft
+    // Headerlose CSV mit sechs Spalten
     return {
-      English:r[0]||"",
-      Deutsch:r[1]||"",
-      "Verb + preposition/construction":r[2]||"",
-      "Adjective/Participle":r[3]||"",
-      Noun:r[4]||"",
-      Adverb:"",
-      Example:r[5]||""
+      English: r[0] || "",
+      Deutsch: r[1] || "",
+      "Verb + preposition/construction": r[2] || "",
+      "Adjective/Participle": r[3] || "",
+      Noun: r[4] || "",
+      Adverb: "",
+      Example: r[5] || ""
     };
-  }).filter(x=>x.English||x.Deutsch);
+  }).filter(x => x.English || x.Deutsch);
 }
 
-function mergeVocabulary(){
-  const seen=new Set();
-  vocabulary=[...csvVocabulary,...localVocabulary].filter(item=>{
-    const k=key(item);
-    if(seen.has(k)||!k.replace("|",""))return false;
+/* =========================================
+   VOKABELN LADEN
+========================================= */
+
+function mergeVocabulary() {
+  const seen = new Set();
+
+  vocabulary = [
+    ...csvVocabulary,
+    ...localVocabulary
+  ].filter(item => {
+    const k = key(item);
+
+    if (seen.has(k)) return false;
+    if (!item.English && !item.Deutsch) return false;
+
     seen.add(k);
     return true;
   });
 }
 
-async function loadVocabulary(){
-  try{
-    const url=new URL("vocabulary.csv",window.location.href);
-    url.searchParams.set("v",Date.now());
-    const response=await fetch(url);
-    if(response.ok)csvVocabulary=parseCSV(await response.text());
-  }catch(e){console.warn("CSV konnte nicht geladen werden",e);}
+async function loadVocabulary() {
+  try {
+    const url = new URL(
+      "vocabulary.csv",
+      window.location.href
+    );
+
+    url.searchParams.set("v", Date.now());
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(
+      () => controller.abort(),
+      10000
+    );
+
+    try {
+      const response = await fetch(url, {
+        signal: controller.signal
+      });
+
+      if (response.ok) {
+        csvVocabulary = parseCSV(
+          await response.text()
+        );
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+  } catch (error) {
+    console.warn(
+      "CSV konnte nicht geladen werden:",
+      error
+    );
+  }
 
   mergeVocabulary();
   createLearningRound();
+
   $("loading").classList.add("hidden");
   $("app").classList.remove("hidden");
+
   updateStats();
-  nextWord();
+
+  if (vocabulary.length) {
+    nextWord(true);
+  } else {
+    $("loading").textContent =
+      "Keine Vokabeln gefunden.";
+    $("loading").classList.remove("hidden");
+  }
 }
 
-/* INTELLIGENTES LERNSYSTEM */
-function repetitionsFor(item,index){
-  const p=getProgress(item);
+/* =========================================
+   ZUFALLSAUSWAHL
+========================================= */
 
-  if(p.difficulty==="easy")
-    return learningRoundNumber%5===0?1:0;
+function shuffleArray(array) {
+  const result = [...array];
 
-  if(p.difficulty==="medium")return 1;
-  if(p.difficulty==="hard")return 3;
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(
+      Math.random() * (i + 1)
+    );
 
-  // Unbewertete Wörter: neue Vokabeln häufiger
-  const total=vocabulary.length;
-  if(index>=Math.floor(total*.85))return 3;
-  if(index>=Math.floor(total*.60))return 2;
+    [result[i], result[j]] =
+      [result[j], result[i]];
+  }
+
+  return result;
+}
+
+/* =========================================
+   ADAPTIVES LERNSYSTEM
+
+   EASY: jede 5. Runde
+   MEDIUM: 1x pro Runde
+   HARD: 3x pro Runde
+   NEU: 1x bis 3x pro Runde
+========================================= */
+
+function repetitionsFor(item, index) {
+  const p = getProgress(item);
+
+  if (p.difficulty === "easy") {
+    return learningRoundNumber % 5 === 0 ? 1 : 0;
+  }
+
+  if (p.difficulty === "medium") {
+    return 1;
+  }
+
+  if (p.difficulty === "hard") {
+    return 3;
+  }
+
+  const total = vocabulary.length;
+
+  const recentStart = Math.floor(total * .85);
+  const middleStart = Math.floor(total * .60);
+
+  if (index >= recentStart) {
+    return 3;
+  }
+
+  if (index >= middleStart) {
+    return 2;
+  }
+
   return 1;
 }
 
-function separateDuplicates(items,previous=-1){
-  // Möglichst keine unmittelbar gleichen Wörter
-  for(let i=0;i<items.length;i++){
-    const before=i===0?previous:items[i-1];
-    if(items[i]===before){
-      const j=items.findIndex((x,k)=>
-        k>i && x!==before &&
-        (k===items.length-1||items[k+1]!==items[i])
+function separateDuplicates(items, previous = -1) {
+  for (let i = 0; i < items.length; i++) {
+    const before = i === 0
+      ? previous
+      : items[i - 1];
+
+    if (items[i] === before) {
+      const swapIndex = items.findIndex(
+        (candidate, j) =>
+          j > i &&
+          candidate !== before &&
+          (
+            j === items.length - 1 ||
+            items[j + 1] !== items[i]
+          )
       );
-      if(j!==-1)[items[i],items[j]]=[items[j],items[i]];
+
+      if (swapIndex !== -1) {
+        [items[i], items[swapIndex]] =
+          [items[swapIndex], items[i]];
+      }
     }
   }
+
   return items;
 }
 
-function createLearningRound(){
+function createLearningRound() {
   learningRoundNumber++;
-  const indices=[];
 
-  vocabulary.forEach((item,index)=>{
-    const repetitions=repetitionsFor(item,index);
-    for(let i=0;i<repetitions;i++)indices.push(index);
+  const weightedIndices = [];
+
+  vocabulary.forEach((item, index) => {
+    const repetitions = repetitionsFor(
+      item,
+      index
+    );
+
+    for (let n = 0; n < repetitions; n++) {
+      weightedIndices.push(index);
+    }
   });
 
-  // Nur wenn die Runde ansonsten leer wäre
-  if(!indices.length){
-    vocabulary.forEach((_,i)=>indices.push(i));
+  if (!weightedIndices.length) {
+    vocabulary.forEach((_, index) => {
+      weightedIndices.push(index);
+    });
   }
 
-  learningRound=separateDuplicates(
-    shuffleArray(indices),currentIndex
+  learningRound = separateDuplicates(
+    shuffleArray(weightedIndices),
+    currentIndex
   );
-  learningRoundPosition=0;
+
+  learningRoundPosition = 0;
 }
 
-function getNextLearningIndex(){
-  if(!vocabulary.length)return 0;
-  if(learningRoundPosition>=learningRound.length)
+function getNextLearningIndex() {
+  if (!vocabulary.length) {
+    return 0;
+  }
+
+  if (
+    !learningRound.length ||
+    learningRoundPosition >= learningRound.length
+  ) {
     createLearningRound();
+  }
+
   return learningRound[learningRoundPosition++];
 }
 
-function setMode(newMode){
+/* =========================================
+   MODI
+========================================= */
+
+function setMode(newMode) {
   stopSpeech();
-  mode=newMode;
-  $("learnMode").classList.toggle("active",mode==="learn");
-  $("testMode").classList.toggle("active",mode==="test");
-  $("modeStatus").textContent=
-    mode==="test"?"Testmodus: Englisch → Deutsch":"Englisch ↔ Deutsch";
+
+  mode = newMode;
+
+  $("learnMode").classList.toggle(
+    "active",
+    mode === "learn"
+  );
+
+  $("testMode").classList.toggle(
+    "active",
+    mode === "test"
+  );
+
+  $("modeStatus").textContent =
+    mode === "test"
+      ? "Testmodus: Englisch → Deutsch"
+      : "Englisch ↔ Deutsch";
+
   nextWord();
 }
 
-function nextWord(){
-  if(!vocabulary.length)return;
-  stopSpeech();
-  if(currentAttempt.revealed&&!currentAttempt.assessed)
-    recordUnrated();
+/* =========================================
+   NAVIGATION
+========================================= */
 
-  history.push(currentIndex);
-  currentIndex=getNextLearningIndex();
-  currentAttempt={revealed:false,assessed:false};
+function nextWord(initial = false) {
+  if (!vocabulary.length) return;
+
+  stopSpeech();
+
+  if (!initial) {
+    history.push(currentIndex);
+  }
+
+  currentIndex = getNextLearningIndex();
+
+  currentAttempt = {
+    revealed: false,
+    assessed: false
+  };
+
   displayWord();
 }
 
-function previousWord(){
-  if(!history.length)return;
+function previousWord() {
+  if (!vocabulary.length || !history.length) {
+    return;
+  }
+
   stopSpeech();
-  currentIndex=history.pop();
-  currentAttempt={revealed:false,assessed:false};
+
+  currentIndex = history.pop();
+
+  currentAttempt = {
+    revealed: false,
+    assessed: false
+  };
+
   displayWord();
 }
 
-function difficultyText(value){
-  if(value==="easy")return "🟢 BEHERRSCHE ICH";
-  if(value==="medium")return "🟡 NOCH NICHT SICHER";
-  if(value==="hard")return "🔴 BEHERRSCHE ICH NICHT";
+/* =========================================
+   SCHWIERIGKEITSTEXTE
+========================================= */
+
+function difficultyText(value) {
+  if (value === "easy") {
+    return "🟢 BEHERRSCHE ICH";
+  }
+
+  if (value === "medium") {
+    return "🟡 NOCH NICHT SICHER";
+  }
+
+  if (value === "hard") {
+    return "🔴 BEHERRSCHE ICH NICHT";
+  }
+
   return "NEU";
 }
 
-function starHTML(){
-  const active=difficultWords.includes(key(vocabulary[currentIndex]));
-  return `<button class="star" onclick="toggleDifficult(event)">${active?"★":"☆"}</button>`;
+/* =========================================
+   STERN-MARKIERUNG
+========================================= */
+
+function starHTML() {
+  const item = vocabulary[currentIndex];
+
+  const active = difficultWords.includes(
+    key(item)
+  );
+
+  return `
+    <button
+      class="star"
+      onclick="toggleDifficult(event)">
+      ${active ? "★" : "☆"}
+    </button>
+  `;
 }
 
-function displayWord(){
-  const item=vocabulary[currentIndex];
-  if(!item)return;
+/* =========================================
+   DARSTELLUNG
+========================================= */
 
-  const p=getProgress(item);
-  $("counter").textContent=`${currentIndex+1} / ${vocabulary.length}`;
-  $("difficultyText").textContent=difficultyText(p.difficulty);
+function displayWord() {
+  const item = vocabulary[currentIndex];
 
-  $("questionDetails").innerHTML="";
-  $("answerDetails").innerHTML="";
-  $("answerWord").classList.add("answer-hidden");
-  $("answerDetails").classList.add("answer-hidden");
-  $("exampleArea").classList.add("answer-hidden");
-  $("exampleText").innerHTML="";
-  $("solutionButton").textContent="LÖSUNG";
-  $("sentenceButton").textContent="SATZ";
-  $("sentenceButton").disabled=!item.Example;
-  $("sentenceButton").style.opacity=item.Example?"1":".45";
+  if (!item) return;
 
-  const deToEn=mode==="learn"&&Math.random()<.5;
-  const english=escapeHtml(item.English.toLowerCase());
-  const german=escapeHtml(item.Deutsch.toLowerCase());
-  const audio=`<button class="speaker" onclick="speakEnglish(event)">🔊</button>`;
+  const p = getProgress(item);
 
-  $("questionLanguage").textContent=deToEn?"DEUTSCH":"ENGLISH";
-  $("answerLanguage").textContent=deToEn?"ENGLISH":"DEUTSCH";
+  $("counter").textContent =
+    `${currentIndex + 1} / ${vocabulary.length}`;
 
-  $("questionWord").innerHTML=deToEn?
-    german:english+" "+audio+" "+starHTML();
+  $("difficultyText").textContent =
+    difficultyText(p.difficulty);
 
-  $("answerWord").innerHTML=deToEn?
-    english+" "+audio+" "+starHTML():german;
+  $("questionDetails").innerHTML = "";
+  $("answerDetails").innerHTML = "";
+
+  $("answerWord").classList.add(
+    "answer-hidden"
+  );
+
+  $("answerDetails").classList.add(
+    "answer-hidden"
+  );
+
+  $("exampleArea").classList.add(
+    "answer-hidden"
+  );
+
+  $("exampleText").innerHTML = "";
+
+  $("sentenceButton").textContent = "SATZ";
+  $("sentenceButton").disabled = !item.Example;
+  $("sentenceButton").style.opacity =
+    item.Example ? "1" : ".45";
+
+  const deToEn =
+    mode === "learn" && Math.random() < .5;
+
+  const english = escapeHtml(
+    item.English.toLowerCase()
+  );
+
+  const german = escapeHtml(
+    item.Deutsch.toLowerCase()
+  );
+
+  const audio = `
+    <button
+      class="speaker"
+      onclick="speakEnglish(event)">
+      🔊
+    </button>
+  `;
+
+  $("questionLanguage").textContent =
+    deToEn ? "DEUTSCH" : "ENGLISH";
+
+  $("answerLanguage").textContent =
+    deToEn ? "ENGLISH" : "DEUTSCH";
+
+  if (deToEn) {
+    $("questionWord").innerHTML = german;
+
+    $("answerWord").innerHTML =
+      english + " " + audio + " " + starHTML();
+  } else {
+    $("questionWord").innerHTML =
+      english + " " + audio + " " + starHTML();
+
+    $("answerWord").innerHTML = german;
+  }
 
   updateDifficultyButtons();
   updateProgress();
 }
 
-function renderDetails(item){
-  let html="";
-  const fields=[
-    ["Verb",item["Verb + preposition/construction"]],
-    ["Nomen",item.Noun],
-    ["Adjektiv/Partizip",item["Adjective/Participle"]],
-    ["Adverb",item.Adverb]
+/* =========================================
+   WORTDETAILS
+========================================= */
+
+function renderDetails(item) {
+  let html = "";
+
+  const fields = [
+    [
+      "Verb",
+      item["Verb + preposition/construction"]
+    ],
+    [
+      "Nomen",
+      item.Noun
+    ],
+    [
+      "Adjektiv/Partizip",
+      item["Adjective/Participle"]
+    ],
+    [
+      "Adverb",
+      item.Adverb
+    ]
   ];
-  fields.forEach(([label,value])=>{
-    if(value)html+=`<div class="detail"><strong>${label}:</strong> ${escapeHtml(value)}</div>`;
+
+  fields.forEach(([label, value]) => {
+    if (value) {
+      html += `
+        <div class="detail">
+          <strong>${label}:</strong>
+          ${escapeHtml(value)}
+        </div>
+      `;
+    }
   });
+
   return html;
 }
 
-function showSentence(){
-  const item=vocabulary[currentIndex];
-  if(!item||!item.Example)return;
-  $("exampleArea").classList.remove("answer-hidden");
-  $("exampleText").innerHTML=
-    `<strong>Englischer Satz:</strong> ${escapeHtml(item.Example)}
-     <button class="speaker" onclick="speakExample(event)">🔊</button>`;
-  $("sentenceButton").textContent="SATZ ANGEZEIGT";
+/* =========================================
+   BEISPIELSATZ
+========================================= */
+
+function showSentence() {
+  const item = vocabulary[currentIndex];
+
+  if (!item || !item.Example) {
+    return;
+  }
+
+  $("exampleArea").classList.remove(
+    "answer-hidden"
+  );
+
+  $("exampleText").innerHTML = `
+    <strong>Englischer Beispielsatz:</strong>
+    ${escapeHtml(item.Example)}
+    <button
+      class="speaker"
+      onclick="speakExample(event)"
+      aria-label="Satz vorlesen">
+      🔊
+    </button>
+  `;
+
+  $("sentenceButton").textContent =
+    "SATZ ANGEZEIGT";
 }
 
-function showAnswer(){
-  const item=vocabulary[currentIndex];
-  if(!item)return;
-  if(currentAttempt.revealed){nextWord();return;}
+/* =========================================
+   EIN-KLICK-BEWERTUNG
 
-  currentAttempt.revealed=true;
-  $("answerWord").classList.remove("answer-hidden");
-  $("answerDetails").classList.remove("answer-hidden");
-  $("answerDetails").innerHTML=renderDetails(item);
-  if(item.Example)showSentence();
-  $("solutionButton").textContent="WEITER →";
+   Ein Klick:
+   1. Bewertung speichern
+   2. Lösung anzeigen
+   3. Beispielsatz anzeigen
+   4. Englisches Wort vorlesen
 
-  const p=getProgress(item);
+   WEITER erfolgt ausschließlich manuell.
+========================================= */
+
+function setDifficulty(level) {
+  const item = vocabulary[currentIndex];
+
+  if (!item) return;
+
+  // Nur eine Bewertung pro Karte
+  if (currentAttempt.assessed) {
+    return;
+  }
+
+  const p = getProgress(item);
+
+  currentAttempt.assessed = true;
+  currentAttempt.revealed = true;
+
   p.seen++;
   p.revealed++;
-  p.lastSeen=Date.now();
-  progress[key(item)]=p;
-  saveProgress();
-  updateStats();
-  updateProgress();
+  p.lastSeen = Date.now();
 
-  stopSpeech();
-  speechTimer=setTimeout(()=>speakEnglish(),1000);
-}
+  p.difficulty = level;
 
-function recordUnrated(){
-  // Ohne Bewertung wird kein Lernerfolg angenommen
-  currentAttempt.assessed=true;
-}
-
-function setDifficulty(level){
-  const item=vocabulary[currentIndex];
-  if(!item||!currentAttempt.revealed)return;
-
-  const p=getProgress(item);
-  const previous=p.difficulty;
-
-  // Einmal pro angezeigter Karte zählen
-  if(!currentAttempt.assessed){
-    p.difficultyCount[level]=(p.difficultyCount[level]||0)+1;
-    if(level==="easy")p.correct++;
-    if(level==="hard")p.wrong++;
-    currentAttempt.assessed=true;
+  if (!p.difficultyCount) {
+    p.difficultyCount = {
+      easy: 0,
+      medium: 0,
+      hard: 0
+    };
   }
 
-  p.difficulty=level;
-  progress[key(item)]=p;
+  p.difficultyCount[level]++;
 
-  if(level==="hard"){
-    if(!difficultWords.includes(key(item)))
+  if (level === "easy") {
+    p.correct++;
+  }
+
+  if (level === "hard") {
+    p.wrong++;
+  }
+
+  progress[key(item)] = p;
+
+  if (level === "hard") {
+    if (!difficultWords.includes(key(item))) {
       difficultWords.push(key(item));
-  }else{
-    difficultWords=difficultWords.filter(x=>x!==key(item));
+    }
+  } else {
+    difficultWords = difficultWords.filter(
+      x => x !== key(item)
+    );
   }
 
-  // Zukünftige Wiederholungen in der aktuellen Runde anpassen
-  const prefix=learningRound.slice(0,learningRoundPosition);
-  let remaining=learningRound.slice(learningRoundPosition)
-    .filter(i=>i!==currentIndex);
+  /* Zukünftige Wiederholungen
+     innerhalb der laufenden Runde anpassen */
 
-  let extra=0;
-  if(level==="hard")extra=3;
-  else if(level==="medium")extra=1;
+  const prefix = learningRound.slice(
+    0,
+    learningRoundPosition
+  );
 
-  for(let i=0;i<extra;i++){
-    const minGap=Math.min(5,remaining.length);
-    const position=minGap+
-      Math.floor(Math.random()*(remaining.length-minGap+1));
-    remaining.splice(position,0,currentIndex);
+  let remaining = learningRound
+    .slice(learningRoundPosition)
+    .filter(index => index !== currentIndex);
+
+  let extra = 0;
+
+  if (level === "hard") {
+    extra = 3;
+  } else if (level === "medium") {
+    extra = 1;
   }
 
-  remaining=separateDuplicates(remaining,currentIndex);
-  learningRound=[...prefix,...remaining];
+  for (let i = 0; i < extra; i++) {
+    const minGap = Math.min(
+      5,
+      remaining.length
+    );
+
+    const position = minGap + Math.floor(
+      Math.random() *
+      (remaining.length - minGap + 1)
+    );
+
+    remaining.splice(
+      position,
+      0,
+      currentIndex
+    );
+  }
+
+  remaining = separateDuplicates(
+    remaining,
+    currentIndex
+  );
+
+  learningRound = [
+    ...prefix,
+    ...remaining
+  ];
 
   saveProgress();
+
+  /* Lösung unmittelbar anzeigen */
+
+  $("answerWord").classList.remove(
+    "answer-hidden"
+  );
+
+  $("answerDetails").classList.remove(
+    "answer-hidden"
+  );
+
+  $("answerDetails").innerHTML =
+    renderDetails(item);
+
+  /* Beispielsatz automatisch anzeigen */
+
+  if (item.Example) {
+    showSentence();
+  }
+
+  /* Bewertung optisch hervorheben */
+
+  $("difficultyText").textContent =
+    difficultyText(level);
+
   updateDifficultyButtons();
   updateStats();
   updateProgress();
 
-  if(navigator.vibrate)navigator.vibrate(20);
+  /* Englisches Wort vorlesen */
+
+  stopSpeech();
+
+  speechTimer = setTimeout(
+    () => speakEnglish(),
+    600
+  );
+
+  if (navigator.vibrate) {
+    navigator.vibrate(20);
+  }
+
+  /* Kein automatisches Weiterblättern */
 }
 
-function updateDifficultyButtons(){
-  const item=vocabulary[currentIndex];
-  if(!item)return;
-  const level=getProgress(item).difficulty;
-  ["easy","medium","hard"].forEach(x=>{
-    $(x+"Button").classList.toggle("selected",level===x);
+/* =========================================
+   BEWERTUNGSBUTTONS
+========================================= */
+
+function updateDifficultyButtons() {
+  const item = vocabulary[currentIndex];
+
+  if (!item) return;
+
+  const p = getProgress(item);
+
+  ["easy", "medium", "hard"].forEach(level => {
+    const button = $(level + "Button");
+
+    button.classList.toggle(
+      "selected",
+      p.difficulty === level
+    );
+
+    button.disabled = currentAttempt.assessed;
   });
 }
 
-function toggleDifficult(event){
-  if(event)event.stopPropagation();
-  const item=vocabulary[currentIndex];
-  if(!item)return;
-  const k=key(item);
-  if(difficultWords.includes(k))
-    difficultWords=difficultWords.filter(x=>x!==k);
-  else difficultWords.push(k);
+/* =========================================
+   AUDIO
+========================================= */
+
+function stopSpeech() {
+  if (speechTimer) {
+    clearTimeout(speechTimer);
+    speechTimer = null;
+  }
+
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+}
+
+function speakText(text, lang = "en-US") {
+  if (!text) return;
+
+  if (!("speechSynthesis" in window)) {
+    return;
+  }
+
+  stopSpeech();
+
+  const u = new SpeechSynthesisUtterance(text);
+
+  u.lang = lang;
+  u.rate = .9;
+  u.pitch = 1;
+
+  const voices = speechSynthesis.getVoices();
+
+  u.voice =
+    voices.find(v => v.lang === lang) ||
+    voices.find(
+      v => v.lang && v.lang.startsWith(
+        lang.slice(0, 2)
+      )
+    ) ||
+    null;
+
+  speechSynthesis.speak(u);
+}
+
+function speakEnglish(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  const item = vocabulary[currentIndex];
+
+  if (item && item.English) {
+    speakText(item.English, "en-US");
+  }
+}
+
+function speakExample(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  const item = vocabulary[currentIndex];
+
+  if (item && item.Example) {
+    speakText(item.Example, "en-US");
+  }
+}
+
+/* =========================================
+   SCHWIERIGE WÖRTER MARKIEREN
+========================================= */
+
+function toggleDifficult(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+
+  const item = vocabulary[currentIndex];
+
+  if (!item) return;
+
+  const k = key(item);
+
+  if (difficultWords.includes(k)) {
+    difficultWords = difficultWords.filter(
+      x => x !== k
+    );
+  } else {
+    difficultWords.push(k);
+  }
+
   saveProgress();
   displayWord();
   updateStats();
 }
 
-function updateProgress(){
-  const item=vocabulary[currentIndex];
-  if(!item)return;
-  const p=getProgress(item);
-  let score=20+p.correct*14-p.wrong*8;
-  if(p.difficulty==="easy")score+=20;
-  if(p.difficulty==="hard")score-=15;
-  score=Math.max(5,Math.min(100,score));
-  $("progressFill").style.width=score+"%";
+/* =========================================
+   FORTSCHRITTSANZEIGE
+========================================= */
+
+function updateProgress() {
+  const item = vocabulary[currentIndex];
+
+  if (!item) return;
+
+  const p = getProgress(item);
+
+  let score = 20;
+
+  score += p.correct * 14;
+  score -= p.wrong * 8;
+
+  if (p.difficulty === "easy") {
+    score += 20;
+  }
+
+  if (p.difficulty === "hard") {
+    score -= 15;
+  }
+
+  score = Math.max(
+    5,
+    Math.min(100, score)
+  );
+
+  $("progressFill").style.width =
+    score + "%";
 }
 
-function updateStats(){
-  const values=Object.values(progress);
-  $("csvCount").textContent=csvVocabulary.length;
-  $("practicedCount").textContent=values.filter(p=>p.seen>0).length;
-  $("statSeen").textContent=values.reduce((s,p)=>s+(p.seen||0),0);
-  $("statCorrect").textContent=values.reduce((s,p)=>s+(p.correct||0),0);
-  $("statWrong").textContent=values.reduce((s,p)=>s+(p.wrong||0),0);
-  $("streak").textContent=calculateStreak();
+/* =========================================
+   STATISTIK
+========================================= */
+
+function updateStats() {
+  const values = Object.values(progress);
+
+  $("csvCount").textContent =
+    csvVocabulary.length;
+
+  $("practicedCount").textContent =
+    vocabulary.filter(
+      item => getProgress(item).seen > 0
+    ).length;
+
+  $("statSeen").textContent =
+    values.reduce(
+      (sum, p) => sum + (p.seen || 0),
+      0
+    );
+
+  $("statCorrect").textContent =
+    values.reduce(
+      (sum, p) => sum + (p.correct || 0),
+      0
+    );
+
+  $("statWrong").textContent =
+    values.reduce(
+      (sum, p) => sum + (p.wrong || 0),
+      0
+    );
+
+  $("streak").textContent =
+    calculateStreak();
+
   buildDifficultList();
 }
 
-function calculateStreak(){
-  const dates=new Set(Object.values(progress)
-    .filter(p=>p.lastSeen)
-    .map(p=>new Date(p.lastSeen).toLocaleDateString("de-DE")));
-  let d=new Date(),streak=0;
-  while(dates.has(d.toLocaleDateString("de-DE"))){
+/* =========================================
+   LERNSERIE
+========================================= */
+
+function calculateStreak() {
+  const dates = new Set(
+    Object.values(progress)
+      .filter(p => p.lastSeen)
+      .map(
+        p => new Date(p.lastSeen)
+          .toLocaleDateString("de-DE")
+      )
+  );
+
+  let d = new Date();
+  let streak = 0;
+
+  while (
+    dates.has(
+      d.toLocaleDateString("de-DE")
+    )
+  ) {
     streak++;
-    d.setDate(d.getDate()-1);
+
+    d.setDate(
+      d.getDate() - 1
+    );
   }
+
   return streak;
 }
 
-function buildDifficultList(){
-  const items=vocabulary.map(item=>({item,p:getProgress(item)}))
-    .filter(x=>x.p.difficulty==="hard"||
-      difficultWords.includes(key(x.item)))
-    .sort((a,b)=>(b.p.wrong||0)-(a.p.wrong||0))
-    .slice(0,10);
+/* =========================================
+   SCHWIERIGE WÖRTER
+========================================= */
 
-  $("difficultList").innerHTML=items.length?
-    items.map(x=>`<div class="list-row">
-      <b>${escapeHtml(x.item.English)}</b>
-      <span>${difficultyText(x.p.difficulty)}</span>
-    </div>`).join(""):
-    '<div class="detail">Noch keine schwierigen Wörter.</div>';
+function buildDifficultList() {
+  const items = vocabulary
+    .map(item => ({
+      item,
+      p: getProgress(item)
+    }))
+    .filter(x =>
+      x.p.difficulty === "hard" ||
+      difficultWords.includes(key(x.item))
+    )
+    .sort(
+      (a, b) =>
+        (b.p.wrong || 0) -
+        (a.p.wrong || 0)
+    )
+    .slice(0, 10);
+
+  $("difficultList").innerHTML =
+    items.length
+      ? items.map(x => `
+          <div class="list-row">
+            <b>
+              ${escapeHtml(x.item.English.toLowerCase())}
+            </b>
+            <span>
+              ${difficultyText(x.p.difficulty)}
+            </span>
+          </div>
+        `).join("")
+      : `
+          <div class="detail">
+            Noch keine schwierigen Wörter.
+          </div>
+        `;
 }
 
-/* AUDIO */
-function stopSpeech(){
-  if(speechTimer){clearTimeout(speechTimer);speechTimer=null;}
-  if("speechSynthesis" in window)speechSynthesis.cancel();
+/* =========================================
+   CSV EXPORT
+========================================= */
+
+function csvEscape(value) {
+  const text = String(value || "");
+
+  if (/[",\n;]/.test(text)) {
+    return '"' +
+      text.replace(/"/g, '""') +
+      '"';
+  }
+
+  return text;
 }
 
-function speakText(text,lang="en-US"){
-  if(!text||!("speechSynthesis" in window))return;
-  stopSpeech();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang=lang;u.rate=.9;u.pitch=1;
-  const voices=speechSynthesis.getVoices();
-  u.voice=voices.find(v=>v.lang===lang)||
-    voices.find(v=>v.lang.startsWith(lang.slice(0,2)))||null;
-  speechSynthesis.speak(u);
+function exportCSV() {
+  const rows = [
+    [
+      "English",
+      "Verb + preposition/construction",
+      "Noun",
+      "Adjective/Participle",
+      "Adverb",
+      "Deutsch",
+      "Example sentence"
+    ]
+  ];
+
+  vocabulary.forEach(item => {
+    rows.push([
+      item.English,
+      item["Verb + preposition/construction"],
+      item.Noun,
+      item["Adjective/Participle"],
+      item.Adverb,
+      item.Deutsch,
+      item.Example
+    ]);
+  });
+
+  const csv = "\uFEFF" +
+    rows
+      .map(
+        row => row.map(csvEscape).join(",")
+      )
+      .join("\r\n");
+
+  const blob = new Blob(
+    [csv],
+    {
+      type: "text/csv;charset=utf-8"
+    }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "vocabulary.csv";
+  a.click();
+
+  setTimeout(
+    () => URL.revokeObjectURL(url),
+    1000
+  );
 }
 
-function speakEnglish(event){
-  if(event)event.stopPropagation();
-  const item=vocabulary[currentIndex];
-  if(item)speakText(item.English,"en-US");
-}
+/* =========================================
+   EIGENE VOKABELN LÖSCHEN
+========================================= */
 
-function speakExample(event){
-  if(event)event.stopPropagation();
-  const item=vocabulary[currentIndex];
-  if(item)speakText(item.Example,"en-US");
-}
-
-/* CSV EXPORT */
-function csvEscape(value){
-  const s=String(value||"");
-  return /[",\n;]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
-}
-
-function exportCSV(){
-  const rows=[[
-    "English","Verb + preposition/construction",
-    "Noun","Adjective/Participle","Adverb",
-    "Deutsch","Example sentence"
-  ]];
-
-  vocabulary.forEach(item=>rows.push([
-    item.English,
-    item["Verb + preposition/construction"],
-    item.Noun,
-    item["Adjective/Participle"],
-    item.Adverb,
-    item.Deutsch,
-    item.Example
-  ]));
-
-  const csv="\uFEFF"+rows.map(r=>r.map(csvEscape).join(",")).join("\r\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download="vocabulary.csv";a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-function deleteLocalVocabulary(){
-  if(!localVocabulary.length){
-    alert("Keine eigenen Vokabeln vorhanden.");
+function deleteLocalVocabulary() {
+  if (!localVocabulary.length) {
+    alert(
+      "Keine eigenen Vokabeln vorhanden."
+    );
     return;
   }
-  if(!confirm("Alle selbst hinzugefügten Vokabeln löschen?"))return;
-  localVocabulary=[];
-  localStorage.removeItem("localVocabulary");
+
+  if (
+    !confirm(
+      "Alle selbst hinzugefügten Vokabeln löschen?"
+    )
+  ) {
+    return;
+  }
+
+  localVocabulary = [];
+
+  localStorage.removeItem(
+    "localVocabulary"
+  );
+
   mergeVocabulary();
   createLearningRound();
-  currentIndex=0;
-  history=[];
+
+  currentIndex = 0;
+  history = [];
+
   updateStats();
-  nextWord();
+  nextWord(true);
 }
 
-function start(){
+/* =========================================
+   START
+========================================= */
+
+function start() {
   loadVocabulary();
+
+  document.addEventListener(
+    "gesturestart",
+    e => e.preventDefault(),
+    { passive: false }
+  );
+
+  document.addEventListener(
+    "dblclick",
+    e => e.preventDefault(),
+    { passive: false }
+  );
 }
 
 start();
+
 </script>
 </body>
 </html>
