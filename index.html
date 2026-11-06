@@ -1,627 +1,194 @@
 
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Global HR Vocabulary</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f5f5f7;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:14px 10px 40px}
-main{max-width:740px;margin:auto}
-h1{text-align:center;font-size:25px;margin:6px 0}
-h2{font-size:17px;margin:0 0 12px}
-small,.muted{color:#777}
-button,input{font:inherit}
-button{cursor:pointer;border:0;border-radius:11px;padding:11px;background:#e9e9ee;color:#202124}
-button:focus-visible,input:focus-visible{outline:2px solid #2563eb}
-.card{background:white;border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 2px 12px #0000000a}
-.top{text-align:center;color:#777;font-size:12px;margin:8px 0 18px}
-.top span{margin:0 6px}
-.modes,.nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.active,.primary{background:#222;color:#fff}
-.meta{display:flex;justify-content:space-between;color:#888;font-size:12px;margin-bottom:18px}
-.wordgrid{display:grid;grid-template-columns:minmax(0,1fr) 135px;gap:12px}
-.lang{font-size:11px;color:#888;font-weight:700;margin:0 0 5px}
-.word{font-size:25px;font-weight:750;overflow-wrap:anywhere;line-height:1.25}
-.rule{border-top:1px solid #eee;margin:16px 0}
-.controls{display:grid;gap:7px;align-content:start}
-.controls button{font-size:12px;font-weight:650;min-height:45px;padding:8px}
-.easy.sel{background:#d9efde;outline:2px solid #4a9e60}
-.medium.sel{background:#fff0bd;outline:2px solid #d3a935}
-.hard.sel{background:#f8dada;outline:2px solid #d36b6b}
-#example{background:#f7f7f9;border-radius:10px;padding:12px;font-size:13px;line-height:1.55;margin-top:14px}
-.nav{margin-top:15px}
-.hidden{display:none!important}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.stats div{background:#f5f5f7;border-radius:11px;padding:11px 4px}
-.stats b{display:block;font-size:22px}
-.stats small{font-size:11px}
-input[type=search]{width:100%;border:1px solid #ddd;border-radius:10px;padding:12px;margin:5px 0 10px}
-.list{max-height:420px;overflow-y:auto;display:grid;gap:6px}
-.entry{display:grid;grid-template-columns:1fr 1fr 22px;gap:8px;text-align:left;align-items:center;width:100%;padding:12px;font-size:12px}
-.entry span{overflow-wrap:anywhere}
-.entry span:first-child{font-weight:700}
-.entry span:nth-child(2){color:#666}
-.row{display:flex;flex-wrap:wrap;gap:8px}
-.row button{flex:1}
-#details{font-size:12px;color:#666;margin-top:8px;line-height:1.6}
-#status{font-size:12px;color:#777;text-align:center;margin-top:10px}
-#progress{height:5px;border-radius:6px;background:#eee;margin-top:12px;overflow:hidden}
-#fill{height:100%;background:#222;width:0}
-@media(max-width:390px){
-.wordgrid{grid-template-columns:minmax(0,1fr) 115px;gap:8px}
-.word{font-size:22px}
-.controls button{font-size:10px;padding:6px}
-.card{padding:12px}
-}
-</style>
-</head>
-<body>
-<main>
-<h1>Global HR Vocabulary</h1>
+/* =========================================
+   CSV-IMPORT – FLEXIBLE FORMATE
+   Unterstützt:
+   - Komma und Semikolon
+   - 3, 4, 6 oder 7 Spalten
+   - CSV mit oder ohne Kopfzeile
+   - Anführungszeichen und Sonderzeichen
+========================================= */
 
-<div class="top">
-<span>CSV: <b id="csvCount">0</b></span>
-<span>Geübt: <b id="practiced">0</b></span>
-<span>Serie: <b id="streak">0</b></span>
-</div>
+function parseRows(text, delimiter) {
+  const rows = [];
+  let row = [];
+  let field = "";
+  let quoted = false;
 
-<div id="loading" class="card">Vokabeln werden geladen …</div>
+  text = String(text)
+    .replace(/^\uFEFF/, "")
+    .replace(/^#\(/, "");
 
-<div id="app" class="hidden">
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
 
-<section class="card">
-<div class="modes">
-<button id="learnBtn" class="active" onclick="setMode('learn')">🧠 LERNEN</button>
-<button id="testBtn" onclick="setMode('test')">🎯 TESTEN</button>
-</div>
-<div id="status">Englisch ↔ Deutsch</div>
-<div id="progress"><div id="fill"></div></div>
-</section>
+    if (c === '"') {
+      if (quoted && text[i + 1] === '"') {
+        field += '"';
+        i++;
+      } else {
+        quoted = !quoted;
+      }
+    } else if (c === delimiter && !quoted) {
+      row.push(field.trim());
+      field = "";
+    } else if (
+      (c === "\n" || c === "\r") &&
+      !quoted
+    ) {
+      if (c === "\r" && text[i + 1] === "\n") {
+        i++;
+      }
 
-<section class="card">
-<div class="meta">
-<span id="counter">0 / 0</span>
-<span id="level">NEU</span>
-</div>
+      row.push(field.trim());
 
-<div class="wordgrid">
-<div>
-<div id="qlang" class="lang">ENGLISH</div>
-<div id="question" class="word"></div>
-<div class="rule"></div>
-<div id="alang" class="lang">DEUTSCH</div>
-<div id="answer" class="word">?</div>
-<div id="details"></div>
-</div>
+      if (row.some(Boolean)) {
+        rows.push(row);
+      }
 
-<div class="controls">
-<button onclick="showAnswer(true)">🔊 LÖSUNG / SATZ</button>
-<small>Wie gut beherrschst du das Wort?</small>
-<button id="easy" class="easy" onclick="setDifficulty('easy')">🟢 Beherrsche ich</button>
-<button id="medium" class="medium" onclick="setDifficulty('medium')">🟡 Noch nicht so gut</button>
-<button id="hard" class="hard" onclick="setDifficulty('hard')">🔴 Beherrsche ich nicht</button>
-</div>
-</div>
+      row = [];
+      field = "";
+    } else {
+      field += c;
+    }
+  }
 
-<div id="example" class="hidden"></div>
+  row.push(field.trim());
 
-<div class="nav">
-<button onclick="previousWord()">← ZURÜCK</button>
-<button class="primary" onclick="nextWord()">WEITER →</button>
-</div>
-</section>
+  if (row.some(Boolean)) {
+    rows.push(row);
+  }
 
-<section class="card">
-<h2>📊 Lernfortschritt</h2>
-<div class="stats">
-<div><b id="seen">0</b><small>Versuche</small></div>
-<div><b id="correct">0</b><small>Beherrscht</small></div>
-<div><b id="wrong">0</b><small>Schwierig</small></div>
-</div>
-</section>
-
-<section class="card">
-<h2>🔴 Beherrsche ich nicht <small id="hardCount">(0)</small></h2>
-<p class="muted">Alle rot bewerteten Vokabeln. Antippen zum Üben.</p>
-<input id="hardSearch" type="search" placeholder="Englisch oder Deutsch suchen" oninput="renderLists()">
-<div id="hardList" class="list"></div>
-</section>
-
-<section class="card">
-<h2>🟡 Noch nicht so gut <small id="mediumCount">(0)</small></h2>
-<p class="muted">Alle gelb bewerteten Vokabeln. Antippen zum Üben.</p>
-<input id="mediumSearch" type="search" placeholder="Englisch oder Deutsch suchen" oninput="renderLists()">
-<div id="mediumList" class="list"></div>
-</section>
-
-<section class="card">
-<h2>💾 Daten</h2>
-<div class="row">
-<button onclick="exportCSV()">CSV EXPORTIEREN</button>
-<button onclick="deleteLocalVocabulary()">EIGENE LÖSCHEN</button>
-</div>
-<p class="muted" style="font-size:12px">Die Datei vocabulary.csv muss im selben Ordner wie index.html liegen. Fortschritte werden auf diesem Gerät gespeichert.</p>
-</section>
-
-</div>
-</main>
-
-<script>
-"use strict";
-
-const $=id=>document.getElementById(id);
-
-function stored(k,f){
-try{return JSON.parse(localStorage.getItem(k))??f}
-catch{return f}
+  return rows;
 }
 
-let progress=stored("hrProgress",{});
-let localVocabulary=stored("localVocabulary",[]);
-let difficultWords=stored("difficultWords",[]);
+function parseCSV(text) {
+  const result = [];
 
-if(!progress||typeof progress!=="object"||Array.isArray(progress))progress={};
-if(!Array.isArray(localVocabulary))localVocabulary=[];
-if(!Array.isArray(difficultWords))difficultWords=[];
+  // Jede Zeile separat analysieren.
+  // So sind Komma und Semikolon
+  // innerhalb derselben Datei möglich.
+  const lines = String(text)
+    .replace(/^\uFEFF/, "")
+    .split(/\r?\n/);
 
-let vocabulary=[],csvVocabulary=[],mode="learn",queue=[],pos=0,current=-1,history=[],historyPos=-1,attempt=null,reverse=false;
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
 
-const norm=t=>String(t??"").trim().toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g," ");
-const key=x=>norm(x.English)+"|"+norm(x.German);
+    if (!line) continue;
 
-function normalize(x){
-if(!x||typeof x!=="object")return null;
-const o={
-English:String(x.English??x.english??"").trim(),
-German:String(x.German??x.Deutsch??x.german??"").trim(),
-Verb:String(x.Verb??x["Verb + preposition/construction"]??x["Verb / related construction"]??"").trim(),
-Adjective:String(x.Adjective??x["Adjective/Participle"]??x["Adjective / participle"]??"").trim(),
-Noun:String(x.Noun??x["Noun / related form"]??"").trim(),
-Example:String(x.Example??x["Example sentence"]??x.example??"").trim()
-};
-return o.English&&o.German?o:null;
+    const comma = parseRows(line, ",")[0] || [];
+    const semicolon = parseRows(line, ";")[0] || [];
+
+    // Das Trennzeichen mit den meisten
+    // erkannten Spalten verwenden.
+    let r = semicolon.length > comma.length
+      ? semicolon
+      : comma;
+
+    if (!r.length) continue;
+
+    // Kopfzeilen überspringen
+    const first = String(r[0] || "")
+      .replace(/^#\(/, "")
+      .trim()
+      .toLowerCase();
+
+    if (
+      first.startsWith("english +") ||
+      first === "english" ||
+      first === "deutsch"
+    ) {
+      continue;
+    }
+
+    let entry = {
+      English: "",
+      German: "",
+      Verb: "",
+      Adjective: "",
+      Noun: "",
+      Example: ""
+    };
+
+    if (r.length >= 7) {
+      // Älteres Format:
+      // English, Verb, Noun, Adjective,
+      // Adverb, Deutsch, Example
+      entry = {
+        English: r[0],
+        German: r[5],
+        Verb: r[1],
+        Adjective: r[3],
+        Noun: r[2],
+        Example: r[6]
+      };
+
+    } else if (r.length === 6) {
+      // Dein Standardformat
+      entry = {
+        English: r[0],
+        German: r[1],
+        Verb: r[2],
+        Adjective: r[3],
+        Noun: r[4],
+        Example: r[5]
+      };
+
+    } else if (r.length === 5) {
+      entry = {
+        English: r[0],
+        German: r[1],
+        Verb: r[2],
+        Adjective: r[3],
+        Noun: "",
+        Example: r[4]
+      };
+
+    } else if (r.length === 4) {
+      // English, Deutsch, Satz, Kategorie
+      entry = {
+        English: r[0],
+        German: r[1],
+        Verb: "",
+        Adjective: "",
+        Noun: "",
+        Example: r[2]
+      };
+
+    } else if (r.length === 3) {
+      // English, Deutsch, Beispielsatz
+      entry = {
+        English: r[0],
+        German: r[1],
+        Verb: "",
+        Adjective: "",
+        Noun: "",
+        Example: r[2]
+      };
+
+    } else if (r.length === 2) {
+      entry = {
+        English: r[0],
+        German: r[1],
+        Verb: "",
+        Adjective: "",
+        Noun: "",
+        Example: ""
+      };
+    }
+
+    const normalized = normalize(entry);
+
+    if (normalized) {
+      result.push(normalized);
+    }
+  }
+
+  console.log(
+    "CSV erfolgreich eingelesen:",
+    result.length,
+    "Einträge"
+  );
+
+  return result;
 }
-
-function parseRows(t,d){
-let out=[],r=[],f="",q=false;
-t=String(t).replace(/^\uFEFF/,"");
-for(let i=0;i<t.length;i++){
-let c=t[i];
-if(c==='"'){
-if(q&&t[i+1]==='"'){f+='"';i++}
-else q=!q;
-}else if(c===d&&!q){
-r.push(f.trim());f="";
-}else if((c==="\r"||c==="\n")&&!q){
-if(c==="\r"&&t[i+1]==="\n")i++;
-r.push(f.trim());
-if(r.some(Boolean))out.push(r);
-r=[];f="";
-}else f+=c;
-}
-r.push(f.trim());
-if(r.some(Boolean))out.push(r);
-return out;
-}
-
-function parseCSV(t){
-const a=parseRows(t,",");
-const b=parseRows(t,";");
-let rows=(b[0]?.length||0)>(a[0]?.length||0)?b:a;
-if(!rows.length)return [];
-
-const h=rows[0].map(x=>x.toLowerCase().trim());
-const header=h.some(x=>x.includes("english")||x==="deutsch"||x==="german"||x.includes("example sentence"));
-
-if(header){
-const find=(...names)=>h.findIndex(v=>names.some(n=>v===n));
-const at=(r,i,f)=>i>=0?r[i]||"":r[f]||"";
-const en=find("english","english + preposition/construction");
-const de=find("deutsch","german");
-const verb=find("verb + preposition/construction","verb / related construction");
-const adj=find("adjective/participle","adjective / participle","adjective");
-const noun=find("noun","noun / related form");
-const ex=find("example","example sentence","example sentence(s)");
-
-return rows.slice(1).map(r=>normalize({
-English:at(r,en,0),
-German:at(r,de,1),
-Verb:at(r,verb,2),
-Adjective:at(r,adj,3),
-Noun:at(r,noun,4),
-Example:at(r,ex,5)
-})).filter(Boolean);
-}
-
-return rows.map(r=>normalize({
-English:r[0],
-German:r[1],
-Verb:r[2],
-Adjective:r[3],
-Noun:r[4],
-Example:r[5]
-})).filter(Boolean);
-}
-
-function merge(){
-let m=new Map();
-for(const raw of [...csvVocabulary,...localVocabulary]){
-let x=normalize(raw);
-if(!x)continue;
-let k=key(x),old=m.get(k);
-m.set(k,old?Object.fromEntries(Object.keys(x).map(p=>[p,x[p]||old[p]])):x);
-}
-vocabulary=[...m.values()];
-$("csvCount").textContent=csvVocabulary.length;
-}
-
-function getP(x){
-let k=key(x);
-if(!progress[k]&&progress[norm(x.English)])progress[k]=progress[norm(x.English)];
-if(!progress[k]||typeof progress[k]!=="object")progress[k]={};
-let p=progress[k];
-p.seen=Number(p.seen)||0;
-p.correct=Number(p.correct)||0;
-p.wrong=Number(p.wrong)||0;
-return p;
-}
-
-function level(x){
-let p=progress[key(x)]||progress[norm(x.English)]||{};
-return ["easy","medium","hard"].includes(p.difficulty)?p.difficulty:null;
-}
-
-function reps(x){
-return {easy:1,medium:2,hard:4}[level(x)]||2;
-}
-
-function shuffle(a){
-a=[...a];
-for(let i=a.length-1;i>0;i--){
-let j=Math.floor(Math.random()*(i+1));
-[a[i],a[j]]=[a[j],a[i]];
-}
-return a;
-}
-
-function spread(a,prev=-1){
-let out=[];
-a=shuffle(a);
-while(a.length){
-let choices=a.map((v,i)=>v!==prev?i:-1).filter(i=>i>=0);
-let i=choices.length?choices[Math.floor(Math.random()*choices.length)]:0;
-let x=a.splice(i,1)[0];
-out.push(x);
-prev=x;
-}
-return out;
-}
-
-function makeRound(){
-let a=[];
-vocabulary.forEach((x,i)=>{
-for(let n=0;n<reps(x);n++)a.push(i);
-});
-queue=spread(a,queue.at(-1)??-1);
-pos=0;
-}
-
-function adjustQueue(x){
-if(mode!=="learn")return;
-let idx=vocabulary.findIndex(v=>key(v)===key(x));
-if(idx<0)return;
-let completed=queue.slice(0,pos).filter(i=>i===idx).length;
-let needed=Math.max(0,reps(x)-completed);
-let remaining=queue.slice(pos).filter(i=>i!==idx);
-for(let n=0;n<needed;n++)remaining.push(idx);
-queue=[...queue.slice(0,pos),...spread(remaining,queue[pos-1]??-1)];
-}
-
-function safe(t){
-return String(t??"").replace(/[&<>"']/g,c=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-}[c]));
-}
-
-function speak(t){
-if(!t||!("speechSynthesis"in window))return;
-try{
-speechSynthesis.cancel();
-let u=new SpeechSynthesisUtterance(t);
-u.lang="en-US";
-u.rate=.85;
-speechSynthesis.speak(u);
-}catch{}
-}
-
-function updateStats(){
-let records=Object.values(progress).filter(x=>x&&typeof x==="object");
-
-$("practiced").textContent=records.filter(p=>(Number(p.seen)||0)>0).length;
-$("seen").textContent=records.reduce((n,p)=>n+(Number(p.seen)||0),0);
-$("correct").textContent=records.reduce((n,p)=>n+(Number(p.correct)||0),0);
-$("wrong").textContent=records.reduce((n,p)=>n+(Number(p.wrong)||0),0);
-
-let dates=[...new Set(records.map(p=>p.lastSeen).filter(Boolean).map(x=>typeof x==="number"?new Date(x).toLocaleDateString("en-CA"):String(x).slice(0,10)))];
-let today=new Date(),streak=0;
-
-for(let i=0;i<3650;i++){
-let day=new Date(today.getFullYear(),today.getMonth(),today.getDate()-i).toLocaleDateString("en-CA");
-if(dates.includes(day))streak++;
-else if(i>0||dates.includes(today.toLocaleDateString("en-CA")))break;
-else if(i===0)continue;
-}
-$("streak").textContent=streak;
-}
-
-function showCard(){
-let x=vocabulary[current];
-if(!x)return;
-getP(x);
-
-$("qlang").textContent=reverse?"DEUTSCH":"ENGLISH";
-$("alang").textContent=reverse?"ENGLISH":"DEUTSCH";
-$("question").textContent=reverse?x.German:x.English;
-$("answer").textContent=attempt?.revealed?(reverse?x.English:x.German):"?";
-
-$("details").innerHTML=attempt?.revealed?
-[["Verb",x.Verb],["Adjective",x.Adjective],["Noun",x.Noun]]
-.filter(v=>v[1])
-.map(v=>"<div><b>"+safe(v[0])+":</b> "+safe(v[1])+"</div>")
-.join(""):"";
-
-$("example").classList.toggle("hidden",!attempt?.revealed||!x.Example);
-$("example").textContent=x.Example||"";
-
-$("level").textContent=({
-easy:"🟢 BEHERRSCHT",
-medium:"🟡 UNSICHER",
-hard:"🔴 SCHWIERIG"
-}[level(x)]||"NEU");
-
-for(let l of ["easy","medium","hard"]){
-$(l).classList.toggle("sel",level(x)===l);
-}
-
-$("counter").textContent=mode==="learn"?
-Math.min(pos,queue.length)+" / "+queue.length:
-(historyPos+1)+" / "+history.length;
-
-$("fill").style.width=(mode==="learn"?
-(queue.length?100*pos/queue.length:0):
-(history.length?100*(historyPos+1)/history.length:0))+"%";
-}
-
-function openIndex(i,fromHistory=false){
-if(i<0||i>=vocabulary.length)return;
-current=i;
-reverse=mode==="learn"&&Math.random()<.5;
-attempt={revealed:false,assessed:false,old:null};
-if(!fromHistory){
-history=history.slice(0,historyPos+1);
-history.push(i);
-historyPos=history.length-1;
-}
-showCard();
-}
-
-function nextWord(initial=false){
-if(!vocabulary.length)return;
-
-if(!initial&&historyPos<history.length-1){
-historyPos++;
-openIndex(history[historyPos],true);
-return;
-}
-
-if(mode==="learn"){
-if(pos>=queue.length)makeRound();
-if(!queue.length)return;
-openIndex(queue[pos++]);
-}else{
-openIndex(Math.floor(Math.random()*vocabulary.length));
-}
-}
-
-function previousWord(){
-if(historyPos<=0)return;
-historyPos--;
-openIndex(history[historyPos],true);
-}
-
-function showAnswer(audio=false){
-if(current<0)return;
-attempt.revealed=true;
-showCard();
-if(audio)speak(vocabulary[current].English);
-}
-
-function setDifficulty(l){
-if(current<0)return;
-
-let x=vocabulary[current];
-let p=getP(x);
-let old=attempt.assessed?attempt.old:null;
-
-showAnswer(true);
-
-if(!attempt.assessed){
-p.seen++;
-p.lastSeen=new Date().toLocaleDateString("en-CA");
-attempt.assessed=true;
-}else{
-if(old==="easy")p.correct=Math.max(0,p.correct-1);
-if(old==="hard")p.wrong=Math.max(0,p.wrong-1);
-}
-
-if(l==="easy")p.correct++;
-if(l==="hard")p.wrong++;
-
-p.difficulty=l;
-attempt.old=l;
-
-difficultWords=difficultWords.filter(v=>v!==key(x));
-if(l==="hard")difficultWords.push(key(x));
-
-localStorage.setItem("hrProgress",JSON.stringify(progress));
-localStorage.setItem("difficultWords",JSON.stringify(difficultWords));
-
-adjustQueue(x);
-showCard();
-updateStats();
-renderLists();
-}
-
-function setMode(m){
-mode=m;
-$("learnBtn").classList.toggle("active",m==="learn");
-$("testBtn").classList.toggle("active",m==="test");
-$("status").textContent=m==="learn"?
-"Englisch ↔ Deutsch · Adaptive Wiederholungen":
-"Englisch → Deutsch · Test";
-
-history=[];
-historyPos=-1;
-if(m==="learn")makeRound();
-nextWord(true);
-}
-
-function selectWord(i){
-if(i<0||i>=vocabulary.length)return;
-history=[];
-historyPos=-1;
-
-if(mode==="learn"){
-let remaining=queue.slice(pos).filter(v=>v!==i);
-queue=[...queue.slice(0,pos),i,...remaining];
-pos++;
-}
-
-openIndex(i);
-$("question").scrollIntoView({behavior:"smooth",block:"center"});
-}
-
-function renderList(which){
-let l=which==="hard"?"hard":"medium";
-let all=vocabulary.map((x,i)=>({x,i})).filter(v=>level(v.x)===l);
-let q=$(l+"Search").value.trim().toLowerCase();
-let items=all.filter(v=>(v.x.English+" "+v.x.German).toLowerCase().includes(q));
-
-$(l+"Count").textContent="("+all.length+")";
-let root=$(l+"List");
-root.replaceChildren();
-
-if(!items.length){
-let p=document.createElement("p");
-p.className="muted";
-p.textContent=q?"Keine Treffer.":"Noch keine Vokabeln in dieser Kategorie.";
-root.append(p);
-return;
-}
-
-for(const {x,i} of items){
-let b=document.createElement("button");
-b.className="entry";
-b.type="button";
-
-let en=document.createElement("span");
-let de=document.createElement("span");
-let arrow=document.createElement("span");
-
-en.textContent=x.English;
-de.textContent=x.German;
-arrow.textContent="›";
-
-b.append(en,de,arrow);
-b.onclick=()=>selectWord(i);
-root.append(b);
-}
-}
-
-function renderLists(){
-renderList("hard");
-renderList("medium");
-}
-
-function csvField(v){
-return '"'+String(v??"").replace(/"/g,'""')+'"';
-}
-
-function exportCSV(){
-let rows=vocabulary.map(x=>[
-x.English,
-x.German,
-x.Verb,
-x.Adjective,
-x.Noun,
-x.Example
-].map(csvField).join(";"));
-
-let blob=new Blob(["\uFEFF"+rows.join("\r\n")],{
-type:"text/csv;charset=utf-8"
-});
-
-let url=URL.createObjectURL(blob);
-let a=document.createElement("a");
-a.href=url;
-a.download="vocabulary_export.csv";
-document.body.append(a);
-a.click();
-a.remove();
-
-setTimeout(()=>URL.revokeObjectURL(url),3000);
-}
-
-function deleteLocalVocabulary(){
-if(!confirm("Nur lokal ergänzte Vokabeln löschen? Die CSV-Datei und dein Lernfortschritt bleiben erhalten."))return;
-
-localVocabulary=[];
-localStorage.removeItem("localVocabulary");
-merge();
-
-history=[];
-historyPos=-1;
-
-makeRound();
-nextWord(true);
-renderLists();
-updateStats();
-}
-
-async function start(){
-try{
-let r=await fetch("vocabulary.csv",{cache:"no-store"});
-if(!r.ok)throw Error("HTTP "+r.status);
-csvVocabulary=parseCSV(await r.text());
-}catch(e){
-console.warn("CSV nicht verfügbar:",e);
-$("loading").textContent="Hinweis: vocabulary.csv konnte nicht geladen werden. Prüfe, ob sie im gleichen Ordner liegt und die App über eine Website geöffnet wird.";
-}
-
-merge();
-
-if(!vocabulary.length){
-$("loading").textContent="Keine Vokabeln gefunden. Lege vocabulary.csv neben index.html und öffne die Seite über einen Webserver.";
-return;
-}
-
-$("loading").classList.add("hidden");
-$("app").classList.remove("hidden");
-
-makeRound();
-nextWord(true);
-renderLists();
-updateStats();
-}
-
-start();
-</script>
-</body>
-</html>
